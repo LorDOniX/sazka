@@ -1,0 +1,113 @@
+.betItem {
+	display: flex;
+	border-radius: 16px;
+	background: #fff;
+	height: 100px;
+	gap: 10px;
+	align-items: center;
+	overflow: hidden;
+	cursor: pointer;
+	box-sizing: border-box;
+
+	&:hover {
+		box-shadow: var(--my-shadow);
+	}
+}
+
+.betItem__preview {
+	img {
+		position: relative;
+		top: 2px;
+		border-radius: 16px;
+		height: 100px;
+	}
+}
+.betItem__gameTitle {
+	color: var(--sazka-text-color);
+	flex: 0 1 100px;
+}
+
+.betItem__separator {
+	width: 1px;
+	height: 60%;
+	background: var(--my-border);
+}
+
+.betItem__titleInfo {
+	display: flex;
+	gap: 3px;
+	flex-direction: column;
+}
+
+.betItem__mainTitle {
+	color: var(--sazka-text-color);
+}
+
+.betItem__priceCont {
+	flex: auto;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.betItem__price {
+	&[data-price="yes"] {
+		background: var(--sazka-green-gradient);
+		color: #fff;
+		padding: 12px 24px;
+		border-radius: 3px;
+		box-sizing: border-box;
+	}
+
+	&[data-price="no"] {
+		text-align: center;
+		min-width: 150px;
+	}
+}
+
+.betItem__dateInfo {
+	padding-right: 25px;
+	display: flex;
+	gap: 3px;
+	flex-direction: column;
+}
+
+.betItem__dateTitle {
+	color: var(--sazka-text-color);
+}
+
+.betItem__mainDate {
+	color: var(--sazka-text-color);
+}
+
+@media only screen and (max-width: 960px) {
+	.betItem {
+		height: auto;
+		padding: 10px;
+	}
+
+	.betItem__gameTitle {
+		flex: auto;
+	}
+
+	.betItem__titleInfo {
+		text-align: center;
+	}
+
+	.betItem__preview {
+		max-width: 100px;
+		overflow: hidden;
+	}
+
+	.betItem__dateInfo {
+		text-align: center;
+		padding: 0;
+	}
+
+	.betItem__price {
+		min-width: auto !important;
+	}
+
+	.betItem__mainDate {
+		max-width: 50px;
+	}
+}

@@ -1,0 +1,57 @@
+.modal .rychla6BetModal {
+	width: 100%;
+	max-width: 400px;
+	background: var(--sazka-bg);
+}
+
+.rychla6BetModal__title {
+	margin-top: 0;
+}
+
+.rychla6BetModal__tableHolder {
+	display: flex;
+	justify-content: center;
+}
+
+.rychla6BetModal__tableInner {
+	display: flex;
+	flex-direction: column;
+}
+
+.rychla6BetModal__tableControls {
+	margin-top: 20px;
+	display: flex;
+	justify-content: flex-end;
+	gap: 20px;
+}
+
+.rychla6BetModal__numberWithSetHolder {
+	margin-top: 20px;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.rychla6BetModal__bets {
+	margin-top: 20px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+.rychla6BetModal__betBtn {
+	background: #fff;
+
+	&.active {
+		background: var(--sazka-green-gradient);
+		color: #fff;
+	}
+}
+
+@media only screen and (max-width: 960px) {
+	.modal .rychla6BetModal {
+		margin-left: 10px;
+		margin-right: 10px;
+		max-width: calc(100% - 20px);
+		padding: 10px;
+	}
+}

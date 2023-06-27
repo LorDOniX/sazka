@@ -1,0 +1,54 @@
+.modal {
+	align-items: center;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	left: 0;
+	overflow: hidden;
+	position: fixed;
+	right: 0;
+	top: 0;
+	z-index: 10;
+	cursor: pointer;
+	background: rgba(0, 0, 0, 0.6);
+
+	.modal-window {
+		backdrop-filter: blur(27.1828px);
+		border-radius: 12px;
+		box-shadow: 0 4px 16px rgb(0 0 0 / 20%);
+		box-sizing: border-box;
+		flex: 0 0 auto;
+		padding: 40px;
+		width: 400px;
+		position: relative;
+		background: #fff;
+		cursor: default;
+
+		.modal-window-btn-close {
+			background: transparent;
+			border: none;
+			padding: 0;
+			margin: 0;
+			position: absolute;
+			right: 8px;
+			top: 8px;
+			padding: 10px;
+			cursor: pointer;
+
+			.svg-icon.close {
+				width: 20px;
+				height: 20px;
+				fill: #666;
+			}
+		}
+	}
+
+	&.top-position {
+		padding-top: 5%;
+		align-items: flex-start;
+	}
+}
+
+.modal + .modal {
+	background: transparent;
+}

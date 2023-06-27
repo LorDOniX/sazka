@@ -1,0 +1,28 @@
+.notification {
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	pointer-events: none;
+	z-index: 1000;
+}
+
+.notification__msg {
+	margin: 0;
+	text-align: center;
+	padding: 10px;
+	border: 1px solid var(--my-border);
+	border-radius: 12px;
+	color: #fff;
+
+	&.green {
+		background: green;
+	}
+
+	&.red {
+		background: red;
+	}
+}

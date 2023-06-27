@@ -1,0 +1,41 @@
+.sazkaPage__menu {
+	display: flex;
+	justify-content: flex-end;
+	padding: 0;
+	padding-right: 10px;
+	background: var(--sazka-bg);
+	border: 1px solid var(--my-border);
+	border-left: none;
+	border-right: none;
+	align-items: center;
+
+	.seperator {
+		width: 1px;
+		background: var(--my-border);
+		height: 40px;
+	}
+
+	a {
+		padding: 20px 10px;
+		text-transform: uppercase;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+}
+
+.sazkaPage__menuComplete {
+	&.disabled {
+		color: var(--my-border);
+		pointer-events: none;
+		cursor: not-allowed;
+	}
+}
+
+.sazkaPage__menuAmount {
+	display: block;
+	font-weight: bold;
+	margin-top: 5px;
+}

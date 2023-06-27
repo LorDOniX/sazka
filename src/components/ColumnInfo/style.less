@@ -1,0 +1,32 @@
+.columnInfo {
+	flex-direction: row;
+	display: flex;
+	gap: 5px;
+}
+
+.columnInfo__item {
+	width: 40px;
+	height: 30px;
+	border: 1px solid var(--my-border);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	background: #fff;
+	position: relative;
+
+	&.drawed-addon,
+	&.drawed-chance,
+	&.drawed-number {
+		background: var(--sazka-green-gradient);
+		color: #fff;
+	}
+
+	&.drawed-addon::after {
+		position: absolute;
+		content: "+";
+		right: 2px;
+		top: -2px;
+		z-index: 10;
+	}
+}

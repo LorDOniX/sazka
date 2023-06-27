@@ -1,0 +1,170 @@
+.modal .betDetailModal {
+	width: 100%;
+	max-width: 960px;
+	background: var(--sazka-bg);
+	display: flex;
+	gap: 25px;
+	max-height: 85%;
+}
+
+.betDetailModal__content {
+	overflow: auto;
+	flex: 1;
+	display: flex;
+}
+
+.betDetailModal__ticket {
+	flex: auto;
+	max-width: calc(50% - 10px);
+}
+
+.betDetailModal__info {
+	flex: auto;
+	max-width: calc(50% - 10px);
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding-top: 25px;
+}
+
+.betDetailModal__infoLine {
+	display: flex;
+	justify-content: space-between;
+}
+
+.betDetailModal__lotteryList {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.betDetailModal__priceInfoCont {
+	display: flex;
+	justify-content: center;
+}
+
+.betDetailModal__priceWinPrice {
+	text-align: center;
+}
+
+.betDetailModal__priceInfoCont {
+	margin-top: 25px;
+}
+
+.betDetailModal__priceDesc {
+	text-align: center;
+}
+
+.betDetailModal__priceInfo {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 25px;
+	gap: 5px;
+	font-size: 18px;
+	min-width: 200px;
+
+	&[data-price="yes"] {
+		background: var(--sazka-green-gradient);
+		color: #fff;
+		border-radius: 8px;
+
+		.betDetailModal__priceWinPrice {
+			font-size: 32px;
+		}
+	}
+
+	&[data-price="no"] {
+		background: var(--sazka-yellow-gradient);
+		border-radius: 8px;
+		font-size: 20px;
+		color: var(--sazka-text-color);
+	}
+}
+
+.betDetailModal__lotteryItem {
+	display: flex;
+	justify-content: space-between;
+}
+
+.betDetailModal__allLotteries {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.betDetailModal__lotteryItemPrice {
+	color: var(--sazka-text-color);
+
+	&[data-price="yes"] {
+		color: #4fa231;
+	}
+}
+
+.betDetailModal__gameTitle {
+	font-weight: bold;
+	font-size: 24px;
+	margin-bottom: 25px;
+}
+
+.betDetailModal__rychleKacky__lotteriesList {
+	display: flex;
+	gap: 20px;
+	flex-direction: column;
+	padding-bottom: 25px;
+}
+
+.betDetailModal__rychleKacky__lotteriesListItemTitle {
+	margin-top: 0;
+	margin-bottom: 5px;
+}
+
+.betDetailModal__sportka__lotteryColumn {
+	margin-bottom: 10px;
+}
+
+.betDetailModal__separator {
+	height: 1px;
+	background: var(--my-border);
+	margin: 10px 0;
+	width: 80%;
+}
+
+.betDetailModal__sportka__lotteryTitle {
+	margin: 0;
+
+	&.margin-bottom {
+		margin-bottom: 10px;
+	}
+}
+
+.betDetailModal__sportka__chance {
+	padding-bottom: 25px;
+}
+
+@media only screen and (max-width: 960px) {
+	.modal .betDetailModal {
+		margin-left: 10px;
+		margin-right: 10px;
+		max-width: calc(100% - 20px);
+		padding: 10px;
+	}
+
+	.betDetailModal__content {
+		flex-direction: column;
+	}
+
+	.betDetailModal__ticket,
+	.betDetailModal__info {
+		max-width: 95%;
+	}
+
+	.betDetailModal__infoLine strong {
+		text-align: right;
+	}
+
+	.betDetailModal__rychleKacky__lotteriesListItem {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+	}
+}

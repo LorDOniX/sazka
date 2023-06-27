@@ -1,0 +1,64 @@
+.modal .myProfileModal {
+	background: var(--sazka-bg);
+	width: 600px;
+}
+
+.myProfileModal__title {
+	font-size: 20px;
+	margin: 0;
+
+	&.mainTitle {
+		font-size: 28px;
+	}
+}
+
+.myProfileModal__insertAmount {
+	display: flex;
+	gap: 10px;
+	margin-top: 10px;
+}
+
+.myProfileModal__info {
+	margin: 10px 0;
+	display: flex;
+	gap: 10px;
+	flex-direction: column;
+}
+
+.myProfileModal__infoLine {
+	display: flex;
+	justify-content: space-between;
+}
+
+.myProfileModal__infoPrice {
+	color: #028e02;
+
+	&[data-negative="yes"] {
+		color: #c01;
+	}
+}
+
+.myProfileModal__insertAmountButtons {
+	margin-top: 15px;
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.myProfileModal__controlButtons {
+	margin-top: 15px;
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+	padding-top: 15px;
+	border-top: 1px solid var(--my-border);
+}
+
+@media only screen and (max-width: 960px) {
+	.modal .myProfileModal {
+		margin-left: 10px;
+		margin-right: 10px;
+		max-width: calc(100% - 20px);
+		padding: 10px;
+	}
+}

@@ -1,0 +1,87 @@
+html {
+	height: -webkit-fill-available;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	height: 100vh;
+	height: -webkit-fill-available;
+	min-height: 100vh;
+	min-height: -webkit-fill-available;
+	overflow: auto;
+	background-size: auto;
+	background: var(--sazka-bg) !important;
+	font-family: arial;
+	text-transform: none;
+	--my-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+	--my-border: #ccc;
+	--sazka-bg: #f9f4ee;
+	--sazka-text-color: #006;
+	--sazka-red-color: #d37e7e;
+	--sazka-green-gradient: linear-gradient(135deg,#028e02,#74bb49);
+	--sazka-yellow-gradient: linear-gradient(180deg,#ffe747,#fdd725);
+}
+
+button {
+	cursor: pointer;
+
+	& > * {
+		/* no contents of a button should get its own clicks etc. */
+		pointer-events: none;
+
+		/* rules for IE11 that prevent the 1px movement of contents while button is active */
+		position: relative;
+		top: 0;
+		left: 0;
+	}
+
+	/* remove the default focused look in Firefox */
+	&::-moz-focus-inner {
+		border: 0;
+	}
+}
+
+a {
+	color: var(--sazka-text-color);
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: #ffffff;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #8a8a8a;
+	border-radius: 4px;
+}
+
+* {
+	scrollbar-color: #8a8a8a #ffffff;
+	scrollbar-width: thin;
+}
+
+#app {
+	position: fixed;
+	overflow: auto;
+	bottom: 0;
+	top: 0;
+	left: 0;
+	right: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	text-decoration: none;
+}

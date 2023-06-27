@@ -1,0 +1,63 @@
+.rychla6Container .rychla6Container__title {
+	margin-bottom: 20px;
+}
+
+.rychla6Container__quickItems {
+	display: flex;
+	gap: 20px;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.rychla6Container__quickItem {
+	background-color: #fff;
+	box-shadow: var(--my-shadow);
+	border-radius: 12px;
+	padding: 10px;
+	border: 1px solid var(--my-border);
+	flex: 0 0 calc(33.3% - 20px);
+	box-sizing: border-box;
+
+	&.last {
+		height: 180px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+}
+
+.rychla6Container__quickItemTitle {
+	margin: 0;
+	text-decoration: none;
+}
+
+.rychla6Container__quickItemSeparator {
+	display: block;
+	height: 1px;
+	background: var(--my-border);
+	margin: 5px 0;
+}
+
+.rychla6Container__quickItemParagraph {
+	margin: 10px 0;
+}
+
+.rychla6Container__quickItemBetBtn {
+	width: 100%;
+
+	&.second {
+		margin-top: 5px;
+	}
+}
+
+@media only screen and (max-width: 960px) {
+	.rychla6Container__quickItem {
+		flex: 0 0 calc(50% - 20px);
+	}
+}
+
+@media only screen and (max-width: 640px) {
+	.rychla6Container__quickItem {
+		flex: 0 0 100%;
+	}
+}

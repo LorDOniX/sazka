@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"sourceMap": true,
+		"target": "ESNext",
+        "jsx": "react-jsx",
+		"resolveJsonModule": true,
+		"baseUrl": ".",
+		"paths": {
+			"~/*": [
+				"src/*"
+			]
+		},
+		"moduleResolution": "node"
+	},
+	"include": ["src/**/*", "custom.d.ts"]
+}

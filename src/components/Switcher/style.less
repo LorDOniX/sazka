@@ -1,0 +1,38 @@
+.sazkaPage__switcher {
+	display: flex;
+	margin: 0 auto;
+	margin-top: 25px;
+	max-width: 960px;
+	background: #fff;
+	border-radius: 16px;
+	box-shadow: var(--my-shadow);
+	overflow: hidden;
+
+	a {
+		padding: 20px;
+		text-transform: uppercase;
+
+		&:hover {
+			text-decoration: none;
+		}
+
+		&:hover,
+		&.active {
+			border-bottom: 10px solid var(--sazka-text-color);
+			padding-bottom: 10px;
+		}
+	}
+
+	.seperator {
+		width: 1px;
+		background: var(--my-border);
+	}
+}
+
+@media only screen and (max-width: 960px) {
+	.sazkaPage__switcher {
+		margin-left: 10px;
+		margin-right: 10px;
+		max-width: 100%;
+	}
+}

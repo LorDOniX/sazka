@@ -1,0 +1,105 @@
+.modal .stistkoBetModal {
+	width: 100%;
+	max-width: 600px;
+	background: var(--sazka-bg);
+}
+
+.stistkoBetModal__title {
+	margin-top: 0;
+}
+
+.stistkoBetModal__betArea {
+	margin-top: 10px;
+	display: flex;
+	justify-content: center;
+
+	button {
+		min-width: 150px;
+	}
+}
+
+.stistkoBetModal__stistkoItems {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+}
+
+.stistkoBetModal__stistkoItem {
+	flex: 0 1 33.3%;
+	box-sizing: border-box;
+	position: relative;
+
+	img {
+		max-width: 100%;
+	}
+
+	@keyframes spin {
+		0% {
+			transform:rotate(0);
+		}
+
+		100% {
+			transform:rotate(360deg);
+		}
+	}
+
+	&.animation img {
+		animation:spin 2s linear forwards;
+	}
+}
+
+.stistkoBetModal__stistkoItemPriceCont {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+.stistkoBetModal__stistkoItemPrice {
+	background: #e5e5e5;
+	padding: 10px;
+	font-size: 20px;
+	border-radius: 12px;
+	text-align: center;
+
+	&.selected {
+		background: var(--sazka-yellow-gradient);
+	}
+}
+
+.stistkoBetModal__priceInfo {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 42px;
+}
+
+.stistkoBetModal__winPrice {
+	min-width: 150px;
+	padding: 12px 24px;
+	color: #fff;
+	border-radius: 3px;
+	box-sizing: border-box;
+
+	&[data-price="yes"] {
+		background: var(--sazka-green-gradient);
+	}
+
+	&[data-price="no"] {
+		color: #000;
+		background: var(--sazka-yellow-gradient);
+	}
+}
+
+@media only screen and (max-width: 960px) {
+	.modal .stistkoBetModal {
+		margin-left: 10px;
+		margin-right: 10px;
+		max-width: calc(100% - 20px);
+		padding: 10px;
+	}
+}
