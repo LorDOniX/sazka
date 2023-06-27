@@ -85,6 +85,7 @@ export default function BetDetail({
 							<ColumnInfo className="betDetailModal__rychla6__lotteryColumn" numbers={data.rychla6.guessedNumbers} drawNumbers={lottery.winNumbers} />
 							<p>
 								Výhra: <strong>{ formatPrice(lottery.winPrice)}</strong>
+								{lottery.winPrice > 0 ? <span>, pořadí losování <strong>{lottery.winIndex}</strong></span> : null}
 							</p>
 							<div className="betDetailModal__separator"></div>
 						</div>) }

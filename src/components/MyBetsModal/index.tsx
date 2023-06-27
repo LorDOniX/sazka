@@ -9,6 +9,7 @@ import { myUseState } from "~/hooks/myUseState";
 import MyButton from "~/my/MyButton";
 
 import "./style.less";
+import { getClassName } from "~/utils/utils";
 
 type TFilter = "all" | "with-price" | "with-price-100" | "with-price-500" | "with-price-1000" | "with-price-10000";
 
@@ -26,6 +27,9 @@ interface IMyBetsModal {
 	maxItems?: number;
 	onClose?: () => void;
 }
+
+const FILTERS: Array<TFilter> = ["all", "with-price", "with-price-100", "with-price-500", "with-price-1000", "with-price-10000"];
+const FILTERS_TITLES: Array<string> = ["Vše", "S výhrou", "S výhrou nad 100 Kč", "S výhrou nad 500 Kč", "S výhrou nad 1000 Kč", "S výhrou nad 10000 Kč"];
 
 export default function MyBetsModal({
 	/* eslint-disable-next-line */
@@ -138,12 +142,7 @@ export default function MyBetsModal({
 				Moje sázky
 			</h2>
 			<div className="myBetsModalModal__filter">
-				<MyButton text="Vše" onClick={() => setFilter("all")} />
-				<MyButton text="S výhrou" onClick={() => setFilter("with-price")} />
-				<MyButton text="S výhrou nad 100 Kč" onClick={() => setFilter("with-price-100")} />
-				<MyButton text="S výhrou nad 500 Kč" onClick={() => setFilter("with-price-500")} />
-				<MyButton text="S výhrou nad 1000 Kč" onClick={() => setFilter("with-price-1000")} />
-				<MyButton text="S výhrou nad 10000 Kč" onClick={() => setFilter("with-price-10000")} />
+				{ FILTERS.map((filter, ind) => <MyButton className={getClassName(["myBetsModalModal__filterBtn", filter === state.filter ? "active" : ""])} text={FILTERS_TITLES[ind]} onClick={() => setFilter(filter)} key={filter} />)}
 			</div>
 			<h3 className="myBetsModalModal__title">Čekající</h3>
 			<div className="myBetsModalModal__items">
