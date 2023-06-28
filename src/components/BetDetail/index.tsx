@@ -90,6 +90,16 @@ export default function BetDetail({
 							<div className="betDetailModal__separator"></div>
 						</div>) }
 					</div> }
+					{ data.type === "korunka-na-3" && <div className="betDetailModal__korunkaNa3__lottery">
+						{ data.korunkaNa3.lotteries.map((lottery, ind) => <div key={ind}>
+							<h3 className="betDetailModal__korunkaNa3__lotteryTitle margin-bottom">Slosování {ind + 1}</h3>
+							<ColumnInfo className="betDetailModal__korunkaNa3__lotteryColumn" numbers={data.korunkaNa3.guessedNumbers} drawNumbers={lottery.winNumbers} />
+							<p>
+								Výhra: <strong>{ formatPrice(lottery.winPrice)}</strong>
+							</p>
+							<div className="betDetailModal__separator"></div>
+						</div>) }
+					</div> }
 				</div>
 			</div>
 			<div className="betDetailModal__info">

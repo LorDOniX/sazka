@@ -10,6 +10,7 @@ import Sportka from "~/components/Sportka";
 import { myUseState } from "~/hooks/myUseState";
 import Tickets from "~/components/Tickets";
 import { ITicketData, TStistkoVariant, TTicketGames } from "~/interfaces";
+import KorunkaNa3 from "~/components/KorunkaNa3";
 
 import "./style.less";
 
@@ -53,6 +54,7 @@ export default function MainPage() {
 			{ state.page === "quick" && <div className="sazkaPage__containerQuick">
 				<RychleKacky amount={sazka.amount} />
 				<Rychla6 amount={sazka.amount} />
+				<KorunkaNa3 amount={sazka.amount} />
 			</div> }
 			{ state.page === "tickets" && <>
 				<Tickets amount={sazka.amount} onGame={onTicketGame} />

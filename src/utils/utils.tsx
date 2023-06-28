@@ -1,9 +1,10 @@
-import { DEFAULT_AMOUNT, RYCHLA6, RYCHLE_KACKY, SPORTKA, STISTKO } from "~/const";
+import { DEFAULT_AMOUNT, KORUNKA_NA3, RYCHLA6, RYCHLE_KACKY, SPORTKA, STISTKO } from "~/const";
 import { ITableLineItem, ITableItem, IBet, IBetInfo, ILotteryItem, ISportkaData, ISportkaColumnPrice, ISportkaColumn, ISportka, IStistkoData, NumWithProb, TStistkoVariant,
-	TStistkoVariantConfig, IRychla6Lottery } from "~/interfaces";
+	TStistkoVariantConfig, IRychla6Lottery, IKorunkaNa3Lottery } from "~/interfaces";
 // obrazky
 import RychleKackyImg from "~/assets/sazka/rychleKacky.jpg";
 import Rychla6Img from "~/assets/sazka/rychla6.jpg";
+import Korunka3Img from "~/assets/sazka/korunka3.png";
 import SportkaImg from "~/assets/sazka/sportka.jpg";
 
 export function loadScript(src: string) {
@@ -227,6 +228,20 @@ export function getBetInfo(bet: IBet) {
 			};
 			break;
 
+		case "korunka-na-3":
+			output = {
+				...output,
+				gameTitle: "Korunka na 3",
+				imgSrc: Korunka3Img,
+				title: formatColumns(1),
+				desc: bet.korunkaNa3.drawCount === 1
+					? "1 slosování"
+					: bet.state === "progress"
+						? `Slosování ${bet.korunkaNa3.lotteries.length} / ${bet.korunkaNa3.drawCount}`
+						: "Předplatné",
+			};
+			break;
+
 		case "sportka":
 			output = {
 				...output,
@@ -272,6 +287,10 @@ export function generateRychla6() {
 	return getRandomList(RYCHLA6.min, RYCHLA6.max, RYCHLA6.guessedNumbers, true);
 }
 
+export function generateKorunkaNa3() {
+	return getRandomList(KORUNKA_NA3.min, KORUNKA_NA3.max, KORUNKA_NA3.guessedNumbers, true);
+}
+
 export function getLotteries(bet: IBet): Array<ILotteryItem> {
 	switch (bet.type) {
 		case "rychle-kacky":
@@ -284,6 +303,14 @@ export function getLotteries(bet: IBet): Array<ILotteryItem> {
 
 		case "rychla6":
 			return bet.rychla6.lotteries.map((lottery, ind) => ({
+				ind,
+				title: `Slosování ${ind + 1}`,
+				price: lottery.winPrice > 0 ? formatPrice(lottery.winPrice) : "-",
+				winPrice: lottery.winPrice,
+			})) as Array<ILotteryItem>;
+
+		case "korunka-na-3":
+			return bet.korunkaNa3.lotteries.map((lottery, ind) => ({
 				ind,
 				title: `Slosování ${ind + 1}`,
 				price: lottery.winPrice > 0 ? formatPrice(lottery.winPrice) : "-",
@@ -442,6 +469,10 @@ export function getRychla6Price(bet: number, drawCount: number) {
 	return bet * drawCount;
 }
 
+export function getKorunkaNa3Price(bet: number, drawCount: number) {
+	return bet * drawCount;
+}
+
 export function getRandomFromProbList(items: Array<NumWithProb>) {
 	const ranNum = Math.random() * 100 >>> 0;
 	const len = items.length;
@@ -554,6 +585,20 @@ export function getWinDataRychla6(rychla6: IBet["rychla6"], winNumbers: Array<Ar
 	};
 }
 
+export function getWindDataKorunkaNa3(korunkaNa3: IBet["korunkaNa3"], winNumbers: Array<number>): IKorunkaNa3Lottery {
+	const same = getSameNumbers(korunkaNa3.guessedNumbers, winNumbers);
+	let winPrice = 0;
+
+	if (same > 0) {
+		winPrice = korunkaNa3.bet * KORUNKA_NA3.pricesTable[same];
+	}
+
+	return {
+		winNumbers,
+		winPrice,
+	};
+}
+
 export function getRychla6Numbers(): Array<Array<number>> {
 	let output = [];
 
@@ -565,4 +610,8 @@ export function getRychla6Numbers(): Array<Array<number>> {
 	}
 
 	return output;
+}
+
+export function getKorunkaNa3Numbers(): Array<number> {
+	return getRandomList(KORUNKA_NA3.min, KORUNKA_NA3.max, KORUNKA_NA3.drawNumbers, true);
 }

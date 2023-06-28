@@ -1,3 +1,16 @@
+export interface IKorunkaNa3Lottery {
+	winPrice: number;
+	winNumbers: Array<number>;
+}
+
+export interface IKorunkaNa3 {
+	guessedNumbers: Array<number>;
+	price: number;
+	bet: number;
+	drawCount: number;
+	lotteries: Array<IKorunkaNa3Lottery>;
+}
+
 export interface IRychla6Lottery {
 	winPrice: number;
 	// 1 - 6
@@ -71,12 +84,13 @@ export interface IBet {
 	state: "new" | "progress" | "completed";
 	date: string;
 	completeDate: string;
-	type: "rychle-kacky" | "sportka" | "rychla6";
+	type: "rychle-kacky" | "sportka" | "rychla6" | "korunka-na-3";
 	price: number;
 	winPrice: number;
 	rychleKacky?: null | IRychleKacky;
 	sportka?: null | ISportka;
 	rychla6?: null | IRychla6;
+	korunkaNa3?: null | IKorunkaNa3;
 }
 
 export interface ITableItem {

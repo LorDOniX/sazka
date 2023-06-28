@@ -236,41 +236,51 @@ export const RYCHLA6 = {
 };
 
 export const KORUNKA_NA5 = {
+	minDrawCount: 1,
+	drawCountUpdatedValue: 1,
+	perLine: 7,
 	guessedNumbers: 5,
+	drawNumbers: 6,
 	min: 1,
 	max: 49,
-	prices: [35, 70, 105, 140, 175],
-	winMul: Array.from({ length: 5 }).map((item, ind) => ind + 1),
+	bets: [35, 70, 105, 140, 175],
 	pricesTable: {
-		5: 2000000,
-		4: 15000,
-		3: 500,
-		2: 50,
+		5: 2000000 / 35,
+		4: 15000 / 35,
+		3: 500 / 35,
+		2: 50 / 35,
 	},
 };
 
 export const KORUNKA_NA4 = {
+	minDrawCount: 1,
+	drawCountUpdatedValue: 1,
+	perLine: 7,
 	guessedNumbers: 4,
+	drawNumbers: 6,
 	min: 1,
 	max: 49,
-	prices: [25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275],
-	winMul: Array.from({ length: 11 }).map((item, ind) => ind + 1),
+	bets: [25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275],
 	pricesTable: {
-		4: 15000,
-		3: 500,
-		2: 50,
+		4: 600,
+		3: 20,
+		2: 2,
+		1: 1,
 	},
 };
 
 export const KORUNKA_NA3 = {
+	minDrawCount: 1,
+	drawCountUpdatedValue: 1,
+	perLine: 7,
 	guessedNumbers: 3,
+	drawNumbers: 6,
 	min: 1,
 	max: 49,
-	prices: [15, 30, 45, 60, 75, 90, 105, 135, 165, 195, 225],
-	winMul: Array.from({ length: 11 }).map((item, ind) => ind + 1),
+	bets: [15, 30, 45, 60, 75, 90, 105, 135, 165, 195, 225],
 	pricesTable: {
-		3: 2500,
-		2: 50,
-		1: 15,
+		3: 500 / 3,
+		2: 10 / 3,
+		1: 1,
 	},
 };

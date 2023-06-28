@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { IBet, IRychleKacky, IRychleKackyLottery, ISportka, ISportkaLottery, IRychla6, IRychla6Lottery } from "~/interfaces";
+import { IBet, IRychleKacky, IRychleKackyLottery, ISportka, ISportkaLottery, IRychla6, IRychla6Lottery, IKorunkaNa3, IKorunkaNa3Lottery } from "~/interfaces";
 import { getRandomTicketId, getDefaultAmount } from "~/utils/utils";
 
 interface ISazkaStoreData {
@@ -27,15 +27,29 @@ function getInitState(): ISazkaStoreData {
 	};
 }
 
+function getInitBet(type: IBet["type"], price: number): IBet {
+	return {
+		id: getRandomTicketId(),
+		state: "new",
+		date: new Date().toISOString(),
+		completeDate: "",
+		type,
+		price,
+		winPrice: 0,
+	};
+}
+
 interface ISazkaStore {
 	sazka: ISazkaStoreData;
 	addAmount: (addAmount: number) => void;
 	addBet: (bet: number) => void;
 	addRychleKacky: (rychleKacky: IRychleKacky) => void;
 	addRychla6: (rychla6: IRychla6) => void;
+	addKorunkaNa3: (korunkaNa3: IKorunkaNa3) => void;
 	addSportka: (sportka: ISportka) => void;
 	completeRychleKacky: (betId: number, lottery: IRychleKackyLottery) => void;
 	completeRychla6: (betId: number, lottery: IRychla6Lottery) => void;
+	completeKorunkaNa3: (betId: number, lottery: IKorunkaNa3Lottery) => void;
 	completeSportka: (betId: number, lottery: ISportkaLottery) => void;
 	addWinPrice: (winPrice: number) => void;
 	clear: () => void;
@@ -63,13 +77,7 @@ export const sazkaStore = create<ISazkaStore>(set => ({
 			...state.sazka,
 			bets: [
 				{
-					id: getRandomTicketId(),
-					state: "new",
-					date: new Date().toISOString(),
-					completeDate: "",
-					type: "rychle-kacky",
-					price: rychleKacky.price,
-					winPrice: 0,
+					...getInitBet("rychle-kacky", rychleKacky.price),
 					rychleKacky,
 				},
 				...state.sazka.bets,
@@ -81,14 +89,20 @@ export const sazkaStore = create<ISazkaStore>(set => ({
 			...state.sazka,
 			bets: [
 				{
-					id: getRandomTicketId(),
-					state: "new",
-					date: new Date().toISOString(),
-					completeDate: "",
-					type: "rychla6",
-					price: rychla6.price,
-					winPrice: 0,
+					...getInitBet("rychla6", rychla6.price),
 					rychla6,
+				},
+				...state.sazka.bets,
+			],
+		},
+	})),
+	addKorunkaNa3: korunkaNa3 => set(state => ({
+		sazka: {
+			...state.sazka,
+			bets: [
+				{
+					...getInitBet("korunka-na-3", korunkaNa3.price),
+					korunkaNa3,
 				},
 				...state.sazka.bets,
 			],
@@ -99,13 +113,7 @@ export const sazkaStore = create<ISazkaStore>(set => ({
 			...state.sazka,
 			bets: [
 				{
-					id: getRandomTicketId(),
-					state: "new",
-					date: new Date().toISOString(),
-					completeDate: "",
-					type: "sportka",
-					price: sportka.price,
-					winPrice: 0,
+					...getInitBet("sportka", sportka.price),
 					sportka,
 				},
 				...state.sazka.bets,
@@ -159,6 +167,37 @@ export const sazkaStore = create<ISazkaStore>(set => ({
 
 			// konec
 			if (bet.rychla6.drawCount === bet.rychla6.lotteries.length) {
+				bet.state = "completed";
+			} else {
+				bet.state = "progress";
+			}
+		}
+
+		return {
+			sazka: {
+				...state.sazka,
+				bets,
+				amount: state.sazka.amount + winPrice,
+				allPrices: state.sazka.allPrices + winPrice,
+			},
+		};
+	}),
+	completeKorunkaNa3: (hash, lottery) => set(state => {
+		const bets = state.sazka.bets.slice();
+		const bet = bets.filter(item => item.id === hash)[0];
+		let winPrice = 0;
+
+		if (bet) {
+			bet.korunkaNa3.lotteries = [
+				...bet.korunkaNa3.lotteries,
+				lottery,
+			];
+			winPrice = lottery.winPrice;
+			bet.winPrice += winPrice;
+			bet.completeDate = new Date().toISOString();
+
+			// konec
+			if (bet.korunkaNa3.drawCount === bet.korunkaNa3.lotteries.length) {
 				bet.state = "completed";
 			} else {
 				bet.state = "progress";
