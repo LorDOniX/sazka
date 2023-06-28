@@ -2,9 +2,10 @@ import Modal from "~/components/Modal";
 import NumberTable from "~/components/NumberTable";
 import { RYCHLA6 } from "~/const";
 import { gameRychla6 } from "~/providers/sazka";
-import { generateRychla6, formatPrice, getClassName } from "~/utils/utils";
+import { generateRychla6, formatPrice } from "~/utils/utils";
 import ButtonLink from "~/components/ButtonLink";
 import MyNumberWithSet from "~/my/MyNumberWithSet";
+import MySelector from "~/my/MySelector";
 import { myUseState } from "~/hooks/myUseState";
 import MyButton from "~/my/MyButton";
 import { sazkaStore } from "~/stores/sazka";
@@ -14,7 +15,6 @@ import "./style.less";
 interface IState {
 	drawCount: number;
 	bet: number;
-	price: number;
 	guessedNumbers: Array<number>;
 }
 
@@ -31,7 +31,6 @@ export default function Rychla6Bet({
 	const { state, updateState } = myUseState<IState>({
 		drawCount: RYCHLA6.minDrawCount,
 		bet: RYCHLA6.bets[0],
-		price: RYCHLA6.minDrawCount * RYCHLA6.bets[0],
 		guessedNumbers: generateRychla6(),
 	});
 
@@ -46,20 +45,22 @@ export default function Rychla6Bet({
 	function updateDrawCount(drawCount: number) {
 		updateState({
 			drawCount,
-			price: state.bet * drawCount,
-		});
-	}
-
-	function updateBet(bet: number) {
-		updateState({
-			bet,
-			price: bet * state.drawCount,
 		});
 	}
 
 	function makeBet() {
 		gameRychla6(state.guessedNumbers, state.bet, state.drawCount);
 		onClose();
+	}
+
+	function getPrice() {
+		return state.bet * state.drawCount;
+	}
+
+	function isDisabled() {
+		const price = getPrice();
+
+		return price === 0 || state.guessedNumbers.length !== RYCHLA6.guessedNumbers || price > sazka.amount;
 	}
 
 	return <Modal className="rychla6BetModal" onClose={onClose}>
@@ -78,11 +79,9 @@ export default function Rychla6Bet({
 		<div className="rychla6BetModal__numberWithSetHolder">
 			<MyNumberWithSet min={RYCHLA6.minDrawCount} text="Počet slosování" updatedValue={RYCHLA6.drawCountUpdatedValue} value={state.drawCount} onChange={updateDrawCount} />
 		</div>
-		<div className="rychla6BetModal__bets">
-			{ RYCHLA6.bets.map(betItem => <MyButton text={formatPrice(betItem)} onClick={() => updateBet(betItem)} key={betItem} className={getClassName(["rychla6BetModal__betBtn", betItem === state.bet ? "active" : ""])} />) }
-		</div>
+		<MySelector className="rychla6BetModal__priceSelector" values={RYCHLA6.bets} value={state.bet} format={value => formatPrice(value as number)} onUpdate={(bet: number) => updateState({ bet })} />
 		<div className="rychla6BetModal__numberWithSetHolder">
-			<MyButton text={`Vsadit za ${formatPrice(state.price)}`} onClick={makeBet} disabled={state.price === 0 || state.guessedNumbers.length !== RYCHLA6.guessedNumbers || state.price > sazka.amount} />
+			<MyButton text={`Vsadit za ${formatPrice(getPrice())}`} onClick={makeBet} disabled={isDisabled()} />
 		</div>
 	</Modal>;
 }

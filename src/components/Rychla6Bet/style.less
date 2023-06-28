@@ -1,6 +1,6 @@
 .modal .rychla6BetModal {
 	width: 100%;
-	max-width: 400px;
+	max-width: 600px;
 	background: var(--sazka-bg);
 }
 
@@ -16,7 +16,6 @@
 .rychla6BetModal__tableInner {
 	display: flex;
 	flex-direction: column;
-	flex: auto;
 }
 
 .rychla6BetModal__tableControls {
@@ -36,20 +35,8 @@
 	}
 }
 
-.rychla6BetModal__bets {
+.rychla6BetModal__priceSelector {
 	margin-top: 20px;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 10px;
-}
-
-.rychla6BetModal__betBtn {
-	background: #fff;
-
-	&.active {
-		background: var(--sazka-green-gradient);
-		color: #fff;
-	}
 }
 
 @media only screen and (max-width: 960px) {
@@ -58,5 +45,15 @@
 		margin-right: 10px;
 		max-width: calc(100% - 20px);
 		padding: 10px;
+	}
+
+	.rychla6BetModal__tableInner {
+		.numberTable__items:nth-child(5) {
+			justify-content: flex-start;
+
+			.numberTable__item {
+				max-width: calc(100% / 6 - 5px);
+			}
+		}
 	}
 }

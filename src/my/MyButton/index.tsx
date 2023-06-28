@@ -1,6 +1,7 @@
 import CSS from 'csstype';
 
 import { getClassName } from "~/utils/utils";
+
 import "./style.less";
 
 interface IMyButton {

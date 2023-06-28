@@ -7,9 +7,9 @@ import BetDetail from "~/components/BetDetail";
 import { IBet } from "~/interfaces";
 import { myUseState } from "~/hooks/myUseState";
 import MyButton from "~/my/MyButton";
+import MySelector from "~/my/MySelector";
 
 import "./style.less";
-import { getClassName } from "~/utils/utils";
 
 type TFilter = "all" | "with-price" | "with-price-100" | "with-price-500" | "with-price-1000" | "with-price-10000";
 
@@ -141,9 +141,7 @@ export default function MyBetsModal({
 			<h2 className="myBetsModalModal__title mainTitle">
 				Moje sázky
 			</h2>
-			<div className="myBetsModalModal__filter">
-				{ FILTERS.map((filter, ind) => <MyButton className={getClassName(["myBetsModalModal__filterBtn", filter === state.filter ? "active" : ""])} text={FILTERS_TITLES[ind]} onClick={() => setFilter(filter)} key={filter} />)}
-			</div>
+			<MySelector className="myBetsModalModal__filter" value={state.filter} values={FILTERS} format={(value, ind) => FILTERS_TITLES[ind]} onUpdate={(filter: TFilter) => setFilter(filter)} />
 			<h3 className="myBetsModalModal__title">Čekající</h3>
 			<div className="myBetsModalModal__items">
 				{ state.waitingItems.map(betItem => <BetItem data={betItem} key={betItem.id} onClick={() => openDetailBet(betItem)} />) }
