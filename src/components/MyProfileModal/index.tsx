@@ -86,7 +86,7 @@ export default function MyProfileModal({
 			{ BUTTONS_AMOUNTS.map(amount => <MyButton text={`Vložit ${formatPrice(amount)}`} onClick={() => addAmountToStore(amount)} key={amount} />) }
 		</div>
 		<div className="myProfileModal__insertAmount">
-			<MyInputNumber value={state.amount} onChange={amount => updateState({ amount })} />
+			<MyInputNumber value={state.amount} onChange={amount => updateState({ amount })} onEnter={() => clickAddAmount()} />
 			<MyButton text="Vložit" onClick={clickAddAmount} />
 		</div>
 		<div className="myProfileModal__controlButtons">

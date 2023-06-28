@@ -166,9 +166,9 @@ export default function SportkaBet({
 		</h3>
 		{ state.mode === "ticket" && <div className="sportkaBetModal__ticketContent">
 			<div className="sportkaBetModal__columns">
-				{ state.columns.map(column => <div className="sportkaBetModal__columnItem" key={column.index}>
+				{ state.columns.map(column => <div className="sportkaBetModal__columnItem" key={column.index} onClick={() => openColumn(column.index)}>
 					<h3 className="sportkaBetModal__columnItemTitle">Slupec {column.index}</h3>
-					<ColumnInfo numbers={column.guessedNumbers} drawNumbers={[]} onClick={() => openColumn(column.index)} />
+					<ColumnInfo numbers={column.guessedNumbers} drawNumbers={[]} />
 				</div>) }
 			</div>
 			<div className="sportkaBetModal__columnsControls">

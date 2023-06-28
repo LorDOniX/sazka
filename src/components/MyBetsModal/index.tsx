@@ -29,7 +29,7 @@ interface IMyBetsModal {
 }
 
 const FILTERS: Array<TFilter> = ["all", "with-price", "with-price-100", "with-price-500", "with-price-1000", "with-price-10000"];
-const FILTERS_TITLES: Array<string> = ["Vše", "S výhrou", "S výhrou nad 100 Kč", "S výhrou nad 500 Kč", "S výhrou nad 1000 Kč", "S výhrou nad 10000 Kč"];
+const FILTERS_TITLES: Array<string> = ["Vše", "Výhry", "100+ Kč", "500+ Kč", "1000+ Kč", "10000+ Kč"];
 
 export default function MyBetsModal({
 	/* eslint-disable-next-line */

@@ -78,15 +78,16 @@ export function gameSportka(columns: Array<ISportkaColumn>, guessedChance: ISpor
 
 export function allInSportka(columnsLen: number, hasChance: boolean): string {
 	const storeAmount = sazkaStore.getState().sazka.amount;
-	const sportka = generateSportkaGame(columnsLen, hasChance);
-	const priceData = getSportkaPriceData(sportka.columns.length, sportka.chance.length > 0);
+	const priceData = getSportkaPriceData(columnsLen, hasChance);
 	const times = storeAmount / priceData.price >>> 0;
 
 	for (let ind = 0; ind < times; ind++) {
+		const sportka = generateSportkaGame(columnsLen, hasChance);
+
 		gameSportka(sportka.columns, sportka.chance);
 	}
 
-	return `All in Sportka za ${formatPrice(priceData.price * times)}${priceData.superJackpot ? ", superjackpot" : ""}, her ${times}, ${formatColumns(sportka.columns.length)}`;
+	return `All in Sportka za ${formatPrice(priceData.price * times)}${priceData.superJackpot ? ", superjackpot" : ""}, her ${times}, ${formatColumns(columnsLen)}`;
 }
 
 function completeRychleKacky(betId: IBet["id"], rychleKacky: IBet["rychleKacky"], winNumbers: Array<number>) {

@@ -1,12 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, KeyboardEvent } from "react";
 
 import { myUseState } from "~/hooks/myUseState";
+import { KEYS } from "~/const";
 
 import "./style.less";
 
 interface IMyInputNumber {
 	value: number;
 	onChange?: (value: number) => void;
+	onEnter?: () => void;
 }
 
 interface IState {
@@ -16,6 +18,7 @@ interface IState {
 export default function MyInputNumber({
 	value,
 	onChange = () => {},
+	onEnter = () => {},
 }: IMyInputNumber) {
 	const { state, updateState } = myUseState<IState>({
 		value: value.toString(),
@@ -37,6 +40,12 @@ export default function MyInputNumber({
 		}
 	}
 
+	function onKeyDown(event: KeyboardEvent) {
+		if (event.code === KEYS.ENTER) {
+			onEnter();
+		}
+	}
+
 	useEffect(() => {
 		updateState({
 			value: value.toString(),
@@ -44,6 +53,6 @@ export default function MyInputNumber({
 	}, [value]);
 
 	return <div className="myInputNumber">
-		<input type="text" value={state.value === "0" ? "" : state.value} onChange={event => updateValue(event.target.value)} className="myInputNumber__input" />
+		<input type="text" value={state.value === "0" ? "" : state.value} onChange={event => updateValue(event.target.value)} className="myInputNumber__input" onKeyDown={onKeyDown} />
 	</div>;
 }

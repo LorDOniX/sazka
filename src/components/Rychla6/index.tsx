@@ -27,7 +27,7 @@ interface IItem {
 
 const items: Array<IItem> = [{
 	id: 0,
-	title: "Chci hrát až o 100 000 Kč",
+	title: "Hrát až o 100 000 Kč",
 	bet: RYCHLA6.bets[0],
 	drawCount: 1,
 	price: RYCHLA6.bets[0],
