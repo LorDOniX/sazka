@@ -5,7 +5,7 @@ import { myUseState } from "~/hooks/myUseState";
 import MyProfileModal from "~/components/MyProfileModal";
 import MyBetsModal from "~/components/MyBetsModal";
 import SportkaCycle from "~/components/SportkaCycle";
-import { completeGames } from "~/providers/sazka";
+import { completeGames } from "~/games/common";
 
 import "./style.less";
 

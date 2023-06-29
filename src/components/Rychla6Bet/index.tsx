@@ -1,8 +1,8 @@
 import Modal from "~/components/Modal";
 import NumberTable from "~/components/NumberTable";
 import { RYCHLA6 } from "~/const";
-import { gameRychla6 } from "~/providers/sazka";
-import { generateRychla6, formatPrice } from "~/utils/utils";
+import { formatPrice } from "~/utils/utils";
+import { generateRychla6, gameRychla6 } from "~/games/rychla6";
 import ButtonLink from "~/components/ButtonLink";
 import MyNumberWithSet from "~/my/MyNumberWithSet";
 import MySelector from "~/my/MySelector";

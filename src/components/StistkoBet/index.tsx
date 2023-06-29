@@ -1,6 +1,7 @@
 import Modal from "~/components/Modal";
 import { myUseState } from "~/hooks/myUseState";
-import { formatPrice, generateStistkoData, getStistkoConfig, getClassName } from "~/utils/utils";
+import { formatPrice, getClassName } from "~/utils/utils";
+import { generateStistkoData, getStistkoConfig } from "~/games/stistko";
 import MyButton from "~/my/MyButton";
 import { sazkaStore } from "~/stores/sazka";
 import { IStistkoData, TStistkoVariant } from "~/interfaces";

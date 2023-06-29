@@ -1,7 +1,8 @@
 import ColumnInfo from "~/components/ColumnInfo";
 import { IBet } from "~/interfaces";
 import Modal from "~/components/Modal";
-import { formatDate, formatPrice, getBetInfo, getLotteries } from "~/utils/utils";
+import { formatDate, formatPrice } from "~/utils/utils";
+import { getBetInfo, getLotteries } from "~/games/common";
 import MyButton from "~/my/MyButton";
 import { myUseState } from "~/hooks/myUseState";
 

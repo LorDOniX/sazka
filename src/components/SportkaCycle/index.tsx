@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 import { myUseState } from "~/hooks/myUseState";
-import { completeGames } from "~/providers/sazka";
+import { completeGames } from "~/games/common";
 
 import "./style.less";
 

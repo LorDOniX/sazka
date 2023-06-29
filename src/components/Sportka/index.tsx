@@ -1,8 +1,8 @@
 /* eslint-disable no-magic-numbers */
 import MyButton from "~/my/MyButton";
-import { formatPrice, generateSportkaGame, formatColumns } from "~/utils/utils";
+import { formatPrice, formatColumns } from "~/utils/utils";
+import { generateSportkaGame, gameSportka, allInSportka } from "~/games/sportka";
 import SportkaBet from "~/components/SportkaBet";
-import { gameSportka, allInSportka } from "~/providers/sazka";
 import { SPORTKA } from "~/const";
 import { myUseState } from "~/hooks/myUseState";
 import { notificationStore } from "~/stores/notification";

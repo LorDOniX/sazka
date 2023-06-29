@@ -1,8 +1,8 @@
 import Modal from "~/components/Modal";
 import NumberTable from "~/components/NumberTable";
 import { RYCHLE_KACKY } from "~/const";
-import { gameRychleKacky } from "~/providers/sazka";
-import { generateRychleKacky, formatPrice } from "~/utils/utils";
+import { formatPrice } from "~/utils/utils";
+import { generateRychleKacky, gameRychleKacky } from "~/games/rychle-kacky";
 import ButtonLink from "~/components/ButtonLink";
 import MyNumberWithSet from "~/my/MyNumberWithSet";
 import { myUseState } from "~/hooks/myUseState";

@@ -1,9 +1,9 @@
 import Modal from "~/components/Modal";
 import { SPORTKA } from "~/const";
-import { gameSportka } from "~/providers/sazka";
 import ColumnInfo from "~/components/ColumnInfo";
 import NumberTable from "~/components/NumberTable";
-import { formatPrice, generateSportkaChance, generateSportkaColumn, getSportkaPriceData, sortArrayNumbers } from "~/utils/utils";
+import { formatPrice, sortArrayNumbers } from "~/utils/utils";
+import { generateSportkaChance, generateSportkaColumn, getSportkaPriceData, gameSportka } from "~/games/sportka";
 import { myUseState } from "~/hooks/myUseState";
 import MyButton from "~/my/MyButton";
 import MyCheckbox from "~/my/MyCheckbox";

@@ -1,4 +1,5 @@
-import { getClassName, getChanceCheck } from "~/utils/utils";
+import { getClassName } from "~/utils/utils";
+import { getChanceCheck } from "~/games/sportka";
 
 import "./style.less";
 

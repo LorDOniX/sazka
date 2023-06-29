@@ -1,14 +1,14 @@
 import Modal from "~/components/Modal";
 import NumberTable from "~/components/NumberTable";
 import { KORUNKA_NA3 } from "~/const";
-import { gameKorunkaNa3 } from "~/providers/sazka";
-import { generateKorunkaNa3, formatPrice } from "~/utils/utils";
+import { formatPrice } from "~/utils/utils";
 import ButtonLink from "~/components/ButtonLink";
 import MyNumberWithSet from "~/my/MyNumberWithSet";
 import MySelector from "~/my/MySelector";
 import { myUseState } from "~/hooks/myUseState";
 import MyButton from "~/my/MyButton";
 import { sazkaStore } from "~/stores/sazka";
+import { generateKorunkaNa3, gameKorunkaNa3 } from "~/games/korunka-na3";
 
 import "./style.less";
 
@@ -65,7 +65,7 @@ export default function KorunkaNa3Bet({
 
 	return <Modal className="korunkaNa3BetModal" onClose={onClose}>
 		<h3 className="korunkaNa3BetModal__title">
-			Rychlá 6
+			Korunka na 3
 		</h3>
 		<div className="korunkaNa3BetModal__tableHolder">
 			<div className="korunkaNa3BetModal__tableInner">

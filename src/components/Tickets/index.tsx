@@ -1,10 +1,9 @@
 import MyButton from "~/my/MyButton";
-import { TTicketGames, ITicketData, TStistkoVariant, TStistkoVariantConfig } from "~/interfaces";
-import { formatPrice, getStistkoConfig } from "~/utils/utils";
+import { TTicketGames, ITicketData, TStistkoVariant } from "~/interfaces";
+import { formatPrice } from "~/utils/utils";
+import { getStistkoConfigs } from "~/games/stistko";
 
 import "./style.less";
-
-const STISTKO_CONFIGS: Array<TStistkoVariantConfig> = ["stistko5", "stistko10", "stistko20"].map(variant => getStistkoConfig(variant as TStistkoVariant));
 
 interface ITickets {
 	amount: number;
@@ -31,7 +30,7 @@ export default function Tickets({
 					Štístko
 				</h3>
 				<div className="ticketsContainer__separator" />
-				{ STISTKO_CONFIGS.map(config => <div className="ticketsContainer__stistkoVariant" key={config.variant}>
+				{ getStistkoConfigs().map(config => <div className="ticketsContainer__stistkoVariant" key={config.variant}>
 					<MyButton className="ticketsContainer__stistkoBtn" text={`Hrát za ${formatPrice(config.bet)}`} onClick={() => stistkoGame(config.variant)}
 						disabled={config.bet > amount} />
 				</div>) }

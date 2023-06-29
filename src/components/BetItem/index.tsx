@@ -1,5 +1,6 @@
 import { IBet } from "~/interfaces";
-import { formatPrice, getBetInfo } from "~/utils/utils";
+import { formatPrice } from "~/utils/utils";
+import { getBetInfo } from "~/games/common";
 
 import "./style.less";
 

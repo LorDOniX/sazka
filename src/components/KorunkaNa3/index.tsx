@@ -1,11 +1,11 @@
 /* eslint-disable no-magic-numbers */
 import MyButton from "~/my/MyButton";
-import { formatPrice, generateKorunkaNa3 } from "~/utils/utils";
+import { formatPrice } from "~/utils/utils";
 import KorunkaNa3Bet from "~/components/KorunkaNa3Bet";
-import { gameKorunkaNa3, allInRychlaKorunkaNa3 } from "~/providers/sazka";
 import { KORUNKA_NA3 } from "~/const";
 import { myUseState } from "~/hooks/myUseState";
 import { notificationStore } from "~/stores/notification";
+import { generateKorunkaNa3, gameKorunkaNa3, allInRychlaKorunkaNa3 } from "~/games/korunka-na3";
 
 import "./style.less";
 

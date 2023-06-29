@@ -1,8 +1,8 @@
 /* eslint-disable no-magic-numbers */
 import MyButton from "~/my/MyButton";
-import { formatPrice, generateRychleKacky } from "~/utils/utils";
+import { formatPrice } from "~/utils/utils";
 import RychleKackyBet from "~/components/RychleKackyBet";
-import { gameRychleKacky, allInRychleKacky } from "~/providers/sazka";
+import { gameRychleKacky, allInRychleKacky, generateRychleKacky } from "~/games/rychle-kacky";
 import { RYCHLE_KACKY } from "~/const";
 import { myUseState } from "~/hooks/myUseState";
 import { notificationStore } from "~/stores/notification";
