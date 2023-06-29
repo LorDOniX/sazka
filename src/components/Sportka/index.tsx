@@ -3,7 +3,7 @@ import MyButton from "~/my/MyButton";
 import { formatPrice, formatColumns } from "~/utils/utils";
 import { generateSportkaGame, gameSportka, allInSportka } from "~/games/sportka";
 import SportkaBet from "~/components/SportkaBet";
-import { SPORTKA } from "~/const";
+import { SPORTKA } from "~/games/sportka/const";
 import { myUseState } from "~/hooks/myUseState";
 import { notificationStore } from "~/stores/notification";
 

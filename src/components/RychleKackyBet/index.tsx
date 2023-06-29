@@ -1,6 +1,6 @@
 import Modal from "~/components/Modal";
 import NumberTable from "~/components/NumberTable";
-import { RYCHLE_KACKY } from "~/const";
+import { RYCHLE_KACKY } from "~/games/rychle-kacky/const";
 import { formatPrice } from "~/utils/utils";
 import { generateRychleKacky, gameRychleKacky } from "~/games/rychle-kacky";
 import ButtonLink from "~/components/ButtonLink";

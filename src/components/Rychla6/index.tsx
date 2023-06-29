@@ -3,7 +3,7 @@ import MyButton from "~/my/MyButton";
 import { formatPrice } from "~/utils/utils";
 import { generateRychla6, gameRychla6, allInRychla6 } from "~/games/rychla6";
 import Rychla6Bet from "~/components/Rychla6Bet";
-import { RYCHLA6 } from "~/const";
+import { RYCHLA6 } from "~/games/rychla6/const";
 import { myUseState } from "~/hooks/myUseState";
 import { notificationStore } from "~/stores/notification";
 

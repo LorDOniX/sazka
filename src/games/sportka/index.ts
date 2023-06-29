@@ -1,7 +1,8 @@
-import { IBet, IBetInfo, ILotteryItem, ISportka, ISportkaColumn, ISportkaColumnPrice, ISportkaData } from "~/interfaces";
+import { IBet, IBetInfo, ILotteryItem } from "~/interfaces";
 import { formatColumns, formatPrice, getRandomList, getSameNumbers } from "~/utils/utils";
 import { sazkaStore } from "~/stores/sazka";
-import { SPORTKA } from "~/const";
+import { SPORTKA } from "./const";
+import { ISportka, ISportkaColumn, ISportkaColumnPrice, ISportkaData } from "./interfaces";
 
 import SportkaImg from "~/assets/sazka/sportka.jpg";
 

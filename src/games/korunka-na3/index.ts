@@ -1,6 +1,7 @@
-import { IBet, IBetInfo, IKorunkaNa3Lottery, ILotteryItem } from "~/interfaces";
-import { formatColumns, formatPrice, getRandomList, getSameNumbers } from "../utils/utils";
-import { KORUNKA_NA3 } from "~/const";
+import { IBet, IBetInfo, ILotteryItem } from "~/interfaces";
+import { formatColumns, formatPrice, getRandomList, getSameNumbers } from "~/utils/utils";
+import { KORUNKA_NA3 } from "~/games/korunka-na3/const";
+import { IKorunkaNa3Lottery } from "~/games/korunka-na3/interfaces";
 import { sazkaStore } from "~/stores/sazka";
 
 import KorunkaNa3Img from "~/assets/sazka/korunka3.png";

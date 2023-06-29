@@ -1,83 +1,8 @@
-export interface IKorunkaNa3Lottery {
-	winPrice: number;
-	winNumbers: Array<number>;
-}
-
-export interface IKorunkaNa3 {
-	guessedNumbers: Array<number>;
-	price: number;
-	bet: number;
-	drawCount: number;
-	lotteries: Array<IKorunkaNa3Lottery>;
-}
-
-export interface IRychla6Lottery {
-	winPrice: number;
-	// 1 - 6
-	winIndex: number;
-	winNumbers: Array<number>;
-}
-
-export interface IRychla6 {
-	guessedNumbers: Array<number>;
-	price: number;
-	bet: number;
-	drawCount: number;
-	lotteries: Array<IRychla6Lottery>;
-}
-
-export interface IRychleKackyLottery {
-	winPrice: number;
-	winNumbers: Array<number>;
-}
-
-export interface IRychleKacky {
-	guessedNumbers: Array<number>;
-	price: number;
-	bet: number;
-	drawCount: number;
-	lotteries: Array<IRychleKackyLottery>;
-}
-
-export interface ISportkaColumn {
-	index: number;
-	guessedNumbers: Array<number>;
-}
-
-export interface ISportkaColumnPrice {
-	index: number;
-	price1: number;
-	price2: number;
-}
-
-export interface ISportkaLottery {
-	// vyhry jednotlivych sloupcu
-	columnsPrices: Array<ISportkaColumnPrice>;
-	// vyhra za sloupce
-	columnsPrice: number;
-	// vyhra za sanci
-	chancePrice: number;
-	chance: Array<number>;
-	drawNumbers1: Array<number>;
-	drawNumbers2: Array<number>;
-	drawAddOn1: number;
-	drawAddOn2: number;
-}
-
-export interface ISportkaData extends Pick<ISportkaLottery, "drawNumbers1" | "drawNumbers2" | "drawAddOn1" | "drawAddOn2" | "chance"> {}
-
-export interface ISportka {
-	// sloupce
-	columns: Array<ISportkaColumn>;
-	// sance
-	guessedChance: Array<number>;
-	// cena za ticket
-	price: number;
-	// slosovani
-	superJackpot: boolean;
-	hasChance: boolean;
-	lottery?: ISportkaLottery;
-}
+import { IKorunkaNa3 } from "~/games/korunka-na3/interfaces";
+import { IRychla6 } from "~/games/rychla6/interfaces";
+import { IRychleKacky } from "~/games/rychle-kacky/interfaces";
+import { ISportka } from "~/games/sportka/interfaces";
+import { TStistkoVariant } from "~/games/stistko/interfaces";
 
 export interface IBet {
 	id: number;
@@ -125,23 +50,7 @@ export interface ITicketData {
 	stistko?: TStistkoVariant;
 }
 
-export interface IStistkoData {
-	prices: Array<number>;
-	winNumber: number;
-	winPrice: number;
-	winMul: number;
-}
-
 export interface NumWithProb {
 	value: number;
 	prob: number;
-}
-
-export type TStistkoVariant = "stistko5" | "stistko10" | "stistko20";
-
-export interface TStistkoVariantConfig {
-	variant: TStistkoVariant;
-	bet: number;
-	muls: Array<NumWithProb>;
-	prices: Array<NumWithProb>;
 }

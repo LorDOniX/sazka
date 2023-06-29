@@ -1,7 +1,9 @@
 import { create } from 'zustand';
 
-import { IBet, IRychleKacky, IRychleKackyLottery, ISportka, ISportkaLottery, IRychla6, IRychla6Lottery, IKorunkaNa3, IKorunkaNa3Lottery } from "~/interfaces";
+import { IBet, IRychleKacky, IRychleKackyLottery, ISportka, ISportkaLottery } from "~/interfaces";
 import { getRandomTicketId, getDefaultAmount } from "~/utils/utils";
+import { IKorunkaNa3, IKorunkaNa3Lottery } from "~/games/korunka-na3/interfaces";
+import { IRychla6, IRychla6Lottery } from "~/games/rychla6/interfaces";
 
 interface ISazkaStoreData {
 	// soucasny vklad

@@ -1,5 +1,5 @@
 import Modal from "~/components/Modal";
-import { SPORTKA } from "~/const";
+import { SPORTKA } from "~/games/sportka/const";
 import ColumnInfo from "~/components/ColumnInfo";
 import NumberTable from "~/components/NumberTable";
 import { formatPrice, sortArrayNumbers } from "~/utils/utils";
@@ -8,7 +8,7 @@ import { myUseState } from "~/hooks/myUseState";
 import MyButton from "~/my/MyButton";
 import MyCheckbox from "~/my/MyCheckbox";
 import { sazkaStore } from "~/stores/sazka";
-import { ISportkaColumn } from "~/interfaces";
+import { ISportkaColumn } from "~/games/sportka/interfaces";
 import { notificationStore } from "~/stores/notification";
 
 import "./style.less";

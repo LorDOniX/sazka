@@ -22,6 +22,7 @@
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: row;
+	position: relative;
 }
 
 .stistkoBetModal__stistkoItem {
@@ -71,11 +72,29 @@
 	}
 }
 
+.stistkoBetModal__priceCont {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 2;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .stistkoBetModal__priceInfo {
 	display: flex;
 	justify-content: space-between;
+	flex-direction: column;
+	gap: 10px;
 	align-items: center;
-	height: 42px;
+	padding: 25px;
+	background: #fff;
+	border: 1px solid var(--my-border);
+	border-radius: 4px;
+	margin-top: -180px;
 }
 
 .stistkoBetModal__winPrice {

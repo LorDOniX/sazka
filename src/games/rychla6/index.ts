@@ -1,6 +1,7 @@
-import { IBet, IBetInfo, ILotteryItem, IRychla6Lottery } from "~/interfaces";
+import { IBet, IBetInfo, ILotteryItem } from "~/interfaces";
 import { formatColumns, formatPrice, getRandomList, getSameNumbers } from "~/utils/utils";
-import { RYCHLA6 } from "~/const";
+import { RYCHLA6 } from "~/games/rychla6/const";
+import { IRychla6Lottery } from "./interfaces";
 import { sazkaStore } from "~/stores/sazka";
 
 import Rychla6Img from "~/assets/sazka/rychla6.jpg";

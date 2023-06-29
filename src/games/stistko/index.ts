@@ -1,5 +1,5 @@
-import { STISTKO } from "~/const";
-import { IStistkoData, TStistkoVariant, TStistkoVariantConfig } from "~/interfaces";
+import { STISTKO } from "~/games/stistko/const";
+import { IStistkoData, TStistkoVariant, TStistkoVariantConfig } from "~/games/stistko/interfaces";
 import { getRandomFromProbList } from "~/utils/utils";
 
 export function getStistkoConfig(variant: TStistkoVariant): TStistkoVariantConfig {

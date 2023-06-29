@@ -1,6 +1,6 @@
-import { RYCHLE_KACKY } from "~/const";
 import { IBet, IBetInfo, ILotteryItem } from "~/interfaces";
 import { formatColumns, formatPrice, getRandomList, getSameNumbers } from "~/utils/utils";
+import { RYCHLE_KACKY } from "./const";
 import { sazkaStore } from "~/stores/sazka";
 
 import RychleKackyImg from "~/assets/sazka/rychleKacky.jpg";

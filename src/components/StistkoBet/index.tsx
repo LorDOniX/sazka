@@ -4,9 +4,9 @@ import { formatPrice, getClassName } from "~/utils/utils";
 import { generateStistkoData, getStistkoConfig } from "~/games/stistko";
 import MyButton from "~/my/MyButton";
 import { sazkaStore } from "~/stores/sazka";
-import { IStistkoData, TStistkoVariant } from "~/interfaces";
+import { IStistkoData, TStistkoVariant } from "~/games/stistko/interfaces";
 import { notificationStore } from "~/stores/notification";
-import { STISTKO } from "~/const";
+import { STISTKO } from "~/games/stistko/const";
 
 import CloverleafFullImg from "~/assets/sazka/cloverleaf-full.png";
 import CloverleafWithoutImg from "~/assets/sazka/cloverleaf-without.png";
@@ -98,17 +98,16 @@ export default function StistkoBet({
 				</span> }
 				<img src={state.drawState === "animation" ? CloverleafWithoutImg : CloverleafFullImg} />
 			</div>) }
-		</div>
-		<div className="stistkoBetModal__priceInfo">
-			{ state.drawState === "reveal" && <span>
-				Násobte až <strong>{state.winData.winMul}x</strong>
-			</span> }
-			{ state.drawState === "reveal" && <span className="stistkoBetModal__winPrice" data-price={state.winData.winPrice > 0 ? "yes" : "no"}>
-				Výhra: <strong>{formatPrice(state.winData.winPrice)}</strong>
-			</span> }
-			{ state.drawState !== "reveal" && <span>
-				Čekám na výhru
-			</span> }
+			{ state.drawState === "reveal" && <div className="stistkoBetModal__priceCont">
+				<div className="stistkoBetModal__priceInfo">
+					<span>
+						Násobte až <strong>{state.winData.winMul}x</strong>
+					</span>
+					<span className="stistkoBetModal__winPrice" data-price={state.winData.winPrice > 0 ? "yes" : "no"}>
+						Výhra: <strong>{formatPrice(state.winData.winPrice)}</strong>
+					</span>
+				</div>
+			</div> }
 		</div>
 		<div className="stistkoBetModal__betArea">
 			<MyButton text={getBtnText()} onClick={makeBet} disabled={(config.bet > sazka.amount && state.drawState === "reveal") || state.drawState === "animation"} />

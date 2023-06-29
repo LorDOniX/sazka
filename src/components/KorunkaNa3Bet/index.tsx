@@ -1,6 +1,6 @@
 import Modal from "~/components/Modal";
 import NumberTable from "~/components/NumberTable";
-import { KORUNKA_NA3 } from "~/const";
+import { KORUNKA_NA3 } from "~/games/korunka-na3/const";
 import { formatPrice } from "~/utils/utils";
 import ButtonLink from "~/components/ButtonLink";
 import MyNumberWithSet from "~/my/MyNumberWithSet";

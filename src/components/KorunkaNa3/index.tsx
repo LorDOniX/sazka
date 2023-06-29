@@ -2,7 +2,7 @@
 import MyButton from "~/my/MyButton";
 import { formatPrice } from "~/utils/utils";
 import KorunkaNa3Bet from "~/components/KorunkaNa3Bet";
-import { KORUNKA_NA3 } from "~/const";
+import { KORUNKA_NA3 } from "~/games/korunka-na3/const";
 import { myUseState } from "~/hooks/myUseState";
 import { notificationStore } from "~/stores/notification";
 import { generateKorunkaNa3, gameKorunkaNa3, allInRychlaKorunkaNa3 } from "~/games/korunka-na3";

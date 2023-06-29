@@ -3,7 +3,7 @@ import MyButton from "~/my/MyButton";
 import { formatPrice } from "~/utils/utils";
 import RychleKackyBet from "~/components/RychleKackyBet";
 import { gameRychleKacky, allInRychleKacky, generateRychleKacky } from "~/games/rychle-kacky";
-import { RYCHLE_KACKY } from "~/const";
+import { RYCHLE_KACKY } from "~/games/rychle-kacky/const";
 import { myUseState } from "~/hooks/myUseState";
 import { notificationStore } from "~/stores/notification";
 
