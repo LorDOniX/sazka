@@ -35,8 +35,10 @@ export default function Menu({
 			<span className="sazkaPage__separator" />
 		</div>
 		<div className="sazkaPage__rightPart">
-			<span className="sazkaPage__separator" />
-			<SportkaCycle />
+			{ waintingLen > 0 && <>
+				<span className="sazkaPage__separator" />
+				<SportkaCycle />
+			</> }
 			{ showCompleteGames && <>
 				<span className="sazkaPage__separator" />
 				<ButtonLink title={getCompleteTitle()} onClick={() => completeGames()} className={getClassName(["sazkaPage__menuComplete", waintingLen === 0 ? "disabled" : ""])} />

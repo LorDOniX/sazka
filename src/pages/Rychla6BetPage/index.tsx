@@ -13,6 +13,7 @@ import { myUseState } from "~/hooks/myUseState";
 import MyButton from "~/my/MyButton";
 import GoBack from "~/components/GoBack";
 import { sazkaStore } from "~/stores/sazka";
+import { notificationStore } from "~/stores/notification";
 
 import "./style.less";
 
@@ -48,7 +49,9 @@ export default function Rychla6BetPage() {
 	}
 
 	function makeBet() {
-		gameRychla6(state.guessedNumbers, state.bet, state.drawCount);
+		const msg = gameRychla6(state.guessedNumbers, state.bet, state.drawCount);
+
+		notificationStore.getState().setNotification(msg);
 		navigate(ROUTES.QUICK);
 	}
 

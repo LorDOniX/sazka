@@ -3,6 +3,8 @@ import { IBet, IBetInfo, ILotteryItem } from "~/interfaces";
 import { completeRychleKacky, getRychleKackyBetInfo, getRychleKackyNumbers } from "~/games/rychle-kacky";
 import { completeRychla6, getRychla6BetInfo, getRychla6Lotteries, getRychla6Numbers } from "~/games/rychla6";
 import { completeKorunkaNa3, getKorunkaNa3BetInfo, getKorunkaNa3Lotteries, getKorunkaNa3Numbers } from "~/games/korunka-na3";
+import { completeKorunkaNa4, getKorunkaNa4BetInfo, getKorunkaNa4Lotteries, getKorunkaNa4Numbers } from "~/games/korunka-na4";
+import { completeKorunkaNa5, getKorunkaNa5BetInfo, getKorunkaNa5Lotteries, getKorunkaNa5Numbers } from "~/games/korunka-na5";
 import { completeSportka, getSportkaBetInfo, getSportkaData, getSportkaLotteries } from "~/games/sportka";
 import { sazkaStore } from "~/stores/sazka";
 import { notificationStore } from "~/stores/notification";
@@ -42,6 +44,20 @@ export function getBetInfo(bet: IBet) {
 			};
 			break;
 
+		case "korunka-na-4":
+			output = {
+				...output,
+				...getKorunkaNa4BetInfo(bet),
+			};
+			break;
+
+		case "korunka-na-5":
+			output = {
+				...output,
+				...getKorunkaNa5BetInfo(bet),
+			};
+			break;
+
 		case "sportka":
 			output = {
 				...output,
@@ -66,6 +82,12 @@ export function getLotteries(bet: IBet): Array<ILotteryItem> {
 		case "korunka-na-3":
 			return getKorunkaNa3Lotteries(bet);
 
+		case "korunka-na-4":
+			return getKorunkaNa4Lotteries(bet);
+
+		case "korunka-na-5":
+			return getKorunkaNa5Lotteries(bet);
+
 		case "sportka": {
 			return getSportkaLotteries(bet);
 		}
@@ -85,6 +107,8 @@ export function completeGames() {
 	const sportkaData = getSportkaData();
 	const rychla6Numbers = getRychla6Numbers();
 	const KorunkaNa3Numbers = getKorunkaNa3Numbers();
+	const KorunkaNa4Numbers = getKorunkaNa4Numbers();
+	const KorunkaNa5Numbers = getKorunkaNa5Numbers();
 	const toBeDone = store.sazka.bets.filter(item => item.state !== "completed");
 
 	if (toBeDone.length > 0) {
@@ -105,6 +129,14 @@ export function completeGames() {
 
 					case "korunka-na-3":
 						allPrices += completeKorunkaNa3(bet.id, bet.korunkaNa3, KorunkaNa3Numbers);
+						break;
+
+					case "korunka-na-4":
+						allPrices += completeKorunkaNa4(bet.id, bet.korunkaNa4, KorunkaNa4Numbers);
+						break;
+
+					case "korunka-na-5":
+						allPrices += completeKorunkaNa5(bet.id, bet.korunkaNa5, KorunkaNa5Numbers);
 						break;
 
 					case "sportka":

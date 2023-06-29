@@ -1,12 +1,13 @@
 /* eslint-disable no-magic-numbers */
-import { useNavigate } from "react-router-dom";
-
 import MyButton from "~/my/MyButton";
 import { formatPrice } from "~/utils/utils";
 import { generateRychla6, gameRychla6, allInRychla6 } from "~/games/rychla6";
 import { RYCHLA6 } from "~/games/rychla6/const";
 import { notificationStore } from "~/stores/notification";
 import { ROUTES } from "~/const";
+import GameTitle from "~/components/GameTitle";
+
+import Rychla6Img from "~/assets/sazka/rychla6.jpg";
 
 import "./style.less";
 
@@ -39,8 +40,6 @@ const items: Array<IItem> = [{
 export default function Rychla6({
 	amount,
 }: IRychla6) {
-	const navigate = useNavigate();
-
 	function addGame(item: IItem) {
 		const msg = gameRychla6(generateRychla6(), item.bet, item.drawCount);
 
@@ -54,10 +53,7 @@ export default function Rychla6({
 	}
 
 	return <div className="rychla6Container">
-		<h2 className="rychla6Container__title">
-			Rychlá 6
-			<MyButton text="Vsadit online" onClick={() => navigate(ROUTES.RYCHLA6)} />
-		</h2>
+		<GameTitle title="Rychlá 6" img={Rychla6Img} link={ROUTES.RYCHLA6} />
 		<div className="rychla6Container__quickItems">
 			{ items.map(item => <div key={item.id} className="rychla6Container__quickItem">
 				<h3 className="rychla6Container__quickItemTitle">

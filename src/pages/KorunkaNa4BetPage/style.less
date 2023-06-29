@@ -1,0 +1,49 @@
+.korunkaNa4BetPage__title {
+	margin-top: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.korunkaNa4BetPage__tableHolder {
+	display: flex;
+	justify-content: center;
+}
+
+.korunkaNa4BetPage__tableInner {
+	display: flex;
+	flex-direction: column;
+}
+
+.korunkaNa4BetPage__tableControls {
+	margin-top: 20px;
+	display: flex;
+	justify-content: flex-end;
+	gap: 20px;
+}
+
+.korunkaNa4BetPage__numberWithSetHolder {
+	margin-top: 20px;
+	display: flex;
+	justify-content: flex-end;
+
+	.myInputNumber input {
+		max-width: 100px;
+	}
+}
+
+.korunkaNa4BetPage__priceSelector {
+	margin-top: 20px;
+}
+
+@media only screen and (max-width: 960px) {
+	.korunkaNa4BetPage__tableInner {
+		.numberTable__items:nth-child(5) {
+			justify-content: flex-start;
+
+			.numberTable__item {
+				max-width: calc(100% / 6 - 5px);
+			}
+		}
+	}
+}

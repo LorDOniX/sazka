@@ -1,12 +1,13 @@
 /* eslint-disable no-magic-numbers */
-import { useNavigate } from "react-router-dom";
-
 import MyButton from "~/my/MyButton";
 import { formatPrice } from "~/utils/utils";
 import { KORUNKA_NA3 } from "~/games/korunka-na3/const";
 import { notificationStore } from "~/stores/notification";
 import { generateKorunkaNa3, gameKorunkaNa3, allInRychlaKorunkaNa3 } from "~/games/korunka-na3";
 import { ROUTES } from "~/const";
+import GameTitle from "~/components/GameTitle";
+
+import KorunkaNa3Img from "~/assets/sazka/korunka3.png";
 
 import "./style.less";
 
@@ -45,8 +46,6 @@ const items: Array<IItem> = [{
 export default function KorunkaNa3({
 	amount,
 }: IKorunkaNa3) {
-	const navigate = useNavigate();
-
 	function addGame(item: IItem) {
 		const msg = gameKorunkaNa3(generateKorunkaNa3(), item.bet, item.drawCount);
 
@@ -60,10 +59,7 @@ export default function KorunkaNa3({
 	}
 
 	return <div className="korunkaNa3Container">
-		<h2 className="korunkaNa3Container__title">
-			Korunka na 3
-			<MyButton text="Vsadit online" onClick={() => navigate(ROUTES.KORUNKA_NA3)} />
-		</h2>
+		<GameTitle title="Korunka na 3" img={KorunkaNa3Img} link={ROUTES.KORUNKA_NA3} />
 		<div className="korunkaNa3Container__quickItems">
 			{ items.map(item => <div key={item.id} className="korunkaNa3Container__quickItem">
 				<h3 className="korunkaNa3Container__quickItemTitle">

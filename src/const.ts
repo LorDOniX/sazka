@@ -16,6 +16,8 @@ export const ROUTES = {
 	MY_PROFILE: "/muj-profil",
 	SPORTKA: "/sportka",
 	KORUNKA_NA3: "/korunka-na-3",
+	KORUNKA_NA4: "/korunka-na-4",
+	KORUNKA_NA5: "/korunka-na-5",
 	RYCHLA6: "/rychla6",
 	RYCHLE_KACKY: "/rychle-kacky",
 	STISTKO5: "/stistko-5",

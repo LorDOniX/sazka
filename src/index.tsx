@@ -15,6 +15,8 @@ import MyProfilePage from "~/pages/MyProfilePage";
 // hry
 import SportkaBetPage from "~/pages/SportkaBetPage";
 import KorunkaNa3BetPage from "~/pages/KorunkaNa3BetPage";
+import KorunkaNa4BetPage from "~/pages/KorunkaNa4BetPage";
+import KorunkaNa5BetPage from "~/pages/KorunkaNa5BetPage";
 import Rychla6BetPage from "~/pages/Rychla6BetPage";
 import RychleKackyBetPage from "~/pages/RychleKackyBetPage";
 import StistkoBetPage from "~/pages/StistkoBetPage";
@@ -37,6 +39,8 @@ root.render(
 					<Route path={ROUTES.MY_PROFILE} element={<MyProfilePage />} />
 					<Route path={ROUTES.SPORTKA} element={<SportkaBetPage />} />
 					<Route path={ROUTES.KORUNKA_NA3} element={<KorunkaNa3BetPage />} />
+					<Route path={ROUTES.KORUNKA_NA4} element={<KorunkaNa4BetPage />} />
+					<Route path={ROUTES.KORUNKA_NA5} element={<KorunkaNa5BetPage />} />
 					<Route path={ROUTES.RYCHLA6} element={<Rychla6BetPage />} />
 					<Route path={ROUTES.RYCHLE_KACKY} element={<RychleKackyBetPage />} />
 					<Route path={ROUTES.STISTKO5} element={<StistkoBetPage variant="stistko5" />} />

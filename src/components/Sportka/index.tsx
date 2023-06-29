@@ -1,12 +1,13 @@
 /* eslint-disable no-magic-numbers */
-import { useNavigate } from "react-router-dom";
-
 import MyButton from "~/my/MyButton";
 import { formatPrice, formatColumns } from "~/utils/utils";
 import { generateSportkaGame, gameSportka, allInSportka, generateFavouriteTicket } from "~/games/sportka";
 import { SPORTKA } from "~/games/sportka/const";
 import { notificationStore } from "~/stores/notification";
 import { ROUTES } from "~/const";
+import GameTitle from "~/components/GameTitle";
+
+import SportkaImg from "~/assets/sazka/sportka.jpg";
 
 import "./style.less";
 
@@ -75,8 +76,6 @@ const myNumbers: IItem = {
 export default function Sportka({
 	amount,
 }: ISportka) {
-	const navigate = useNavigate();
-
 	function addGame(item: IItem, generatedData?: ReturnType<typeof generateSportkaGame>) {
 		const gameData = generatedData || generateSportkaGame(item.columns, item.chance);
 		const msg = gameSportka(gameData.columns, gameData.chance);
@@ -113,10 +112,7 @@ export default function Sportka({
 	}
 
 	return <div className="sportkaContainer">
-		<h2 className="sportkaContainer__title">
-			Sportka
-			<MyButton text="Vsadit online" onClick={() => navigate(ROUTES.SPORTKA)} />
-		</h2>
+		<GameTitle title="Sportka" img={SportkaImg} link={ROUTES.SPORTKA} />
 		<div className="sportkaContainer__quickItems">
 			{ items.map(item => createItem(item, () => addGame(item), () => allIn(item))) }
 			{ createItem(myNumbers, () => addGame(myNumbers, generateFavouriteTicket())) }

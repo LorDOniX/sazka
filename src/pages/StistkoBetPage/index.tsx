@@ -80,6 +80,7 @@ export default function StistkoBetPage({
 				});
 				// pridame vyhru
 				addWinPrice(state.winData.winPrice);
+				notificationStore.getState().setNotification(state.winData.winPrice > 0 ? `Štístko - výhra ${formatPrice(state.winData.winPrice)}` : `Štístko - tentokrát to nevyšlo`);
 			}, ANIM_TIMEOUT);
 		}
 	}
@@ -90,7 +91,7 @@ export default function StistkoBetPage({
 			<div className="stistkoBetPage__gameContainer">
 				<h3 className="stistkoBetPage__title">
 					Štístko - Vynásobte svou výhru až <strong>{state.maxWinMul}x</strong>
-					<GoBack url={ROUTES.QUICK} />
+					<GoBack url={ROUTES.TICKETS} />
 				</h3>
 				<div className="stistkoBetPage__stistkoItems">
 					{ state.winData.prices.map((stistkoItem, ind) => <div className={getClassName(["stistkoBetPage__stistkoItem", state.drawState === "animation" ? "animation" : ""])} key={ind}>

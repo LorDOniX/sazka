@@ -1,12 +1,13 @@
 /* eslint-disable no-magic-numbers */
-import { useNavigate } from "react-router-dom";
-
 import MyButton from "~/my/MyButton";
 import { formatPrice } from "~/utils/utils";
 import { gameRychleKacky, allInRychleKacky, generateRychleKacky } from "~/games/rychle-kacky";
 import { RYCHLE_KACKY } from "~/games/rychle-kacky/const";
 import { notificationStore } from "~/stores/notification";
 import { ROUTES } from "~/const";
+import GameTitle from "~/components/GameTitle";
+
+import RychleKackyImg from "~/assets/sazka/rychleKacky.jpg";
 
 import "./style.less";
 
@@ -60,8 +61,6 @@ const items: Array<IItem> = [{
 export default function RychleKacky({
 	amount,
 }: IRychleKacky) {
-	const navigate = useNavigate();
-
 	function addGame(item: IItem) {
 		const msg = gameRychleKacky(generateRychleKacky(item.guessedNumbers), item.bet, item.drawCount);
 
@@ -75,10 +74,7 @@ export default function RychleKacky({
 	}
 
 	return <div className="rychleKackyContainer">
-		<h2 className="rychleKackyContainer__title">
-			Rychlé kačky
-			<MyButton text="Vsadit online" onClick={() => navigate(ROUTES.RYCHLE_KACKY)} />
-		</h2>
+		<GameTitle title="Rychlé kačky" img={RychleKackyImg} link={ROUTES.RYCHLE_KACKY} />
 		<div className="rychleKackyContainer__quickItems">
 			{ items.map(item => <div key={item.id} className="rychleKackyContainer__quickItem">
 				<h3 className="rychleKackyContainer__quickItemTitle">

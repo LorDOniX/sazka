@@ -12,6 +12,7 @@ import MyButton from "~/my/MyButton";
 import { sazkaStore } from "~/stores/sazka";
 import { ROUTES } from "~/const";
 import GoBack from "~/components/GoBack";
+import { notificationStore } from "~/stores/notification";
 
 import "./style.less";
 
@@ -57,7 +58,9 @@ export default function RychleKackyBetPage() {
 	}
 
 	function makeBet() {
-		gameRychleKacky(state.guessedNumbers, state.bet, state.drawCount);
+		const msg = gameRychleKacky(state.guessedNumbers, state.bet, state.drawCount);
+
+		notificationStore.getState().setNotification(msg);
 		navigate(ROUTES.QUICK);
 	}
 

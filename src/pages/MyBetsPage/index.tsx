@@ -16,11 +16,14 @@ type TFilter = "all" | "with-price" | "with-price-100" | "with-price-500" | "wit
 interface IState {
 	filter: TFilter;
 	betDetail: IBet;
-	visible: number;
-	count: number;
+	visibleWaiting: number;
+	visibleFinish: number;
+	countWaiting: number;
+	countFinished: number;
 	waitingItems: Array<IBet>;
 	finishedItems: Array<IBet>;
-	showMore: boolean;
+	showMoreWaiting: boolean;
+	showMoreFinished: boolean;
 }
 
 const FILTERS: Array<TFilter> = ["all", "with-price", "with-price-100", "with-price-500", "with-price-1000", "with-price-10000"];
@@ -60,33 +63,40 @@ export default function MyBetsPage() {
 		});
 	}
 
-	function getWaitingItems() {
-		const waitingItems = bets.filter(betItem => betItem.state !== "completed");
+	function getWaitingData(visibleWaiting: number): Pick<IState, "waitingItems" | "showMoreWaiting" | "countWaiting"> {
+		const items = bets.filter(betItem => betItem.state !== "completed");
 
-		return waitingItems;
+		return {
+			waitingItems: items.slice(0, visibleWaiting),
+			showMoreWaiting: items.length > visibleWaiting,
+			countWaiting: Math.max(Math.min(items.length - visibleWaiting, MAX_ITEMS), 0),
+		};
 	}
 
-	function getFinishedData(filter: TFilter, visible: number) {
+	function getFinishedData(filter: TFilter, visibleFinish: number): Pick<IState, "finishedItems" | "showMoreFinished" | "countFinished"> {
 		const items = bets.filter(betItem => betItem.state === "completed");
 		const finishedItems = filterItems(filter, items);
 
 		return {
-			finishedItems: finishedItems.slice(0, visible),
-			showMore: finishedItems.length > visible,
-			count: Math.min(finishedItems.length - visible, MAX_ITEMS),
+			finishedItems: finishedItems.slice(0, visibleFinish),
+			showMoreFinished: finishedItems.length > visibleFinish,
+			countFinished: Math.max(Math.min(finishedItems.length - visibleFinish, MAX_ITEMS), 0),
 		};
 	}
 
 	const { state, setState, updateState } = myUseState<IState>(() => {
-		const visible = MAX_ITEMS;
+		const visibleWaiting = MAX_ITEMS;
+		const visibleFinish = MAX_ITEMS;
 		const filter: TFilter = "all";
-		const finishedData = getFinishedData(filter, visible);
+		const waitingData = getWaitingData(visibleWaiting);
+		const finishedData = getFinishedData(filter, visibleFinish);
 
 		return {
 			filter,
 			betDetail: null,
-			visible,
-			waitingItems: getWaitingItems(),
+			visibleWaiting,
+			visibleFinish,
+			...waitingData,
 			...finishedData,
 		};
 	});
@@ -97,32 +107,48 @@ export default function MyBetsPage() {
 		});
 	}
 
-	function setFilter(filter: TFilter, visible = MAX_ITEMS) {
+	function setFilter(filter: TFilter, visibleFinish = MAX_ITEMS) {
 		setState(prev => {
-			const finishedData = getFinishedData(filter, visible);
+			const finishedData = getFinishedData(filter, visibleFinish);
 
 			return {
 				...prev,
 				filter,
-				visible,
+				visibleFinish,
 				...finishedData,
 			};
 		});
 	}
 
-	function clickShowMore() {
-		setFilter(state.filter, state.visible + MAX_ITEMS);
+	function clickShowMoreFinished() {
+		setFilter(state.filter, state.visibleFinish + MAX_ITEMS);
+	}
+
+	function clickShowMoreWaiting() {
+		setState(prev => {
+			const visibleWaiting = prev.visibleWaiting + MAX_ITEMS;
+			const waitingData = getWaitingData(visibleWaiting);
+
+			return {
+				...prev,
+				visibleWaiting,
+				...waitingData,
+			};
+		});
 	}
 
 	useEffect(() => {
 		setState(prev => {
-			const visible = MAX_ITEMS;
-			const finishedData = getFinishedData(prev.filter, visible);
+			const visibleWaiting = MAX_ITEMS;
+			const visibleFinish = MAX_ITEMS;
+			const waitingData = getWaitingData(visibleWaiting);
+			const finishedData = getFinishedData(prev.filter, visibleFinish);
 
 			return {
 				...prev,
-				visible,
-				waitingItems: getWaitingItems(),
+				visibleWaiting,
+				visibleFinish,
+				...waitingData,
 				...finishedData,
 			};
 		});
@@ -134,15 +160,16 @@ export default function MyBetsPage() {
 				Moje sázky
 			</h2>
 			<MySelector className="myBetsPage__filter" value={state.filter} values={FILTERS} format={(value, ind) => FILTERS_TITLES[ind]} onUpdate={(filter: TFilter) => setFilter(filter)} />
-			<h3 className="myBetsPage__title">Čekající</h3>
+			<h3 className="myBetsPage__title">Čekající ({state.waitingItems.length + state.countWaiting})</h3>
 			<div className="myBetsPage__items">
 				{ state.waitingItems.map(betItem => <BetItem data={betItem} key={betItem.id} onClick={() => openDetailBet(betItem)} />) }
+				{ state.showMoreWaiting && <MyButton text={`Načíst další ${state.countWaiting}`} onClick={clickShowMoreWaiting} /> }
 				{ state.waitingItems.length === 0 && <p style={{ marginTop: 0 }}>Prázdné</p>}
 			</div>
-			<h3 className="myBetsPage__title">Slosované</h3>
+			<h3 className="myBetsPage__title">Slosované ({state.finishedItems.length + state.countFinished})</h3>
 			<div className="myBetsPage__items">
 				{ state.finishedItems.map(betItem => <BetItem data={betItem} key={betItem.id} onClick={() => openDetailBet(betItem)} />) }
-				{ state.showMore && <MyButton text={`Načíst další ${state.count}`} onClick={clickShowMore} /> }
+				{ state.showMoreFinished && <MyButton text={`Načíst další ${state.countFinished}`} onClick={clickShowMoreFinished} /> }
 				{ state.finishedItems.length === 0 && <p style={{ margin: 0 }}>Prázdné</p>}
 			</div>
 		</div>
