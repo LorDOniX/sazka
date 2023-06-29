@@ -1,4 +1,3 @@
-import Modal from "~/components/Modal";
 import { myUseState } from "~/hooks/myUseState";
 import { formatPrice, getClassName } from "~/utils/utils";
 import { generateStistkoData, getStistkoConfig } from "~/games/stistko";
@@ -7,6 +6,9 @@ import { sazkaStore } from "~/stores/sazka";
 import { IStistkoData, TStistkoVariant } from "~/games/stistko/interfaces";
 import { notificationStore } from "~/stores/notification";
 import { STISTKO } from "~/games/stistko/const";
+import Page from "~/components/Page";
+import GoBack from "~/components/GoBack";
+import { ROUTES } from "~/const";
 
 import CloverleafFullImg from "~/assets/sazka/cloverleaf-full.png";
 import CloverleafWithoutImg from "~/assets/sazka/cloverleaf-without.png";
@@ -23,15 +25,13 @@ interface IState {
 	winData: IStistkoData;
 }
 
-interface IStistkoBet {
+interface IStistkoBetPage {
 	variant: TStistkoVariant,
-	onClose?: () => void;
 }
 
-export default function StistkoBet({
+export default function StistkoBetPage({
 	variant,
-	onClose = () => {},
-}: IStistkoBet) {
+}: IStistkoBetPage) {
 	const { sazka, addBet, addWinPrice } = sazkaStore(sazkaState => ({
 		sazka: sazkaState.sazka,
 		addBet: sazkaState.addBet,
@@ -85,32 +85,37 @@ export default function StistkoBet({
 	}
 
 	/* eslint-disable react/no-array-index-key */
-	return <Modal className="stistkoBetModal" onClose={onClose}>
-		<h3 className="stistkoBetModal__title">
-			Štístko - Vynásobte svou výhru až <strong>{state.maxWinMul}x</strong>
-		</h3>
-		<div className="stistkoBetModal__stistkoItems">
-			{ state.winData.prices.map((stistkoItem, ind) => <div className={getClassName(["stistkoBetModal__stistkoItem", state.drawState === "animation" ? "animation" : ""])} key={ind}>
-				{ state.drawState === "reveal" && <span className="stistkoBetModal__stistkoItemPriceCont">
-					<span className={getClassName(["stistkoBetModal__stistkoItemPrice", stistkoItem === state.winData.winNumber ? "selected" : ""])}>
-						{ formatPrice(stistkoItem) }
-					</span>
-				</span> }
-				<img src={state.drawState === "animation" ? CloverleafWithoutImg : CloverleafFullImg} />
-			</div>) }
-			{ state.drawState === "reveal" && <div className="stistkoBetModal__priceCont">
-				<div className="stistkoBetModal__priceInfo">
-					<span>
-						Násobte až <strong>{state.winData.winMul}x</strong>
-					</span>
-					<span className="stistkoBetModal__winPrice" data-price={state.winData.winPrice > 0 ? "yes" : "no"}>
-						Výhra: <strong>{formatPrice(state.winData.winPrice)}</strong>
-					</span>
+	return <Page>
+		<div className="stistkoBetPage__container">
+			<div className="stistkoBetPage__gameContainer">
+				<h3 className="stistkoBetPage__title">
+					Štístko - Vynásobte svou výhru až <strong>{state.maxWinMul}x</strong>
+					<GoBack url={ROUTES.QUICK} />
+				</h3>
+				<div className="stistkoBetPage__stistkoItems">
+					{ state.winData.prices.map((stistkoItem, ind) => <div className={getClassName(["stistkoBetPage__stistkoItem", state.drawState === "animation" ? "animation" : ""])} key={ind}>
+						{ state.drawState === "reveal" && <span className="stistkoBetPage__stistkoItemPriceCont">
+							<span className={getClassName(["stistkoBetPage__stistkoItemPrice", stistkoItem === state.winData.winNumber ? "selected" : ""])}>
+								{ formatPrice(stistkoItem) }
+							</span>
+						</span> }
+						<img src={state.drawState === "animation" ? CloverleafWithoutImg : CloverleafFullImg} />
+					</div>) }
+					{ state.drawState === "reveal" && <div className="stistkoBetPage__priceCont">
+						<div className="stistkoBetPage__priceInfo">
+							<span>
+								Násobte až <strong>{state.winData.winMul}x</strong>
+							</span>
+							<span className="stistkoBetPage__winPrice" data-price={state.winData.winPrice > 0 ? "yes" : "no"}>
+								Výhra: <strong>{formatPrice(state.winData.winPrice)}</strong>
+							</span>
+						</div>
+					</div> }
 				</div>
-			</div> }
+				<div className="stistkoBetPage__betArea">
+					<MyButton text={getBtnText()} onClick={makeBet} disabled={(config.bet > sazka.amount && state.drawState === "reveal") || state.drawState === "animation"} />
+				</div>
+			</div>
 		</div>
-		<div className="stistkoBetModal__betArea">
-			<MyButton text={getBtnText()} onClick={makeBet} disabled={(config.bet > sazka.amount && state.drawState === "reveal") || state.drawState === "animation"} />
-		</div>
-	</Modal>;
+	</Page>;
 }

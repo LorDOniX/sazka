@@ -1,5 +1,15 @@
 .korunkaNa3Container .korunkaNa3Container__title {
 	margin-bottom: 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: #efefef;
+	padding: 5px;
+	border-radius: 4px;
+
+	.myButton {
+		background: #fff;
+	}
 }
 
 .korunkaNa3Container__quickItems {
@@ -17,13 +27,6 @@
 	border: 1px solid var(--my-border);
 	flex: 0 0 calc(25% - 20px);
 	box-sizing: border-box;
-
-	&.last {
-		height: 180px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
 }
 
 .korunkaNa3Container__quickItemTitle {

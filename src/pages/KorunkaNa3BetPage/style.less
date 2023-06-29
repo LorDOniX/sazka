@@ -1,31 +1,28 @@
-.modal .korunkaNa3BetModal {
-	width: 100%;
-	max-width: 600px;
-	background: var(--sazka-bg);
-}
-
-.korunkaNa3BetModal__title {
+.korunkaNa3BetPage__title {
 	margin-top: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
-.korunkaNa3BetModal__tableHolder {
+.korunkaNa3BetPage__tableHolder {
 	display: flex;
 	justify-content: center;
 }
 
-.korunkaNa3BetModal__tableInner {
+.korunkaNa3BetPage__tableInner {
 	display: flex;
 	flex-direction: column;
 }
 
-.korunkaNa3BetModal__tableControls {
+.korunkaNa3BetPage__tableControls {
 	margin-top: 20px;
 	display: flex;
 	justify-content: flex-end;
 	gap: 20px;
 }
 
-.korunkaNa3BetModal__numberWithSetHolder {
+.korunkaNa3BetPage__numberWithSetHolder {
 	margin-top: 20px;
 	display: flex;
 	justify-content: flex-end;
@@ -35,19 +32,12 @@
 	}
 }
 
-.korunkaNa3BetModal__priceSelector {
+.korunkaNa3BetPage__priceSelector {
 	margin-top: 20px;
 }
 
 @media only screen and (max-width: 960px) {
-	.modal .korunkaNa3BetModal {
-		margin-left: 10px;
-		margin-right: 10px;
-		max-width: calc(100% - 20px);
-		padding: 10px;
-	}
-
-	.korunkaNa3BetModal__tableInner {
+	.korunkaNa3BetPage__tableInner {
 		.numberTable__items:nth-child(5) {
 			justify-content: flex-start;
 

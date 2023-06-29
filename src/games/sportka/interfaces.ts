@@ -37,3 +37,8 @@ export interface ISportka {
 	hasChance: boolean;
 	lottery?: ISportkaLottery;
 }
+
+export interface ISportkaGeneratedData {
+	columns: Array<ISportkaColumn>;
+	chance: Array<number>;
+}

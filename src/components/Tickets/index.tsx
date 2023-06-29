@@ -1,5 +1,6 @@
 import MyButton from "~/my/MyButton";
-import { TTicketGames, ITicketData, TStistkoVariant } from "~/interfaces";
+import { TTicketGames, ITicketData } from "~/interfaces";
+import { TStistkoVariant } from "~/games/stistko/interfaces";
 import { formatPrice } from "~/utils/utils";
 import { getStistkoConfigs } from "~/games/stistko";
 
@@ -22,7 +23,7 @@ export default function Tickets({
 
 	return <div className="ticketsContainer">
 		<h2 className="ticketsContainer__title">
-			Stírací losi
+			Stírací losy
 		</h2>
 		<div className="ticketsContainer__quickItems">
 			<div className="ticketsContainer__stistko">

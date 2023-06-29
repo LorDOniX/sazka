@@ -1,4 +1,6 @@
-import Modal from "~/components/Modal";
+import { useNavigate } from "react-router-dom";
+
+import Page from "~/components/Page";
 import NumberTable from "~/components/NumberTable";
 import { RYCHLE_KACKY } from "~/games/rychle-kacky/const";
 import { formatPrice } from "~/utils/utils";
@@ -8,6 +10,8 @@ import MyNumberWithSet from "~/my/MyNumberWithSet";
 import { myUseState } from "~/hooks/myUseState";
 import MyButton from "~/my/MyButton";
 import { sazkaStore } from "~/stores/sazka";
+import { ROUTES } from "~/const";
+import GoBack from "~/components/GoBack";
 
 import "./style.less";
 
@@ -18,13 +22,8 @@ interface IState {
 	guessedNumbers: Array<number>;
 }
 
-interface IRychleKackyBet {
-	onClose?: () => void;
-}
-
-export default function RychleKackyBet({
-	onClose = () => {},
-}: IRychleKackyBet) {
+export default function RychleKackyBetPage() {
+	const navigate = useNavigate();
 	const { sazka } = sazkaStore(sazkaState => ({
 		sazka: sazkaState.sazka,
 	}));
@@ -59,30 +58,31 @@ export default function RychleKackyBet({
 
 	function makeBet() {
 		gameRychleKacky(state.guessedNumbers, state.bet, state.drawCount);
-		onClose();
+		navigate(ROUTES.QUICK);
 	}
 
-	return <Modal className="rychleKackyBetModal" onClose={onClose}>
-		<h3 className="rychleKackyBetModal__title">
+	return <Page>
+		<h3 className="rychleKackyBetPage__title">
 			Rychlé kačky
+			<GoBack url={ROUTES.QUICK} />
 		</h3>
-		<div className="rychleKackyBetModal__tableHolder">
-			<div className="rychleKackyBetModal__tableInner">
+		<div className="rychleKackyBetPage__tableHolder">
+			<div className="rychleKackyBetPage__tableInner">
 				<NumberTable min={RYCHLE_KACKY.min} max={RYCHLE_KACKY.max} perLine={RYCHLE_KACKY.perLine} selectCount={RYCHLE_KACKY.guessedNumbersMax} selected={state.guessedNumbers} onSelect={guessedNumbers => updateState({ guessedNumbers })} />
-				<div className="rychleKackyBetModal__tableControls">
+				<div className="rychleKackyBetPage__tableControls">
 					<ButtonLink title="Smazat" onClick={() => updateState({ guessedNumbers: [] })} />
 					<ButtonLink title="Náhodně" onClick={setRandomNumbers} />
 				</div>
 			</div>
 		</div>
-		<div className="rychleKackyBetModal__numberWithSetHolder">
+		<div className="rychleKackyBetPage__numberWithSetHolder">
 			<MyNumberWithSet min={RYCHLE_KACKY.minDrawCount} text="Počet slosování" updatedValue={RYCHLE_KACKY.drawCountUpdatedValue} value={state.drawCount} onChange={updateDrawCount} />
 		</div>
-		<div className="rychleKackyBetModal__numberWithSetHolder">
+		<div className="rychleKackyBetPage__numberWithSetHolder">
 			<MyNumberWithSet min={0} text="Sázka" updatedValue={RYCHLE_KACKY.betUpdatedValue} value={state.bet} onChange={updateBet} />
 		</div>
-		<div className="rychleKackyBetModal__numberWithSetHolder">
+		<div className="rychleKackyBetPage__numberWithSetHolder">
 			<MyButton text={`Vsadit za ${formatPrice(state.price)}`} onClick={makeBet} disabled={state.price === 0 || state.guessedNumbers.length !== RYCHLE_KACKY.guessedNumbersMax || state.price > sazka.amount} />
 		</div>
-	</Modal>;
+	</Page>;
 }

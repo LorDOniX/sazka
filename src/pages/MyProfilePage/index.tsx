@@ -1,4 +1,4 @@
-import Modal from "~/components/Modal";
+import Page from "~/components/Page";
 import MyInputNumber from "~/my/MyInputNumber";
 import MyButton from "~/my/MyButton";
 import { myUseState } from "~/hooks/myUseState";
@@ -13,13 +13,7 @@ interface IState {
 	amount: number;
 }
 
-interface IMyProfileModal {
-	onClose?: () => void;
-}
-
-export default function MyProfileModal({
-	onClose = () => {},
-}: IMyProfileModal) {
+export default function MyProfilePage() {
 	const { sazka, addAmount, clear, clearBets } = sazkaStore(sazkaState => ({
 		sazka: sazkaState.sazka,
 		addAmount: sazkaState.addAmount,
@@ -34,64 +28,63 @@ export default function MyProfileModal({
 	function addAmountToStore(amount: number) {
 		addAmount(amount);
 		notificationStore.getState().setNotification(`Vloženo ${amount} Kč na účet`);
-		onClose();
 	}
 
 	function clickAddAmount() {
 		addAmountToStore(state.amount);
 	}
 
-	return <Modal className="myProfileModal" onClose={onClose} topPosition={true}>
-		<h2 className="myProfileModal__title mainTitle">
+	return <Page>
+		<h2 className="myProfilePage__title mainTitle">
 			Profil
 		</h2>
-		<div className="myProfileModal__info">
-			<div className="myProfileModal__infoLine">
-				<span className="myProfileModal__infoTitle">
+		<div className="myProfilePage__info">
+			<div className="myProfilePage__infoLine">
+				<span className="myProfilePage__infoTitle">
 					Celkem vloženo:
 				</span>
-				<strong className="myProfileModal__infoPrice" data-negative={sazka.allAmount > 0 ? "yes" : "no"}>
+				<strong className="myProfilePage__infoPrice" data-negative={sazka.allAmount > 0 ? "yes" : "no"}>
 					{ formatPrice(sazka.allAmount) }
 				</strong>
 			</div>
-			<div className="myProfileModal__infoLine">
-				<span className="myProfileModal__infoTitle">
+			<div className="myProfilePage__infoLine">
+				<span className="myProfilePage__infoTitle">
 					Celkem prosázeno:
 				</span>
-				<strong className="myProfileModal__infoPrice">
+				<strong className="myProfilePage__infoPrice">
 					{ formatPrice(sazka.allBets) }
 				</strong>
 			</div>
-			<div className="myProfileModal__infoLine">
-				<span className="myProfileModal__infoTitle">
+			<div className="myProfilePage__infoLine">
+				<span className="myProfilePage__infoTitle">
 					Celkem vyhráno:
 				</span>
-				<strong className="myProfileModal__infoPrice">
+				<strong className="myProfilePage__infoPrice">
 					{ formatPrice(sazka.allPrices) }
 				</strong>
 			</div>
-			<div className="myProfileModal__infoLine">
-				<span className="myProfileModal__infoTitle">
+			<div className="myProfilePage__infoLine">
+				<span className="myProfilePage__infoTitle">
 					Rozdíl:
 				</span>
-				<strong className="myProfileModal__infoPrice" data-negative={diff < 0 ? "yes" : "no"}>
+				<strong className="myProfilePage__infoPrice" data-negative={diff < 0 ? "yes" : "no"}>
 					{ formatPrice(diff) }
 				</strong>
 			</div>
 		</div>
-		<h3 className="myProfileModal__title">
+		<h3 className="myProfilePage__title">
 			Vložit částku
 		</h3>
-		<div className="myProfileModal__insertAmountButtons">
+		<div className="myProfilePage__insertAmountButtons">
 			{ BUTTONS_AMOUNTS.map(amount => <MyButton text={`Vložit ${formatPrice(amount)}`} onClick={() => addAmountToStore(amount)} key={amount} />) }
 		</div>
-		<div className="myProfileModal__insertAmount">
+		<div className="myProfilePage__insertAmount">
 			<MyInputNumber value={state.amount} onChange={amount => updateState({ amount })} onEnter={() => clickAddAmount()} />
 			<MyButton text="Vložit" onClick={clickAddAmount} />
 		</div>
-		<div className="myProfileModal__controlButtons">
+		<div className="myProfilePage__controlButtons">
 			<MyButton text="Reset" onClick={() => clear()} />
 			<MyButton text="Smazat sázky" onClick={() => clearBets()} />
 		</div>
-	</Modal>;
+	</Page>;
 }

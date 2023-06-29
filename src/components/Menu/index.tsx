@@ -1,18 +1,13 @@
+import { useNavigate } from "react-router-dom";
+
 import { formatPrice, getClassName } from "~/utils/utils";
 import { sazkaStore } from "~/stores/sazka";
 import ButtonLink from "~/components/ButtonLink";
-import { myUseState } from "~/hooks/myUseState";
-import MyProfileModal from "~/components/MyProfileModal";
-import MyBetsModal from "~/components/MyBetsModal";
 import SportkaCycle from "~/components/SportkaCycle";
 import { completeGames } from "~/games/common";
+import { ROUTES } from "~/const";
 
 import "./style.less";
-
-interface IState {
-	showMyProfle: boolean;
-	showMyBets: boolean;
-}
 
 interface IMenu {
 	showCompleteGames: boolean;
@@ -21,14 +16,11 @@ interface IMenu {
 export default function Menu({
 	showCompleteGames = true,
 }: IMenu) {
+	const navigate = useNavigate();
 	const { sazka, bets } = sazkaStore(sazkaState => ({
 		bets: sazkaState.sazka.bets,
 		sazka: sazkaState.sazka,
 	}));
-	const { state, updateState } = myUseState<IState>({
-		showMyProfle: false,
-		showMyBets: false,
-	});
 	const waintingLen = bets.filter(betItem => betItem.state !== "completed").length;
 
 	function getCompleteTitle() {
@@ -36,19 +28,23 @@ export default function Menu({
 	}
 
 	return <div className="sazkaPage__menu">
-		{ waintingLen > 0 && <>
-			<span className="seperator" />
+		<div className="sazkaPage__leftPart">
+			<ButtonLink title="Loterie" onClick={() => navigate(ROUTES.ROOT)} />
+			<span className="sazkaPage__separator" />
+			<ButtonLink title="Losy" onClick={() => navigate(ROUTES.TICKETS)} />
+			<span className="sazkaPage__separator" />
+		</div>
+		<div className="sazkaPage__rightPart">
+			<span className="sazkaPage__separator" />
 			<SportkaCycle />
-		</> }
-		{ showCompleteGames && <>
-			<span className="seperator" />
-			<ButtonLink title={getCompleteTitle()} onClick={() => completeGames()} className={getClassName(["sazkaPage__menuComplete", waintingLen === 0 ? "disabled" : ""])} />
-		</> }
-		<span className="seperator" />
-		<ButtonLink title="Moje sázky" onClick={() => updateState({ showMyBets: true })} />
-		<span className="seperator" />
-		<ButtonLink title={<>Roman<span className="sazkaPage__menuAmount">{formatPrice(sazka.amount)}</span></>} onClick={() => updateState({ showMyProfle: true })} style={{ textAlign: "right" }} />
-		{ state.showMyProfle && <MyProfileModal onClose={() => updateState({ showMyProfle: false })} /> }
-		{ state.showMyBets && <MyBetsModal onClose={() => updateState({ showMyBets: false })} /> }
+			{ showCompleteGames && <>
+				<span className="sazkaPage__separator" />
+				<ButtonLink title={getCompleteTitle()} onClick={() => completeGames()} className={getClassName(["sazkaPage__menuComplete", waintingLen === 0 ? "disabled" : ""])} />
+			</> }
+			<span className="sazkaPage__separator" />
+			<ButtonLink title="Moje sázky" onClick={() => navigate(ROUTES.MY_BETS)} />
+			<span className="sazkaPage__separator" />
+			<ButtonLink title={<>Roman<span className="sazkaPage__menuAmount">{formatPrice(sazka.amount)}</span></>} onClick={() => navigate(ROUTES.MY_PROFILE)} style={{ textAlign: "right" }} />
+		</div>
 	</div>;
 }

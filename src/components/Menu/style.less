@@ -1,22 +1,15 @@
 .sazkaPage__menu {
 	display: flex;
-	justify-content: flex-end;
-	padding: 0;
-	padding-right: 10px;
-	background: var(--sazka-bg);
+	justify-content: space-between;
+	padding: 0 10px;
+	background: #fff;
 	border: 1px solid var(--my-border);
 	border-left: none;
 	border-right: none;
 	align-items: center;
 
-	.seperator {
-		width: 1px;
-		background: var(--my-border);
-		height: 40px;
-	}
-
 	a {
-		padding: 20px 10px;
+		padding: 10px;
 		text-transform: uppercase;
 		text-decoration: none;
 
@@ -24,6 +17,18 @@
 			text-decoration: none;
 		}
 	}
+}
+
+.sazkaPage__separator {
+	width: 1px;
+	background: var(--my-border);
+	height: 50px;
+}
+
+.sazkaPage__leftPart,
+.sazkaPage__rightPart {
+	display: flex;
+	align-items: center;
 }
 
 .sazkaPage__menuComplete {

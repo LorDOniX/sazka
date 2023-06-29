@@ -1,31 +1,28 @@
-.modal .rychla6BetModal {
-	width: 100%;
-	max-width: 600px;
-	background: var(--sazka-bg);
-}
-
-.rychla6BetModal__title {
+.rychla6BetPage__title {
 	margin-top: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
-.rychla6BetModal__tableHolder {
+.rychla6BetPage__tableHolder {
 	display: flex;
 	justify-content: center;
 }
 
-.rychla6BetModal__tableInner {
+.rychla6BetPage__tableInner {
 	display: flex;
 	flex-direction: column;
 }
 
-.rychla6BetModal__tableControls {
+.rychla6BetPage__tableControls {
 	margin-top: 20px;
 	display: flex;
 	justify-content: flex-end;
 	gap: 20px;
 }
 
-.rychla6BetModal__numberWithSetHolder {
+.rychla6BetPage__numberWithSetHolder {
 	margin-top: 20px;
 	display: flex;
 	justify-content: flex-end;
@@ -35,19 +32,12 @@
 	}
 }
 
-.rychla6BetModal__priceSelector {
+.rychla6BetPage__priceSelector {
 	margin-top: 20px;
 }
 
 @media only screen and (max-width: 960px) {
-	.modal .rychla6BetModal {
-		margin-left: 10px;
-		margin-right: 10px;
-		max-width: calc(100% - 20px);
-		padding: 10px;
-	}
-
-	.rychla6BetModal__tableInner {
+	.rychla6BetPage__tableInner {
 		.numberTable__items:nth-child(5) {
 			justify-content: flex-start;
 

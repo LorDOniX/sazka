@@ -1,15 +1,19 @@
-import Modal from "~/components/Modal";
+import { useNavigate } from "react-router-dom";
+
+import Page from "~/components/Page";
 import { SPORTKA } from "~/games/sportka/const";
 import ColumnInfo from "~/components/ColumnInfo";
 import NumberTable from "~/components/NumberTable";
 import { formatPrice, sortArrayNumbers } from "~/utils/utils";
-import { generateSportkaChance, generateSportkaColumn, getSportkaPriceData, gameSportka } from "~/games/sportka";
+import { generateSportkaChance, generateSportkaColumn, getSportkaPriceData, gameSportka, generateFavouriteTicket } from "~/games/sportka";
 import { myUseState } from "~/hooks/myUseState";
 import MyButton from "~/my/MyButton";
 import MyCheckbox from "~/my/MyCheckbox";
 import { sazkaStore } from "~/stores/sazka";
 import { ISportkaColumn } from "~/games/sportka/interfaces";
 import { notificationStore } from "~/stores/notification";
+import { ROUTES } from "~/const";
+import GoBack from "~/components/GoBack";
 
 import "./style.less";
 
@@ -23,13 +27,8 @@ interface IState {
 	price: number;
 }
 
-interface ISportkaBet {
-	onClose?: () => void;
-}
-
-export default function SportkaBet({
-	onClose = () => {},
-}: ISportkaBet) {
+export default function SportkaBetPage() {
+	const navigate = useNavigate();
 	const { sazka } = sazkaStore(sazkaState => ({
 		sazka: sazkaState.sazka,
 	}));
@@ -128,16 +127,8 @@ export default function SportkaBet({
 
 	function favouriteTicket() {
 		updateState({
-			columns: Array.from({ length: SPORTKA.maxColumns }).map((item, ind) => {
-				const guessedNumbers = SPORTKA.favouriteNumbers.columns[ind] || generateSportkaColumn();
-
-				return {
-					guessedNumbers,
-					index: ind + 1,
-				};
-			}),
+			...generateFavouriteTicket(),
 			useChance: true,
-			chance: generateSportkaChance(),
 			price: getSportkaPriceData(SPORTKA.maxColumns, true).price,
 		});
 	}
@@ -146,7 +137,7 @@ export default function SportkaBet({
 		const msg = gameSportka(state.columns, state.useChance ? state.chance : []);
 
 		notificationStore.getState().setNotification(msg);
-		onClose();
+		navigate(ROUTES.ROOT);
 	}
 
 	function getBetDisabled() {
@@ -160,48 +151,51 @@ export default function SportkaBet({
 		});
 	}
 
-	return <Modal className="sportkaBetModal" onClose={onClose}>
-		<h3 className="sportkaBetModal__title">
+	return <Page>
+		<h3 className="sportkaBetPage__title">
 			Sportka
+			<GoBack url={ROUTES.ROOT} />
 		</h3>
-		{ state.mode === "ticket" && <div className="sportkaBetModal__ticketContent">
-			<div className="sportkaBetModal__columns">
-				{ state.columns.map(column => <div className="sportkaBetModal__columnItem" key={column.index} onClick={() => openColumn(column.index)}>
-					<h3 className="sportkaBetModal__columnItemTitle">Slupec {column.index}</h3>
+		{ state.mode === "ticket" && <div className="sportkaBetPage__ticketContent">
+			<div className="sportkaBetPage__columns">
+				{ state.columns.map(column => <div className="sportkaBetPage__columnItem" key={column.index} onClick={() => openColumn(column.index)}>
+					<h3 className="sportkaBetPage__columnItemTitle">Slupec {column.index}</h3>
 					<ColumnInfo numbers={column.guessedNumbers} drawNumbers={[]} />
 				</div>) }
 			</div>
-			<div className="sportkaBetModal__columnsControls">
+			<div className="sportkaBetPage__columnsControls">
 				<MyButton text="Přidat sloupec" onClick={addColumn} disabled={state.columns.length === SPORTKA.maxColumns} />
 				<MyButton text="Smazat sloupec" onClick={removeColumn} />
 				<MyButton text="Celý ticket" onClick={fillWholeTicket} />
 				<MyButton text="Oblíbená čísla" onClick={favouriteTicket} />
 			</div>
-			<div className="sportkaBetModal__separator" />
-			<h3 className="sportkaBetModal__columnItemTitle">Šance</h3>
-			<div className="sportkaBetModal__chanceArea">
+			<div className="sportkaBetPage__separator" />
+			<h3 className="sportkaBetPage__columnItemTitle">Šance</h3>
+			<div className="sportkaBetPage__chanceArea">
 				<ColumnInfo numbers={state.chance} drawNumbers={[]} />
 				<MyButton text="Generovat" onClick={() => updateState({ chance: generateSportkaChance() })} />
 				<MyCheckbox text="Hrát včetně Šance" value={state.useChance} onChange={updateChance} />
 			</div>
-			<div className="sportkaBetModal__separator" />
-			<div className="sportkaBetModal__betArea">
+			<div className="sportkaBetPage__separator" />
+			<div className="sportkaBetPage__betArea">
 				<span>
 					Cena: <strong>{formatPrice(state.price)}</strong>
 				</span>
 				<MyButton text="Vsadit" onClick={makeBet} disabled={getBetDisabled()} />
 			</div>
 		</div> }
-		{ state.mode === "column" && <div className="sportkaBetModal__columnContent">
-			<h3>Slupec {state.selCol}</h3>
-			<NumberTable min={SPORTKA.min} max={SPORTKA.max} perLine={SPORTKA.perLine} selectCount={SPORTKA.guessedNumbers} selected={state.selNumbers}
-				onSelect={selNumbers => updateState({ selNumbers })} />
-			<div></div>
-			<div className="sportkaBetModal__columnContentControls">
-				<MyButton text="Náhodně" onClick={setRandomColumn} />
-				<MyButton text="Uložit" onClick={saveColumn} />
-				<MyButton text="Zpět" onClick={backToTicket} />
+		{ state.mode === "column" && <div className="sportkaBetPage__columnContent">
+			<div className="sportkaBetPage__columnDetail">
+				<h3>Slupec {state.selCol}</h3>
+				<NumberTable min={SPORTKA.min} max={SPORTKA.max} perLine={SPORTKA.perLine} selectCount={SPORTKA.guessedNumbers} selected={state.selNumbers}
+					onSelect={selNumbers => updateState({ selNumbers })} />
+				<div></div>
+				<div className="sportkaBetPage__columnContentControls">
+					<MyButton text="Náhodně" onClick={setRandomColumn} />
+					<MyButton text="Uložit" onClick={saveColumn} />
+					<MyButton text="Zpět" onClick={backToTicket} />
+				</div>
 			</div>
 		</div> }
-	</Modal>;
+	</Page>;
 }

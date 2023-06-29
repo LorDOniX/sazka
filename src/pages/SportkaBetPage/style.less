@@ -1,0 +1,79 @@
+.sportkaBetPage__title {
+	margin-top: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.sportkaBetPage__columns {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+.sportkaBetPage__columnItem {
+	flex: 0 1 auto;
+	max-width: calc(33.3% - 10px);
+	border: 1px solid var(--my-border);
+	padding: 10px;
+	box-sizing: border-box;
+	border-radius: 4px;
+	background: #fff;
+	cursor: pointer;
+}
+
+.sportkaBetPage__columnItemTitle {
+	margin: 0 0 5px 0;
+}
+
+.sportkaBetPage__columnsControls {
+	margin-top: 10px;
+	display: flex;
+	justify-content: space-between;
+	gap: 5px;
+}
+
+.sportkaBetPage__separator {
+	width: 100%;
+	height: 1px;
+	margin: 10px 0;
+	background-color: var(--my-border);
+}
+
+.sportkaBetPage__betArea {
+	margin-top: 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.sportkaBetPage__chanceArea {
+	margin-top: 10px;
+	display: flex;
+	gap: 5px;
+	align-items: center;
+	justify-content: space-between;
+
+	.columnInfo {
+		max-width: 50%;
+	}
+}
+
+.sportkaBetPage__columnContent {
+	display: flex;
+	justify-content: center;
+}
+
+.sportkaBetPage__columnContentControls {
+	margin-top: 25px;
+	display: flex;
+	gap: 10px;
+	justify-content: space-between;
+}
+
+@media only screen and (max-width: 640px) {
+	.sportkaBetPage__columnItem {
+		max-width: calc(50% - 10px);
+	}
+}

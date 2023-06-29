@@ -1,17 +1,14 @@
 /* eslint-disable no-magic-numbers */
+import { useNavigate } from "react-router-dom";
+
 import MyButton from "~/my/MyButton";
 import { formatPrice } from "~/utils/utils";
-import RychleKackyBet from "~/components/RychleKackyBet";
 import { gameRychleKacky, allInRychleKacky, generateRychleKacky } from "~/games/rychle-kacky";
 import { RYCHLE_KACKY } from "~/games/rychle-kacky/const";
-import { myUseState } from "~/hooks/myUseState";
 import { notificationStore } from "~/stores/notification";
+import { ROUTES } from "~/const";
 
 import "./style.less";
-
-interface IState {
-	showKackyBet: boolean;
-}
 
 interface IRychleKacky {
 	amount: number;
@@ -63,9 +60,7 @@ const items: Array<IItem> = [{
 export default function RychleKacky({
 	amount,
 }: IRychleKacky) {
-	const { state, updateState } = myUseState<IState>({
-		showKackyBet: false,
-	});
+	const navigate = useNavigate();
 
 	function addGame(item: IItem) {
 		const msg = gameRychleKacky(generateRychleKacky(item.guessedNumbers), item.bet, item.drawCount);
@@ -82,6 +77,7 @@ export default function RychleKacky({
 	return <div className="rychleKackyContainer">
 		<h2 className="rychleKackyContainer__title">
 			Rychlé kačky
+			<MyButton text="Vsadit online" onClick={() => navigate(ROUTES.RYCHLE_KACKY)} />
 		</h2>
 		<div className="rychleKackyContainer__quickItems">
 			{ items.map(item => <div key={item.id} className="rychleKackyContainer__quickItem">
@@ -99,10 +95,6 @@ export default function RychleKacky({
 					disabled={item.price > amount} />
 				<MyButton className="rychleKackyContainer__quickItemBetBtn second" text="Vsadit vše" onClick={() => allIn(item)} disabled={item.price > amount} />
 			</div>) }
-			<div className="rychleKackyContainer__quickItem last">
-				<MyButton text="Vsadit online" onClick={() => updateState({ showKackyBet: true })} />
-			</div>
-			{ state.showKackyBet && <RychleKackyBet onClose={() => updateState({ showKackyBet: false })} /> }
 		</div>
 	</div>;
 }

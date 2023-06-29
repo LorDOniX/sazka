@@ -1,14 +1,22 @@
-.modal .stistkoBetModal {
-	width: 100%;
-	max-width: 600px;
-	background: var(--sazka-bg);
+.stistkoBetPage__container {
+	display: flex;
+	justify-content: center;
 }
 
-.stistkoBetModal__title {
+.stistkoBetPage__gameContainer {
+	flex: auto;
+	max-width: 500px;
+}
+
+.stistkoBetPage__title {
 	margin-top: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
 }
 
-.stistkoBetModal__betArea {
+.stistkoBetPage__betArea {
 	margin-top: 10px;
 	display: flex;
 	justify-content: center;
@@ -18,14 +26,14 @@
 	}
 }
 
-.stistkoBetModal__stistkoItems {
+.stistkoBetPage__stistkoItems {
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: row;
 	position: relative;
 }
 
-.stistkoBetModal__stistkoItem {
+.stistkoBetPage__stistkoItem {
 	flex: 0 1 33.3%;
 	box-sizing: border-box;
 	position: relative;
@@ -49,7 +57,7 @@
 	}
 }
 
-.stistkoBetModal__stistkoItemPriceCont {
+.stistkoBetPage__stistkoItemPriceCont {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -60,7 +68,7 @@
 	bottom: 0;
 }
 
-.stistkoBetModal__stistkoItemPrice {
+.stistkoBetPage__stistkoItemPrice {
 	background: #e5e5e5;
 	padding: 10px;
 	font-size: 20px;
@@ -72,7 +80,7 @@
 	}
 }
 
-.stistkoBetModal__priceCont {
+.stistkoBetPage__priceCont {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -84,7 +92,7 @@
 	align-items: center;
 }
 
-.stistkoBetModal__priceInfo {
+.stistkoBetPage__priceInfo {
 	display: flex;
 	justify-content: space-between;
 	flex-direction: column;
@@ -97,7 +105,7 @@
 	margin-top: -180px;
 }
 
-.stistkoBetModal__winPrice {
+.stistkoBetPage__winPrice {
 	min-width: 150px;
 	padding: 12px 24px;
 	color: #fff;
@@ -111,14 +119,5 @@
 	&[data-price="no"] {
 		color: #000;
 		background: var(--sazka-yellow-gradient);
-	}
-}
-
-@media only screen and (max-width: 960px) {
-	.modal .stistkoBetModal {
-		margin-left: 10px;
-		margin-right: 10px;
-		max-width: calc(100% - 20px);
-		padding: 10px;
 	}
 }

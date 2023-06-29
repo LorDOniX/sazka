@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import Modal from "~/components/Modal";
+import Page from "~/components/Page";
 import BetItem from "~/components/BetItem";
 import { sazkaStore } from "~/stores/sazka";
 import BetDetail from "~/components/BetDetail";
@@ -23,19 +23,11 @@ interface IState {
 	showMore: boolean;
 }
 
-interface IMyBetsModal {
-	maxItems?: number;
-	onClose?: () => void;
-}
-
 const FILTERS: Array<TFilter> = ["all", "with-price", "with-price-100", "with-price-500", "with-price-1000", "with-price-10000"];
 const FILTERS_TITLES: Array<string> = ["Vše", "Výhry", "100+ Kč", "500+ Kč", "1000+ Kč", "10000+ Kč"];
+const MAX_ITEMS = 15;
 
-export default function MyBetsModal({
-	/* eslint-disable-next-line */
-	maxItems = 15,
-	onClose = () => {},
-}: IMyBetsModal) {
+export default function MyBetsPage() {
 	/* eslint-disable no-magic-numbers */
 	const { bets } = sazkaStore(sazkaState => ({
 		bets: sazkaState.sazka.bets,
@@ -81,12 +73,12 @@ export default function MyBetsModal({
 		return {
 			finishedItems: finishedItems.slice(0, visible),
 			showMore: finishedItems.length > visible,
-			count: Math.min(finishedItems.length - visible, maxItems),
+			count: Math.min(finishedItems.length - visible, MAX_ITEMS),
 		};
 	}
 
 	const { state, setState, updateState } = myUseState<IState>(() => {
-		const visible = maxItems;
+		const visible = MAX_ITEMS;
 		const filter: TFilter = "all";
 		const finishedData = getFinishedData(filter, visible);
 
@@ -105,7 +97,7 @@ export default function MyBetsModal({
 		});
 	}
 
-	function setFilter(filter: TFilter, visible = maxItems) {
+	function setFilter(filter: TFilter, visible = MAX_ITEMS) {
 		setState(prev => {
 			const finishedData = getFinishedData(filter, visible);
 
@@ -119,12 +111,12 @@ export default function MyBetsModal({
 	}
 
 	function clickShowMore() {
-		setFilter(state.filter, state.visible + maxItems);
+		setFilter(state.filter, state.visible + MAX_ITEMS);
 	}
 
 	useEffect(() => {
 		setState(prev => {
-			const visible = maxItems;
+			const visible = MAX_ITEMS;
 			const finishedData = getFinishedData(prev.filter, visible);
 
 			return {
@@ -136,24 +128,24 @@ export default function MyBetsModal({
 		});
 	}, [bets]);
 
-	return <Modal className="myBetsModalModal" onClose={onClose} topPosition={true}>
-		<div className="myBetsModalModal__content">
-			<h2 className="myBetsModalModal__title mainTitle">
+	return <Page>
+		<div className="myBetsPage__content">
+			<h2 className="myBetsPage__title mainTitle">
 				Moje sázky
 			</h2>
-			<MySelector className="myBetsModalModal__filter" value={state.filter} values={FILTERS} format={(value, ind) => FILTERS_TITLES[ind]} onUpdate={(filter: TFilter) => setFilter(filter)} />
-			<h3 className="myBetsModalModal__title">Čekající</h3>
-			<div className="myBetsModalModal__items">
+			<MySelector className="myBetsPage__filter" value={state.filter} values={FILTERS} format={(value, ind) => FILTERS_TITLES[ind]} onUpdate={(filter: TFilter) => setFilter(filter)} />
+			<h3 className="myBetsPage__title">Čekající</h3>
+			<div className="myBetsPage__items">
 				{ state.waitingItems.map(betItem => <BetItem data={betItem} key={betItem.id} onClick={() => openDetailBet(betItem)} />) }
 				{ state.waitingItems.length === 0 && <p style={{ marginTop: 0 }}>Prázdné</p>}
 			</div>
-			<h3 className="myBetsModalModal__title">Slosované</h3>
-			<div className="myBetsModalModal__items">
+			<h3 className="myBetsPage__title">Slosované</h3>
+			<div className="myBetsPage__items">
 				{ state.finishedItems.map(betItem => <BetItem data={betItem} key={betItem.id} onClick={() => openDetailBet(betItem)} />) }
 				{ state.showMore && <MyButton text={`Načíst další ${state.count}`} onClick={clickShowMore} /> }
 				{ state.finishedItems.length === 0 && <p style={{ margin: 0 }}>Prázdné</p>}
 			</div>
 		</div>
 		{ state.betDetail && <BetDetail data={state.betDetail} onClose={() => updateState({ betDetail: null })} /> }
-	</Modal>;
+	</Page>;
 }

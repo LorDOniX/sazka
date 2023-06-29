@@ -1,17 +1,14 @@
 /* eslint-disable no-magic-numbers */
+import { useNavigate } from "react-router-dom";
+
 import MyButton from "~/my/MyButton";
 import { formatPrice, formatColumns } from "~/utils/utils";
-import { generateSportkaGame, gameSportka, allInSportka } from "~/games/sportka";
-import SportkaBet from "~/components/SportkaBet";
+import { generateSportkaGame, gameSportka, allInSportka, generateFavouriteTicket } from "~/games/sportka";
 import { SPORTKA } from "~/games/sportka/const";
-import { myUseState } from "~/hooks/myUseState";
 import { notificationStore } from "~/stores/notification";
+import { ROUTES } from "~/const";
 
 import "./style.less";
-
-interface IState {
-	showSportka: boolean;
-}
 
 interface ISportka {
 	amount: number;
@@ -63,16 +60,25 @@ const items: Array<IItem> = [{
 	line3: "Na 1 slosování",
 	price: (RIGHT_COLUMNS * SPORTKA.pricePerColumn) + SPORTKA.chancePrice,
 }];
+const myNumbers: IItem = {
+	id: 3,
+	columns: SPORTKA.maxColumns,
+	hasSuperJackpot: true,
+	chance: true,
+	title: "Oblíbená čísla",
+	line1: "Hra o superjackpot",
+	line2: formatColumns(SPORTKA.maxColumns),
+	line3: "Včetně šance",
+	price: (SPORTKA.maxColumns * SPORTKA.pricePerColumn) + SPORTKA.chancePrice,
+};
 
 export default function Sportka({
 	amount,
 }: ISportka) {
-	const { state, updateState } = myUseState<IState>({
-		showSportka: false,
-	});
+	const navigate = useNavigate();
 
-	function addGame(item: IItem) {
-		const gameData = generateSportkaGame(item.columns, item.chance);
+	function addGame(item: IItem, generatedData?: ReturnType<typeof generateSportkaGame>) {
+		const gameData = generatedData || generateSportkaGame(item.columns, item.chance);
 		const msg = gameSportka(gameData.columns, gameData.chance);
 
 		notificationStore.getState().setNotification(msg);
@@ -84,34 +90,36 @@ export default function Sportka({
 		notificationStore.getState().setNotification(msg);
 	}
 
+	function createItem(item: IItem, addGameCb: () => void, allInCb?: () => void) {
+		return <div key={item.id} className="sportkaContainer__quickItem">
+			<h3 className="sportkaContainer__quickItemTitle">
+				{ item.title }
+			</h3>
+			<span className="sportkaContainer__quickItemSeparator" />
+			<p className="sportkaContainer__quickItemParagraph">
+				{ item.hasSuperJackpot && <strong>{ item.line1 }</strong> }
+				{ !item.hasSuperJackpot && item.line1 }
+			</p>
+			<p className="sportkaContainer__quickItemParagraph">
+				{ item.line2 }
+			</p>
+			<p className="sportkaContainer__quickItemParagraph">
+				{ item.line3 }
+			</p>
+			<MyButton className="sportkaContainer__quickItemBetBtn" text={`Vsadit za ${formatPrice(item.price)}`} onClick={addGameCb}
+				disabled={item.price > amount} />
+			<MyButton className="sportkaContainer__quickItemBetBtn second" text="Vsadit vše" onClick={allInCb} disabled={item.price > amount || !allInCb} />
+		</div>;
+	}
+
 	return <div className="sportkaContainer">
 		<h2 className="sportkaContainer__title">
 			Sportka
+			<MyButton text="Vsadit online" onClick={() => navigate(ROUTES.SPORTKA)} />
 		</h2>
 		<div className="sportkaContainer__quickItems">
-			{ items.map(item => <div key={item.id} className="sportkaContainer__quickItem">
-				<h3 className="sportkaContainer__quickItemTitle">
-					{ item.title }
-				</h3>
-				<span className="sportkaContainer__quickItemSeparator" />
-				<p className="sportkaContainer__quickItemParagraph">
-					{ item.hasSuperJackpot && <strong>{ item.line1 }</strong> }
-					{ !item.hasSuperJackpot && item.line1 }
-				</p>
-				<p className="sportkaContainer__quickItemParagraph">
-					{ item.line2 }
-				</p>
-				<p className="sportkaContainer__quickItemParagraph">
-					{ item.line3 }
-				</p>
-				<MyButton className="sportkaContainer__quickItemBetBtn" text={`Vsadit za ${formatPrice(item.price)}`} onClick={() => addGame(item)}
-					disabled={item.price > amount} />
-				<MyButton className="sportkaContainer__quickItemBetBtn second" text="Vsadit vše" onClick={() => allIn(item)} disabled={item.price > amount} />
-			</div>) }
-			<div className="sportkaContainer__quickItem last">
-				<MyButton text="Vsadit online" onClick={() => updateState({ showSportka: true })} />
-			</div>
-			{ state.showSportka && <SportkaBet onClose={() => updateState({ showSportka: false })} /> }
+			{ items.map(item => createItem(item, () => addGame(item), () => allIn(item))) }
+			{ createItem(myNumbers, () => addGame(myNumbers, generateFavouriteTicket())) }
 		</div>
 	</div>;
 }

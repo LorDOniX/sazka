@@ -1,17 +1,14 @@
 /* eslint-disable no-magic-numbers */
+import { useNavigate } from "react-router-dom";
+
 import MyButton from "~/my/MyButton";
 import { formatPrice } from "~/utils/utils";
 import { generateRychla6, gameRychla6, allInRychla6 } from "~/games/rychla6";
-import Rychla6Bet from "~/components/Rychla6Bet";
 import { RYCHLA6 } from "~/games/rychla6/const";
-import { myUseState } from "~/hooks/myUseState";
 import { notificationStore } from "~/stores/notification";
+import { ROUTES } from "~/const";
 
 import "./style.less";
-
-interface IState {
-	showRychla6Bet: boolean;
-}
 
 interface IRychla6 {
 	amount: number;
@@ -42,9 +39,7 @@ const items: Array<IItem> = [{
 export default function Rychla6({
 	amount,
 }: IRychla6) {
-	const { state, updateState } = myUseState<IState>({
-		showRychla6Bet: false,
-	});
+	const navigate = useNavigate();
 
 	function addGame(item: IItem) {
 		const msg = gameRychla6(generateRychla6(), item.bet, item.drawCount);
@@ -61,6 +56,7 @@ export default function Rychla6({
 	return <div className="rychla6Container">
 		<h2 className="rychla6Container__title">
 			Rychlá 6
+			<MyButton text="Vsadit online" onClick={() => navigate(ROUTES.RYCHLA6)} />
 		</h2>
 		<div className="rychla6Container__quickItems">
 			{ items.map(item => <div key={item.id} className="rychla6Container__quickItem">
@@ -78,10 +74,6 @@ export default function Rychla6({
 					disabled={item.price > amount} />
 				<MyButton className="rychla6Container__quickItemBetBtn second" text="Vsadit vše" onClick={() => allIn(item)} disabled={item.price > amount} />
 			</div>) }
-			<div className="rychla6Container__quickItem last">
-				<MyButton text="Vsadit online" onClick={() => updateState({ showRychla6Bet: true })} />
-			</div>
-			{ state.showRychla6Bet && <Rychla6Bet onClose={() => updateState({ showRychla6Bet: false })} /> }
 		</div>
 	</div>;
 }

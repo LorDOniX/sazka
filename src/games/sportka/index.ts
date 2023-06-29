@@ -2,7 +2,7 @@ import { IBet, IBetInfo, ILotteryItem } from "~/interfaces";
 import { formatColumns, formatPrice, getRandomList, getSameNumbers } from "~/utils/utils";
 import { sazkaStore } from "~/stores/sazka";
 import { SPORTKA } from "./const";
-import { ISportka, ISportkaColumn, ISportkaColumnPrice, ISportkaData } from "./interfaces";
+import { ISportka, ISportkaColumn, ISportkaColumnPrice, ISportkaData, ISportkaGeneratedData } from "./interfaces";
 
 import SportkaImg from "~/assets/sazka/sportka.jpg";
 
@@ -23,12 +23,29 @@ export function generateSportkaChance() {
 	return getRandomList(SPORTKA.chanceMin, SPORTKA.chanceMax, SPORTKA.guessedNumbersChance);
 }
 
-export function generateSportkaGame(columnsLen: number, hasChance: boolean) {
+export function generateSportkaGame(columnsLen: number, hasChance: boolean): ISportkaGeneratedData {
 	const columns: Array<ISportkaColumn> = Array.from({ length: columnsLen }).map((arrItem, ind) => ({
 		guessedNumbers: generateSportkaColumn(),
 		index: ind + 1,
 	}));
 	const chance: Array<number> = hasChance ? generateSportkaChance() : [];
+
+	return {
+		columns,
+		chance,
+	};
+}
+
+export function generateFavouriteTicket(): ISportkaGeneratedData {
+	const columns = Array.from({ length: SPORTKA.maxColumns }).map((item, ind) => {
+		const guessedNumbers = SPORTKA.favouriteNumbers.columns[ind] || generateSportkaColumn();
+
+		return {
+			guessedNumbers,
+			index: ind + 1,
+		};
+	});
+	const chance: Array<number> = generateSportkaChance();
 
 	return {
 		columns,

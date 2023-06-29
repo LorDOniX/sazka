@@ -1,17 +1,14 @@
 /* eslint-disable no-magic-numbers */
+import { useNavigate } from "react-router-dom";
+
 import MyButton from "~/my/MyButton";
 import { formatPrice } from "~/utils/utils";
-import KorunkaNa3Bet from "~/components/KorunkaNa3Bet";
 import { KORUNKA_NA3 } from "~/games/korunka-na3/const";
-import { myUseState } from "~/hooks/myUseState";
 import { notificationStore } from "~/stores/notification";
 import { generateKorunkaNa3, gameKorunkaNa3, allInRychlaKorunkaNa3 } from "~/games/korunka-na3";
+import { ROUTES } from "~/const";
 
 import "./style.less";
-
-interface IState {
-	showKorunkaNa3Bet: boolean;
-}
 
 interface IKorunkaNa3 {
 	amount: number;
@@ -48,9 +45,7 @@ const items: Array<IItem> = [{
 export default function KorunkaNa3({
 	amount,
 }: IKorunkaNa3) {
-	const { state, updateState } = myUseState<IState>({
-		showKorunkaNa3Bet: false,
-	});
+	const navigate = useNavigate();
 
 	function addGame(item: IItem) {
 		const msg = gameKorunkaNa3(generateKorunkaNa3(), item.bet, item.drawCount);
@@ -67,6 +62,7 @@ export default function KorunkaNa3({
 	return <div className="korunkaNa3Container">
 		<h2 className="korunkaNa3Container__title">
 			Korunka na 3
+			<MyButton text="Vsadit online" onClick={() => navigate(ROUTES.KORUNKA_NA3)} />
 		</h2>
 		<div className="korunkaNa3Container__quickItems">
 			{ items.map(item => <div key={item.id} className="korunkaNa3Container__quickItem">
@@ -84,10 +80,6 @@ export default function KorunkaNa3({
 					disabled={item.price > amount} />
 				<MyButton className="korunkaNa3Container__quickItemBetBtn second" text="Vsadit vše" onClick={() => allIn(item)} disabled={item.price > amount} />
 			</div>) }
-			<div className="korunkaNa3Container__quickItem last">
-				<MyButton text="Vsadit online" onClick={() => updateState({ showKorunkaNa3Bet: true })} />
-			</div>
-			{ state.showKorunkaNa3Bet && <KorunkaNa3Bet onClose={() => updateState({ showKorunkaNa3Bet: false })} /> }
 		</div>
 	</div>;
 }
