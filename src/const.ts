@@ -15,6 +15,7 @@ export const ROUTES = {
 	MY_BETS: "/moje-sazky",
 	MY_PROFILE: "/muj-profil",
 	SPORTKA: "/sportka",
+	STASTNYCH10: "/stastnych10",
 	KORUNKA_NA3: "/korunka-na-3",
 	KORUNKA_NA4: "/korunka-na-4",
 	KORUNKA_NA5: "/korunka-na-5",
@@ -25,7 +26,7 @@ export const ROUTES = {
 	STISTKO20: "/stistko-20",
 };
 
-export const DEFAULT_AMOUNT = 1000;
+export const DEFAULT_AMOUNT = 10000;
 
 export const DEFAULT_INSERT_AMOUNT = 100;
 

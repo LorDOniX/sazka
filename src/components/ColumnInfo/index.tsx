@@ -1,4 +1,4 @@
-import { getClassName } from "~/utils/utils";
+import { getClassName, getRandomHexHash } from "~/utils/utils";
 import { getChanceCheck } from "~/games/sportka";
 
 import "./style.less";
@@ -41,7 +41,7 @@ export default function ColumnInfo({
 	}
 
 	return <div className={getClassName(["columnInfo", className])} onClick={() => onClick()}>
-		{ numbers.map((item, ind) => <div key={item} className={getItemClass(item, ind)}>
+		{ numbers.map((item, ind) => <div key={getRandomHexHash()} className={getItemClass(item, ind)}>
 			<span>
 				{ item }
 			</span>

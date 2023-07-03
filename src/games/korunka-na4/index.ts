@@ -6,10 +6,14 @@ import { sazkaStore } from "~/stores/sazka";
 
 import KorunkaNa4Img from "~/assets/sazka/korunka4.png";
 
+export function getKorunkaNa4Cover(): any {
+	return KorunkaNa4Img;
+}
+
 export function getKorunkaNa4BetInfo(bet: IBet): Partial<IBetInfo> {
 	return {
 		gameTitle: "Korunka na 4",
-		imgSrc: KorunkaNa4Img,
+		imgSrc: getKorunkaNa4Cover(),
 		title: formatColumns(1),
 		desc: bet.korunkaNa4.drawCount === 1
 			? "1 slosování"

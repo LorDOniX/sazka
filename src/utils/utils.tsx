@@ -120,10 +120,21 @@ export function formatColumns(columns: number): string {
 	return `${columns} ${columnsTrans}`;
 }
 
-function getRandomArbitrary(min: number, max: number) {
+export function getRandomArbitrary(min: number, max: number) {
 	return (Math.random() * (max - min)) + min;
 }
 
+export function generateChance(min: number, max: number, len: number) {
+	const list = [];
+
+	for (let ind = 0; ind < len; ind++) {
+		const newNumber = getRandomArbitrary(min, max) >>> 0;
+
+		list.push(newNumber);
+	}
+
+	return list;
+}
 
 export function getRandomList(min: number, max: number, len: number, sort?: boolean) {
 	const list = [];
@@ -205,4 +216,17 @@ export function getRandomFromProbList(items: Array<NumWithProb>) {
 	}
 
 	return findNum;
+}
+
+export function generateNumbersInRange(fromValue: number, toValue: number, addValue = 1) {
+	const output: Array<number> = [];
+	const times = (toValue - fromValue) / addValue >>> 0;
+
+	for (let ind = 0; ind < times; ind++) {
+		output.push(fromValue + (ind * addValue));
+	}
+
+	output.push(toValue);
+
+	return output;
 }

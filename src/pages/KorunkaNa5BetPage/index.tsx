@@ -2,9 +2,8 @@ import { useNavigate } from "react-router-dom";
 
 import NumberTable from "~/components/NumberTable";
 import { KORUNKA_NA5 } from "~/games/korunka-na5/const";
-import { formatPrice } from "~/utils/utils";
+import { formatPrice, generateNumbersInRange } from "~/utils/utils";
 import ButtonLink from "~/components/ButtonLink";
-import MyNumberWithSet from "~/my/MyNumberWithSet";
 import MySelector from "~/my/MySelector";
 import { myUseState } from "~/hooks/myUseState";
 import MyButton from "~/my/MyButton";
@@ -79,10 +78,12 @@ export default function KorunkaNa5BetPage() {
 				</div>
 			</div>
 		</div>
-		<div className="korunkaNa5BetPage__numberWithSetHolder">
-			<MyNumberWithSet min={KORUNKA_NA5.minDrawCount} text="Počet slosování" updatedValue={KORUNKA_NA5.drawCountUpdatedValue} value={state.drawCount} onChange={updateDrawCount} />
+		<h4>Vyberte počet slosování</h4>
+		<div className="korunkaNa4BetPage__drawCount">
+			<MySelector values={generateNumbersInRange(KORUNKA_NA5.minDrawCount, KORUNKA_NA5.maxDrawCount)} value={state.drawCount} onChange={updateDrawCount} />
 		</div>
-		<MySelector className="korunkaNa5BetPage__priceSelector" values={KORUNKA_NA5.bets} value={state.bet} format={value => formatPrice(value as number)} onUpdate={(bet: number) => updateState({ bet })} />
+		<h4>Kolik chcete vsadit?</h4>
+		<MySelector className="korunkaNa5BetPage__priceSelector" values={KORUNKA_NA5.bets} value={state.bet} format={value => formatPrice(value as number)} onChange={(bet: number) => updateState({ bet })} />
 		<div className="korunkaNa5BetPage__numberWithSetHolder">
 			<MyButton text={`Vsadit za ${formatPrice(getPrice())}`} onClick={makeBet} disabled={isDisabled()} />
 		</div>

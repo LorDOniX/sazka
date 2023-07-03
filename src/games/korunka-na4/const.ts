@@ -1,6 +1,7 @@
 /* eslint-disable no-magic-numbers */
 export const KORUNKA_NA4 = {
 	minDrawCount: 1,
+	maxDrawCount: 10,
 	drawCountUpdatedValue: 1,
 	perLine: 7,
 	guessedNumbers: 4,

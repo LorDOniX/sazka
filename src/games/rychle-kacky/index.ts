@@ -5,10 +5,14 @@ import { sazkaStore } from "~/stores/sazka";
 
 import RychleKackyImg from "~/assets/sazka/rychleKacky.jpg";
 
+export function getRychleKackyCover(): any {
+	return RychleKackyImg;
+}
+
 export function getRychleKackyBetInfo(bet: IBet): Partial<IBetInfo> {
 	return {
 		gameTitle: "Rychlé kačky",
-		imgSrc: RychleKackyImg,
+		imgSrc: getRychleKackyCover(),
 		title: formatColumns(1),
 		desc: bet.rychleKacky.drawCount === 1
 			? "1 slosování"

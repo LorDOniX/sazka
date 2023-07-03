@@ -8,6 +8,7 @@ import { completeKorunkaNa5, getKorunkaNa5BetInfo, getKorunkaNa5Lotteries, getKo
 import { completeSportka, getSportkaBetInfo, getSportkaData, getSportkaLotteries } from "~/games/sportka";
 import { sazkaStore } from "~/stores/sazka";
 import { notificationStore } from "~/stores/notification";
+import { completeStastnych10, getStastnych10BetInfo, getStastnych10Data, getStastnych10Lotteries } from "./stastnych10";
 
 export function getBetInfo(bet: IBet) {
 	let output: IBetInfo = {
@@ -65,6 +66,13 @@ export function getBetInfo(bet: IBet) {
 			};
 			break;
 
+		case "stastnych10":
+			output = {
+				...output,
+				...getStastnych10BetInfo(bet),
+			};
+			break;
+
 		default:
 	}
 
@@ -88,9 +96,11 @@ export function getLotteries(bet: IBet): Array<ILotteryItem> {
 		case "korunka-na-5":
 			return getKorunkaNa5Lotteries(bet);
 
-		case "sportka": {
+		case "sportka":
 			return getSportkaLotteries(bet);
-		}
+
+		case "stastnych10":
+			return getStastnych10Lotteries(bet);
 
 		default:
 	}
@@ -109,6 +119,7 @@ export function completeGames() {
 	const KorunkaNa3Numbers = getKorunkaNa3Numbers();
 	const KorunkaNa4Numbers = getKorunkaNa4Numbers();
 	const KorunkaNa5Numbers = getKorunkaNa5Numbers();
+	const Stastnych10Data = getStastnych10Data();
 	const toBeDone = store.sazka.bets.filter(item => item.state !== "completed");
 
 	if (toBeDone.length > 0) {
@@ -141,6 +152,10 @@ export function completeGames() {
 
 					case "sportka":
 						allPrices += completeSportka(bet.id, bet.sportka, sportkaData);
+						break;
+
+					case "stastnych10":
+						allPrices += completeStastnych10(bet.id, bet.stastnych10, Stastnych10Data);
 						break;
 
 					default:

@@ -31,6 +31,8 @@ export default function Menu({
 		<div className="sazkaPage__leftPart">
 			<ButtonLink title="Loterie" onClick={() => navigate(ROUTES.ROOT)} />
 			<span className="sazkaPage__separator" />
+			<ButtonLink title="Rychlé loterie" onClick={() => navigate(ROUTES.QUICK)} />
+			<span className="sazkaPage__separator" />
 			<ButtonLink title="Losy" onClick={() => navigate(ROUTES.TICKETS)} />
 			<span className="sazkaPage__separator" />
 		</div>

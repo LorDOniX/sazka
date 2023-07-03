@@ -16,6 +16,8 @@ type TFilter = "all" | "with-price" | "with-price-100" | "with-price-500" | "wit
 interface IState {
 	filter: TFilter;
 	betDetail: IBet;
+	allWaiting: number;
+	allFinished: number;
 	visibleWaiting: number;
 	visibleFinish: number;
 	countWaiting: number;
@@ -46,16 +48,16 @@ export default function MyBetsPage() {
 					return item.winPrice > 0;
 
 				case "with-price-100":
-					return item.winPrice > 100;
+					return item.winPrice >= 100;
 
 				case "with-price-500":
-					return item.winPrice > 500;
+					return item.winPrice >= 500;
 
 				case "with-price-1000":
-					return item.winPrice > 1000;
+					return item.winPrice >= 1000;
 
 				case "with-price-10000":
-					return item.winPrice > 10000;
+					return item.winPrice >= 10000;
 
 				default:
 					return true;
@@ -63,21 +65,24 @@ export default function MyBetsPage() {
 		});
 	}
 
-	function getWaitingData(visibleWaiting: number): Pick<IState, "waitingItems" | "showMoreWaiting" | "countWaiting"> {
+	function getWaitingData(visibleWaiting: number): Pick<IState, "waitingItems" | "showMoreWaiting" | "countWaiting" | "allWaiting"> {
 		const items = bets.filter(betItem => betItem.state !== "completed");
+		const len = items.length;
 
 		return {
+			allWaiting: len,
 			waitingItems: items.slice(0, visibleWaiting),
-			showMoreWaiting: items.length > visibleWaiting,
-			countWaiting: Math.max(Math.min(items.length - visibleWaiting, MAX_ITEMS), 0),
+			showMoreWaiting: len > visibleWaiting,
+			countWaiting: Math.max(Math.min(len - visibleWaiting, MAX_ITEMS), 0),
 		};
 	}
 
-	function getFinishedData(filter: TFilter, visibleFinish: number): Pick<IState, "finishedItems" | "showMoreFinished" | "countFinished"> {
+	function getFinishedData(filter: TFilter, visibleFinish: number): Pick<IState, "finishedItems" | "showMoreFinished" | "countFinished" | "allFinished"> {
 		const items = bets.filter(betItem => betItem.state === "completed");
 		const finishedItems = filterItems(filter, items);
 
 		return {
+			allFinished: items.length,
 			finishedItems: finishedItems.slice(0, visibleFinish),
 			showMoreFinished: finishedItems.length > visibleFinish,
 			countFinished: Math.max(Math.min(finishedItems.length - visibleFinish, MAX_ITEMS), 0),
@@ -137,6 +142,10 @@ export default function MyBetsPage() {
 		});
 	}
 
+	function getTitle(msg: string, count: number) {
+		return `${msg}${count > 0 ? ` (${count})` : ""}`;
+	}
+
 	useEffect(() => {
 		setState(prev => {
 			const visibleWaiting = MAX_ITEMS;
@@ -159,14 +168,18 @@ export default function MyBetsPage() {
 			<h2 className="myBetsPage__title mainTitle">
 				Moje sázky
 			</h2>
-			<MySelector className="myBetsPage__filter" value={state.filter} values={FILTERS} format={(value, ind) => FILTERS_TITLES[ind]} onUpdate={(filter: TFilter) => setFilter(filter)} />
-			<h3 className="myBetsPage__title">Čekající ({state.waitingItems.length + state.countWaiting})</h3>
+			<MySelector className="myBetsPage__filter" value={state.filter} values={FILTERS} format={(value, ind) => FILTERS_TITLES[ind]} onChange={(filter: TFilter) => setFilter(filter)} />
+			<h3 className="myBetsPage__title">
+				{ getTitle("Čekající", state.allWaiting) }
+			</h3>
 			<div className="myBetsPage__items">
 				{ state.waitingItems.map(betItem => <BetItem data={betItem} key={betItem.id} onClick={() => openDetailBet(betItem)} />) }
 				{ state.showMoreWaiting && <MyButton text={`Načíst další ${state.countWaiting}`} onClick={clickShowMoreWaiting} /> }
 				{ state.waitingItems.length === 0 && <p style={{ marginTop: 0 }}>Prázdné</p>}
 			</div>
-			<h3 className="myBetsPage__title">Slosované ({state.finishedItems.length + state.countFinished})</h3>
+			<h3 className="myBetsPage__title">
+				{ getTitle("Slosované", state.allFinished) }
+			</h3>
 			<div className="myBetsPage__items">
 				{ state.finishedItems.map(betItem => <BetItem data={betItem} key={betItem.id} onClick={() => openDetailBet(betItem)} />) }
 				{ state.showMoreFinished && <MyButton text={`Načíst další ${state.countFinished}`} onClick={clickShowMoreFinished} /> }

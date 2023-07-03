@@ -1,15 +1,19 @@
 import { IBet, IBetInfo, ILotteryItem } from "~/interfaces";
-import { formatColumns, formatPrice, getRandomList, getSameNumbers } from "~/utils/utils";
+import { formatColumns, formatPrice, getRandomList, getSameNumbers, getRandomArbitrary } from "~/utils/utils";
 import { RYCHLA6 } from "~/games/rychla6/const";
 import { IRychla6Lottery } from "./interfaces";
 import { sazkaStore } from "~/stores/sazka";
 
 import Rychla6Img from "~/assets/sazka/rychla6.jpg";
 
+export function getRychla6Cover(): any {
+	return Rychla6Img;
+}
+
 export function getRychla6BetInfo(bet: IBet): Partial<IBetInfo> {
 	return {
 		gameTitle: "Rychlá 6",
-		imgSrc: Rychla6Img,
+		imgSrc: getRychla6Cover(),
 		title: formatColumns(1),
 		desc: bet.rychla6.drawCount === 1
 			? "1 slosování"
@@ -38,11 +42,28 @@ export function getRychla6Price(bet: number, drawCount: number) {
 
 export function getRychla6Numbers(): Array<Array<number>> {
 	let output = [];
+	const allNumbers = [];
 
 	for (let ind = 0, max = RYCHLA6.draws.length; ind < max; ind++) {
+		const drawNumbers = [];
+
+		/* eslint-disable-next-line */
+		while (true) {
+			if (drawNumbers.length === RYCHLA6.draws[ind]) {
+				break;
+			}
+
+			const newNumber = getRandomArbitrary(RYCHLA6.min, RYCHLA6.max) >>> 0;
+
+			if (!allNumbers.includes(newNumber)) {
+				allNumbers.push(newNumber);
+				drawNumbers.push(newNumber);
+			}
+		}
+
 		output = [
 			...output,
-			getRandomList(RYCHLA6.min, RYCHLA6.max, RYCHLA6.draws[ind], true),
+			drawNumbers,
 		];
 	}
 
@@ -69,6 +90,7 @@ export function getWinDataRychla6(rychla6: IBet["rychla6"], winNumbers: Array<Ar
 
 			winPrice = rychla6.bet * mul;
 			winIndex = ind + 1;
+			break;
 		}
 	}
 

@@ -1,15 +1,19 @@
 import { IBet, IBetInfo, ILotteryItem } from "~/interfaces";
-import { formatColumns, formatPrice, getRandomList, getSameNumbers } from "~/utils/utils";
+import { formatColumns, formatPrice, generateChance, getRandomList, getSameNumbers } from "~/utils/utils";
 import { sazkaStore } from "~/stores/sazka";
 import { SPORTKA } from "./const";
 import { ISportka, ISportkaColumn, ISportkaColumnPrice, ISportkaData, ISportkaGeneratedData } from "./interfaces";
 
 import SportkaImg from "~/assets/sazka/sportka.jpg";
 
+export function getSportkaCover(): any {
+	return SportkaImg;
+}
+
 export function getSportkaBetInfo(bet: IBet): Partial<IBetInfo> {
 	return {
 		gameTitle: "Sportka",
-		imgSrc: SportkaImg,
+		imgSrc: getSportkaCover(),
 		title: "Sportka",
 		desc: formatColumns(bet.sportka.columns.length),
 	};
@@ -20,7 +24,7 @@ export function generateSportkaColumn() {
 }
 
 export function generateSportkaChance() {
-	return getRandomList(SPORTKA.chanceMin, SPORTKA.chanceMax, SPORTKA.guessedNumbersChance);
+	return generateChance(SPORTKA.chanceMin, SPORTKA.chanceMax, SPORTKA.guessedNumbersChance);
 }
 
 export function generateSportkaGame(columnsLen: number, hasChance: boolean): ISportkaGeneratedData {
@@ -83,7 +87,7 @@ export function getSportkaData(): ISportkaData {
 	const drawAddOn1 = drawNumbers1.pop();
 	const drawNumbers2 = getRandomList(SPORTKA.min, SPORTKA.max, SPORTKA.drawNumbers + SPORTKA.addDrawNumber);
 	const drawAddOn2 = drawNumbers2.pop();
-	const chance = getRandomList(SPORTKA.chanceMin, SPORTKA.chanceMax, SPORTKA.drawNumbers);
+	const chance = generateSportkaChance();
 
 	return {
 		drawNumbers1,

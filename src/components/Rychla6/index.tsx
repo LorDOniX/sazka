@@ -35,6 +35,12 @@ const items: Array<IItem> = [{
 	bet: RYCHLA6.bets[0],
 	drawCount: 5,
 	price: RYCHLA6.bets[0] * 5,
+}, {
+	id: 2,
+	title: "Hrajte na max",
+	bet: RYCHLA6.bets[RYCHLA6.bets.length - 1],
+	drawCount: RYCHLA6.maxDrawCount,
+	price: RYCHLA6.bets[RYCHLA6.bets.length - 1] * RYCHLA6.maxDrawCount,
 }];
 
 export default function Rychla6({

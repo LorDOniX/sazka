@@ -1,3 +1,4 @@
+import { IStastnych10 } from "~/games/stastnych10/interfaces";
 import { IKorunkaNa3 } from "~/games/korunka-na3/interfaces";
 import { IKorunkaNa4 } from "~/games/korunka-na4/interfaces";
 import { IKorunkaNa5 } from "~/games/korunka-na5/interfaces";
@@ -11,7 +12,7 @@ export interface IBet {
 	state: "new" | "progress" | "completed";
 	date: string;
 	completeDate: string;
-	type: "rychle-kacky" | "sportka" | "rychla6" | "korunka-na-3" | "korunka-na-4" | "korunka-na-5";
+	type: "rychle-kacky" | "sportka" | "rychla6" | "korunka-na-3" | "korunka-na-4" | "korunka-na-5" | "stastnych10";
 	price: number;
 	winPrice: number;
 	rychleKacky?: null | IRychleKacky;
@@ -20,6 +21,7 @@ export interface IBet {
 	korunkaNa3?: null | IKorunkaNa3;
 	korunkaNa4?: null | IKorunkaNa4;
 	korunkaNa5?: null | IKorunkaNa5;
+	stastnych10?: null | IStastnych10;
 }
 
 export interface ITableItem {

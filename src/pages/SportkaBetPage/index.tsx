@@ -165,7 +165,7 @@ export default function SportkaBetPage() {
 			</div>
 			<div className="sportkaBetPage__columnsControls">
 				<MyButton text="Přidat sloupec" onClick={addColumn} disabled={state.columns.length === SPORTKA.maxColumns} />
-				<MyButton text="Smazat sloupec" onClick={removeColumn} />
+				<MyButton text="Smazat sloupec" onClick={removeColumn} disabled={state.columns.length <= 1} />
 				<MyButton text="Celý ticket" onClick={fillWholeTicket} />
 				<MyButton text="Oblíbená čísla" onClick={favouriteTicket} />
 			</div>
@@ -189,7 +189,6 @@ export default function SportkaBetPage() {
 				<h3>Slupec {state.selCol}</h3>
 				<NumberTable min={SPORTKA.min} max={SPORTKA.max} perLine={SPORTKA.perLine} selectCount={SPORTKA.guessedNumbers} selected={state.selNumbers}
 					onSelect={selNumbers => updateState({ selNumbers })} />
-				<div></div>
 				<div className="sportkaBetPage__columnContentControls">
 					<MyButton text="Náhodně" onClick={setRandomColumn} />
 					<MyButton text="Uložit" onClick={saveColumn} />

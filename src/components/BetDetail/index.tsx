@@ -1,10 +1,17 @@
 import ColumnInfo from "~/components/ColumnInfo";
 import { IBet } from "~/interfaces";
 import Modal from "~/components/Modal";
-import { formatDate, formatPrice } from "~/utils/utils";
+import { formatDate, formatPrice, getSameNumbers } from "~/utils/utils";
 import { getBetInfo, getLotteries } from "~/games/common";
 import MyButton from "~/my/MyButton";
 import { myUseState } from "~/hooks/myUseState";
+import { getRychleKackyCover } from "~/games/rychle-kacky";
+import { getSportkaCover } from "~/games/sportka";
+import { getRychla6Cover } from "~/games/rychla6";
+import { getKorunkaNa3Cover } from "~/games/korunka-na3";
+import { getKorunkaNa4Cover } from "~/games/korunka-na4";
+import { getKorunkaNa5Cover } from "~/games/korunka-na5";
+import { getStastnych10Cover } from "~/games/stastnych10";
 
 import "./style.less";
 
@@ -50,6 +57,9 @@ export default function BetDetail({
 				</div>
 				<div className="betDetailModal__lotteriesNumbers" data-type={data.type}>
 					{ data.type === "rychle-kacky" && <div className="betDetailModal__rychleKacky__lotteriesList">
+						<div className="betDetailModal__lottery_cover">
+							<img src={getRychleKackyCover()} alt="" />
+						</div>
 						{ data.rychleKacky.lotteries.map((lotteryItem, ind) => <div className="betDetailModal__rychleKacky__lotteriesListItem" key={ind}>
 							<div className="betDetailModal__rychleKacky__lotteriesListItemInner">
 								<h3 className="betDetailModal__rychleKacky__lotteriesListItemTitle">Slosování {ind + 1}</h3>
@@ -62,6 +72,9 @@ export default function BetDetail({
 						</div>) }
 					</div> }
 					{ data.type === "sportka" && data.state === "completed" && <div className="betDetailModal__sportka__lottery">
+						<div className="betDetailModal__lottery_cover">
+							<img src={getSportkaCover()} alt="" />
+						</div>
 						{ data.sportka.columns.map((column, columnInd) => <div key={column.index}>
 							<h3 className="betDetailModal__sportka__lotteryTitle margin-bottom">Sloupec {column.index}</h3>
 							<ColumnInfo className="betDetailModal__sportka__lotteryColumn" numbers={column.guessedNumbers} drawNumbers={data.sportka.lottery.drawNumbers1} drawAddOn={data.sportka.lottery.drawAddOn1} />
@@ -80,7 +93,31 @@ export default function BetDetail({
 						</div> }
 						{ !data.sportka.hasChance && <p>Bez šance</p> }
 					</div> }
+					{ data.type === "stastnych10" && data.state === "completed" && <div className="betDetailModal__stastnych10__lottery">
+						<div className="betDetailModal__lottery_cover">
+							<img src={getStastnych10Cover()} alt="" />
+						</div>
+						{ data.stastnych10.columns.map((column, columnInd) => <div key={column.index}>
+							<h3 className="betDetailModal__stastnych10__lotteryTitle margin-bottom">Sloupec {column.index}</h3>
+							<ColumnInfo className="betDetailModal__stastnych10__lotteryColumn" numbers={column.guessedNumbers} drawNumbers={data.stastnych10.lottery.drawNumbers} drawAddOn={data.stastnych10.lottery.kingNumber} />
+							<p>
+								Výhra ({getSameNumbers(column.guessedNumbers, data.stastnych10.lottery.drawNumbers)} / {column.guessedNumbers.length}): <strong>{ formatPrice(data.stastnych10.lottery.columnsPrices[columnInd].price)}</strong>
+							</p>
+							<div className="betDetailModal__separator"></div>
+						</div>) }
+						{ data.stastnych10.hasChance && <div className="betDetailModal__stastnych10__chance">
+							<h3 className="betDetailModal__stastnych10__lotteryTitle">Šance</h3>
+							<ColumnInfo numbers={data.stastnych10.guessedChance} drawNumbers={data.stastnych10.lottery.chance} type="chance" />
+							<p>
+								Výhra: <strong>{ formatPrice(data.stastnych10.lottery.chancePrice)}</strong>
+							</p>
+						</div> }
+						{ !data.stastnych10.hasChance && <p>Bez šance</p> }
+					</div> }
 					{ data.type === "rychla6" && <div className="betDetailModal__rychla6__lottery">
+						<div className="betDetailModal__lottery_cover">
+							<img src={getRychla6Cover()} alt="" />
+						</div>
 						{ data.rychla6.lotteries.map((lottery, ind) => <div key={ind}>
 							<h3 className="betDetailModal__rychla6__lotteryTitle margin-bottom">Slosování {ind + 1}</h3>
 							<ColumnInfo className="betDetailModal__rychla6__lotteryColumn" numbers={data.rychla6.guessedNumbers} drawNumbers={lottery.winNumbers} />
@@ -92,6 +129,9 @@ export default function BetDetail({
 						</div>) }
 					</div> }
 					{ data.type === "korunka-na-3" && <div className="betDetailModal__korunkaNa3__lottery">
+						<div className="betDetailModal__lottery_cover">
+							<img src={getKorunkaNa3Cover()} alt="" />
+						</div>
 						{ data.korunkaNa3.lotteries.map((lottery, ind) => <div key={ind}>
 							<h3 className="betDetailModal__korunkaNa3__lotteryTitle margin-bottom">Slosování {ind + 1}</h3>
 							<ColumnInfo className="betDetailModal__korunkaNa3__lotteryColumn" numbers={data.korunkaNa3.guessedNumbers} drawNumbers={lottery.winNumbers} />
@@ -102,6 +142,9 @@ export default function BetDetail({
 						</div>) }
 					</div> }
 					{ data.type === "korunka-na-4" && <div className="betDetailModal__korunkaNa3__lottery">
+						<div className="betDetailModal__lottery_cover">
+							<img src={getKorunkaNa4Cover()} alt="" />
+						</div>
 						{ data.korunkaNa4.lotteries.map((lottery, ind) => <div key={ind}>
 							<h3 className="betDetailModal__korunkaNa3__lotteryTitle margin-bottom">Slosování {ind + 1}</h3>
 							<ColumnInfo className="betDetailModal__korunkaNa3__lotteryColumn" numbers={data.korunkaNa4.guessedNumbers} drawNumbers={lottery.winNumbers} />
@@ -112,6 +155,9 @@ export default function BetDetail({
 						</div>) }
 					</div> }
 					{ data.type === "korunka-na-5" && <div className="betDetailModal__korunkaNa3__lottery">
+						<div className="betDetailModal__lottery_cover">
+							<img src={getKorunkaNa5Cover()} alt="" />
+						</div>
 						{ data.korunkaNa5.lotteries.map((lottery, ind) => <div key={ind}>
 							<h3 className="betDetailModal__korunkaNa3__lotteryTitle margin-bottom">Slosování {ind + 1}</h3>
 							<ColumnInfo className="betDetailModal__korunkaNa3__lotteryColumn" numbers={data.korunkaNa5.guessedNumbers} drawNumbers={lottery.winNumbers} />

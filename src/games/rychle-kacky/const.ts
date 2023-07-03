@@ -16,7 +16,9 @@ export const RYCHLE_KACKY = {
 		6: 5000,
 	},
 	minDrawCount: 1,
+	maxDrawCount: 10,
 	drawCountUpdatedValue: 1,
+	bets: [5, 10, 20, 30, 40, 50, 100, 200],
 	betUpdatedValue: 10,
 	defaultBet: 10,
 };
