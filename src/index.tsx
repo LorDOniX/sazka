@@ -33,7 +33,6 @@ root.render(
 		<Router>
 			<Routes>
 				<Route element={<PageLayout />}>
-					<Route path={ROUTES.ROOT} element={<MainPage />} />
 					<Route path={ROUTES.QUICK} element={<QuickLotteriesPage />} />
 					<Route path={ROUTES.TICKETS} element={<TicketsPage />} />
 					<Route path={ROUTES.MY_BETS} element={<MyBetsPage />} />
@@ -48,6 +47,7 @@ root.render(
 					<Route path={ROUTES.STISTKO10} element={<StistkoBetPage variant="stistko10" />} />
 					<Route path={ROUTES.STISTKO20} element={<StistkoBetPage variant="stistko20" />} />
 					<Route path={ROUTES.STASTNYCH10} element={<Stastnych10BetPage />} />
+					<Route path="*" element={<MainPage />} />
 				</Route>
 			</Routes>
 		</Router>

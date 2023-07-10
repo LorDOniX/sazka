@@ -44,3 +44,24 @@
 	font-weight: bold;
 	margin-top: 5px;
 }
+
+
+@media only screen and (max-width: 640px) {
+	.sazkaPage__menu {
+		flex-direction: column;
+	}
+
+	.sazkaPage__separator {
+		display: none;
+	}
+
+	.sazkaPage__leftPart,
+	.sazkaPage__rightPart {
+		flex-direction: column;
+	}
+
+	.sazkaPage__menuAmount {
+		display: inline-block;
+		margin-left: 5px;
+	}
+}
