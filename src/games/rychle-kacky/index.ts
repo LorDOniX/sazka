@@ -26,7 +26,7 @@ export function generateRychleKacky(guessedNumbers: number) {
 	return getRandomList(RYCHLE_KACKY.min, RYCHLE_KACKY.max, guessedNumbers, true);
 }
 
-export function getRychla6Lotteries(bet: IBet): Array<ILotteryItem> {
+export function getRychleKackyLotteries(bet: IBet): Array<ILotteryItem> {
 	return bet.rychleKacky.lotteries.map((lottery, ind) => ({
 		ind,
 		title: `Slosování ${ind + 1}`,

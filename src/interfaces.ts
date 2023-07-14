@@ -5,6 +5,7 @@ import { IKorunkaNa5 } from "~/games/korunka-na5/interfaces";
 import { IRychla6 } from "~/games/rychla6/interfaces";
 import { IRychleKacky } from "~/games/rychle-kacky/interfaces";
 import { ISportka } from "~/games/sportka/interfaces";
+import { IEurojackpot } from "~/games/eurojackpot/interfaces";
 import { TStistkoVariant } from "~/games/stistko/interfaces";
 
 export interface IBet {
@@ -12,7 +13,7 @@ export interface IBet {
 	state: "new" | "progress" | "completed";
 	date: string;
 	completeDate: string;
-	type: "rychle-kacky" | "sportka" | "rychla6" | "korunka-na-3" | "korunka-na-4" | "korunka-na-5" | "stastnych10";
+	type: "rychle-kacky" | "sportka" | "rychla6" | "korunka-na-3" | "korunka-na-4" | "korunka-na-5" | "stastnych10" | "eurojackpot";
 	price: number;
 	winPrice: number;
 	rychleKacky?: null | IRychleKacky;
@@ -22,6 +23,7 @@ export interface IBet {
 	korunkaNa4?: null | IKorunkaNa4;
 	korunkaNa5?: null | IKorunkaNa5;
 	stastnych10?: null | IStastnych10;
+	eurojackpot?: null | IEurojackpot;
 }
 
 export interface ITableItem {

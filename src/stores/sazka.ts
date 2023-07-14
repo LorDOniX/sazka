@@ -9,6 +9,8 @@ import { IKorunkaNa5, IKorunkaNa5Lottery } from "~/games/korunka-na5/interfaces"
 import { IRychleKacky, IRychleKackyLottery } from "~/games/rychle-kacky/interfaces";
 import { ISportka, ISportkaLottery } from "~/games/sportka/interfaces";
 import { IStastnych10, IStastnych10Lottery } from "~/games/stastnych10/interfaces";
+import { IEurojackpot, IEurojackpotLottery } from "~/games/eurojackpot/interfaces";
+import { LS_SETTINGS } from "~/const";
 
 interface ISazkaStoreData {
 	// soucasny vklad
@@ -20,6 +22,33 @@ interface ISazkaStoreData {
 	// vsechny sazky
 	allBets: number;
 	bets: Array<IBet>;
+	// manualni slosovani
+	manualDraw: boolean;
+}
+
+interface ISettings extends Pick<ISazkaStoreData, "manualDraw"> {}
+
+function getSettings(): ISettings {
+	const data = localStorage.getItem(LS_SETTINGS);
+	const output: ISettings = {
+		manualDraw: false,
+	};
+
+	try {
+		if (data) {
+			const obj: Partial<ISazkaStoreData> = JSON.parse(data);
+
+			output.manualDraw = obj.manualDraw;
+		}
+	} catch (exc) {
+		//
+	}
+
+	return output;
+}
+
+function saveSettings(settings: ISettings) {
+	localStorage.setItem(LS_SETTINGS, JSON.stringify(settings));
 }
 
 function getInitState(): ISazkaStoreData {
@@ -31,6 +60,7 @@ function getInitState(): ISazkaStoreData {
 		allPrices: 0,
 		allBets: 0,
 		bets: [],
+		...getSettings(),
 	};
 }
 
@@ -56,6 +86,7 @@ interface ISazkaStore {
 	addKorunkaNa4: (korunkaNa4: IKorunkaNa4) => void;
 	addKorunkaNa5: (korunkaNa5: IKorunkaNa5) => void;
 	addSportka: (sportka: ISportka) => void;
+	addEurojackpot: (eurojackpot: IEurojackpot) => void;
 	addStastnych10: (stastnych10: IStastnych10) => void;
 	completeRychleKacky: (betId: number, lottery: IRychleKackyLottery) => void;
 	completeRychla6: (betId: number, lottery: IRychla6Lottery) => void;
@@ -63,10 +94,12 @@ interface ISazkaStore {
 	completeKorunkaNa4: (betId: number, lottery: IKorunkaNa4Lottery) => void;
 	completeKorunkaNa5: (betId: number, lottery: IKorunkaNa5Lottery) => void;
 	completeSportka: (betId: number, lottery: ISportkaLottery) => void;
+	completeEurojackpot: (betId: number, lottery: IEurojackpotLottery) => void;
 	completeStastnych10: (betId: number, lottery: IStastnych10Lottery) => void;
 	addWinPrice: (winPrice: number) => void;
 	clear: () => void;
 	clearBets: () => void;
+	setManualDraw: (manualDraw: boolean) => void;
 }
 
 export const sazkaStore = create<ISazkaStore>(set => ({
@@ -152,6 +185,18 @@ export const sazkaStore = create<ISazkaStore>(set => ({
 				{
 					...getInitBet("sportka", sportka.price),
 					sportka,
+				},
+				...state.sazka.bets,
+			],
+		},
+	})),
+	addEurojackpot: eurojackpot => set(state => ({
+		sazka: {
+			...state.sazka,
+			bets: [
+				{
+					...getInitBet("eurojackpot", eurojackpot.price),
+					eurojackpot,
 				},
 				...state.sazka.bets,
 			],
@@ -346,6 +391,28 @@ export const sazkaStore = create<ISazkaStore>(set => ({
 			},
 		};
 	}),
+	completeEurojackpot: (hash, lottery) => set(state => {
+		const bets = state.sazka.bets.slice();
+		const bet = bets.filter(item => item.id === hash)[0];
+		let winPrice = 0;
+
+		if (bet) {
+			bet.state = "completed";
+			bet.completeDate = new Date().toISOString();
+			bet.eurojackpot.lottery = lottery;
+			winPrice = lottery.columnsPrice + lottery.chancePrice;
+			bet.winPrice = winPrice;
+		}
+
+		return {
+			sazka: {
+				...state.sazka,
+				bets,
+				amount: state.sazka.amount + winPrice,
+				allPrices: state.sazka.allPrices + winPrice,
+			},
+		};
+	}),
 	completeStastnych10: (hash, lottery) => set(state => {
 		const bets = state.sazka.bets.slice();
 		const bet = bets.filter(item => item.id === hash)[0];
@@ -384,4 +451,16 @@ export const sazkaStore = create<ISazkaStore>(set => ({
 			bets: [],
 		},
 	})),
+	setManualDraw: manualDraw => set(state => {
+		saveSettings({
+			manualDraw,
+		});
+
+		return {
+			sazka: {
+				...state.sazka,
+				manualDraw,
+			},
+		};
+	}),
 }));

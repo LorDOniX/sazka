@@ -14,6 +14,7 @@ import { getKorunkaNa5Cover } from "~/games/korunka-na5";
 import { getStastnych10Cover } from "~/games/stastnych10";
 
 import "./style.less";
+import { getEurojackpotCover } from "~/games/eurojackpot";
 
 interface IState {
 	showLotteries: boolean;
@@ -92,6 +93,28 @@ export default function BetDetail({
 							</p>
 						</div> }
 						{ !data.sportka.hasChance && <p>Bez šance</p> }
+					</div> }
+					{ data.type === "eurojackpot" && data.state === "completed" && <div className="betDetailModal__sportka__lottery">
+						<div className="betDetailModal__lottery_cover">
+							<img src={getEurojackpotCover()} alt="" />
+						</div>
+						{ data.eurojackpot.columns.map((column, columnInd) => <div key={column.index}>
+							<h3 className="betDetailModal__sportka__lotteryTitle margin-bottom">Sloupec {column.index}</h3>
+							<ColumnInfo className="betDetailModal__sportka__lotteryColumn" numbers={column.guessedNumbers} drawNumbers={data.eurojackpot.lottery.drawNumbers} />
+							<ColumnInfo numbers={column.guessedSecondNumbers} drawNumbers={data.eurojackpot.lottery.drawSecondNumbers} />
+							<p>
+								Výhra: <strong>{ formatPrice(data.eurojackpot.lottery.columnsPrices[columnInd].price)}</strong>
+							</p>
+							<div className="betDetailModal__separator"></div>
+						</div>) }
+						{ data.eurojackpot.hasChance && <div className="betDetailModal__sportka__chance">
+							<h3 className="betDetailModal__sportka__lotteryTitle">Šance</h3>
+							<ColumnInfo numbers={data.eurojackpot.guessedChance} drawNumbers={data.eurojackpot.lottery.chance} type="chance" />
+							<p>
+								Výhra: <strong>{ formatPrice(data.eurojackpot.lottery.chancePrice)}</strong>
+							</p>
+						</div> }
+						{ !data.eurojackpot.hasChance && <p>Bez šance</p> }
 					</div> }
 					{ data.type === "stastnych10" && data.state === "completed" && <div className="betDetailModal__stastnych10__lottery">
 						<div className="betDetailModal__lottery_cover">

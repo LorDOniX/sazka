@@ -7,7 +7,7 @@ export const RYCHLE_KACKY = {
 	guessedNumbersMax: 6,
 	// pro 6 cisel
 	priceTable: {
-		0: 0,
+		0: 1,
 		1: 0,
 		2: 1,
 		3: 2,

@@ -1,5 +1,4 @@
 /* eslint-disable no-magic-numbers */
-
 // losuje se 2x (6 čísel + 1 dodatkové); šance se losuje 6 čísel
 export const SPORTKA = {
 	min: 1,
@@ -36,11 +35,11 @@ export const SPORTKA = {
 		0: 0,
 		1: 50,
 		2: 100,
-		3: 1000,
-		4: 10000,
-		5: 100000,
+		3: 10e2,
+		4: 10e3,
+		5: 10e4,
 		// random
-		6: 1500000,
+		6: 1.5 * 10e5,
 	},
 	favouriteNumbers: {
 		columns: [

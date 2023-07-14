@@ -13,7 +13,7 @@ export default function PageLayout() {
 	}));
 
 	return <div className="sazkaPage">
-		<Menu showCompleteGames={false} />
+		<Menu />
 		{ notification.visible && <Notification msg={notification.msg} color={notification.color} onHide={() => clearNotification()} /> }
 		<Outlet />
 	</div>;

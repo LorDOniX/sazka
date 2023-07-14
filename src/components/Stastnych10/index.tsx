@@ -27,6 +27,22 @@ interface IItem {
 }
 
 const items: Array<IItem> = [{
+	id: 4,
+	columns: STASTNYCH10.maxColumns,
+	count: 10,
+	kingGame: true,
+	bet: STASTNYCH10.pricesPerColumn[0],
+	chance: true,
+	title: "Šance na miliony",
+	line1: "4 x 10 čísel",
+	line2: "Včetně Šance milion a Královské hry",
+	price: getStastnych10PriceData([
+		{ bet: STASTNYCH10.pricesPerColumn[0], index: 0, guessedNumbers: [], kingGame: true, price: 0 },
+		{ bet: STASTNYCH10.pricesPerColumn[0], index: 0, guessedNumbers: [], kingGame: true, price: 0 },
+		{ bet: STASTNYCH10.pricesPerColumn[0], index: 0, guessedNumbers: [], kingGame: true, price: 0 },
+		{ bet: STASTNYCH10.pricesPerColumn[0], index: 0, guessedNumbers: [], kingGame: true, price: 0 },
+	], true).price,
+}, {
 	id: 0,
 	columns: 2,
 	count: 10,
@@ -103,19 +119,25 @@ export default function Stastnych10({
 
 	function createItem(item: IItem, addGameCb: () => void, allInCb?: () => void) {
 		return <div key={item.id} className="stastnych10Container__quickItem">
-			<h3 className="stastnych10Container__quickItemTitle">
-				{ item.title }
-			</h3>
-			<span className="stastnych10Container__quickItemSeparator" />
-			<p className="stastnych10Container__quickItemParagraph">
-				{ item.line1 }
-			</p>
-			<p className="stastnych10Container__quickItemParagraph">
-				{ item.line2 }
-			</p>
-			<MyButton className="stastnych10Container__quickItemBetBtn" text={`Vsadit za ${formatPrice(item.price)}`} onClick={addGameCb}
-				disabled={item.price > amount} />
-			<MyButton className="stastnych10Container__quickItemBetBtn second" text="Vsadit vše" onClick={allInCb} disabled={item.price > amount || !allInCb} />
+			<div className="stastnych10Container__quickItemTopPart">
+				<h3 className="stastnych10Container__quickItemTitle">
+					{ item.title }
+				</h3>
+				<span className="stastnych10Container__quickItemSeparator" />
+			</div>
+			<div className="stastnych10Container__quickItemMiddlePart">
+				<p className="stastnych10Container__quickItemParagraph">
+					{ item.line1 }
+				</p>
+				<p className="stastnych10Container__quickItemParagraph">
+					{ item.line2 }
+				</p>
+			</div>
+			<div className="stastnych10Container__quickItemBottomPart">
+				<MyButton className="stastnych10Container__quickItemBetBtn" text={`Vsadit za ${formatPrice(item.price)}`} onClick={addGameCb}
+					disabled={item.price > amount} />
+				<MyButton className="stastnych10Container__quickItemBetBtn second" text="Vsadit vše" onClick={allInCb} disabled={item.price > amount || !allInCb} />
+			</div>
 		</div>;
 	}
 

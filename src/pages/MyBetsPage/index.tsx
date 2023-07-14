@@ -11,7 +11,7 @@ import MySelector from "~/my/MySelector";
 
 import "./style.less";
 
-type TFilter = "all" | "with-price" | "with-price-100" | "with-price-500" | "with-price-1000" | "with-price-10000";
+type TFilter = "all" | "with-price" | "with-price-100" | "with-price-500" | "with-price-10e2" | "with-price-10e3" | "with-price-10e4" | "with-price-10e5";
 
 interface IState {
 	filter: TFilter;
@@ -28,8 +28,8 @@ interface IState {
 	showMoreFinished: boolean;
 }
 
-const FILTERS: Array<TFilter> = ["all", "with-price", "with-price-100", "with-price-500", "with-price-1000", "with-price-10000"];
-const FILTERS_TITLES: Array<string> = ["Vše", "Výhry", "100+ Kč", "500+ Kč", "1000+ Kč", "10000+ Kč"];
+const FILTERS: Array<TFilter> = ["all", "with-price", "with-price-100", "with-price-500", "with-price-10e2", "with-price-10e3", "with-price-10e4", "with-price-10e5"];
+const FILTERS_TITLES: Array<string> = ["Vše", "Výhry", "0.1k", "0.5k", "1k", "10k", "100k", "1m"];
 const MAX_ITEMS = 15;
 
 export default function MyBetsPage() {
@@ -53,11 +53,17 @@ export default function MyBetsPage() {
 				case "with-price-500":
 					return item.winPrice >= 500;
 
-				case "with-price-1000":
-					return item.winPrice >= 1000;
+				case "with-price-10e2":
+					return item.winPrice >= 10e2;
 
-				case "with-price-10000":
-					return item.winPrice >= 10000;
+				case "with-price-10e3":
+					return item.winPrice >= 10e3;
+
+				case "with-price-10e4":
+					return item.winPrice >= 10e4;
+
+				case "with-price-10e5":
+					return item.winPrice >= 10e5;
 
 				default:
 					return true;

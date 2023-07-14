@@ -31,7 +31,7 @@ export function timeToSeconds(value: string): number {
 }
 
 export function getRandomTicketId() {
-	return Math.random() * 10e9 >>> 0;
+	return Math.random() * 10e8 >>> 0;
 }
 
 export function getRandomHexHash(): string {
