@@ -12,9 +12,10 @@ import { getKorunkaNa3Cover } from "~/games/korunka-na3";
 import { getKorunkaNa4Cover } from "~/games/korunka-na4";
 import { getKorunkaNa5Cover } from "~/games/korunka-na5";
 import { getStastnych10Cover } from "~/games/stastnych10";
+import { getEurojackpotCover } from "~/games/eurojackpot";
+import { getKasickaCover } from "~/games/kasicka";
 
 import "./style.less";
-import { getEurojackpotCover } from "~/games/eurojackpot";
 
 interface IState {
 	showLotteries: boolean;
@@ -189,6 +190,19 @@ export default function BetDetail({
 							</p>
 							<div className="betDetailModal__separator"></div>
 						</div>) }
+					</div> }
+					{ data.type === "kasicka" && <div className="betDetailModal__korunkaNa3__lottery">
+						<div className="betDetailModal__lottery_cover">
+							<img src={getKasickaCover()} alt="" />
+						</div>
+						{ data.kasicka.lottery && <div>
+							<h3 className="betDetailModal__korunkaNa3__lotteryTitle margin-bottom">Slosování 1</h3>
+							<ColumnInfo className="betDetailModal__korunkaNa3__lotteryColumn" numbers={data.kasicka.guessedNumbers} drawNumbers={data.kasicka.lottery.winNumbers} />
+							<p>
+								Výhra: <strong>{ formatPrice(data.kasicka.lottery.winPrice)}</strong> ({data.kasicka.betRatio}x)
+							</p>
+							<div className="betDetailModal__separator"></div>
+						</div> }
 					</div> }
 				</div>
 			</div>

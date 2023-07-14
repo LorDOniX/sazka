@@ -16,6 +16,7 @@ export const ROUTES = {
 	MY_PROFILE: "/muj-profil",
 	SPORTKA: "/sportka",
 	EUROJACKPOT: "/eurojackpot",
+	KASICKA: "/kasicka",
 	STASTNYCH10: "/stastnych10",
 	KORUNKA_NA3: "/korunka-na-3",
 	KORUNKA_NA4: "/korunka-na-4",

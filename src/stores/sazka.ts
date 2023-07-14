@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 
 import { IBet } from "~/interfaces";
+import { LS_SETTINGS } from "~/const";
 import { getRandomTicketId, getDefaultAmount } from "~/utils/utils";
 import { IKorunkaNa3, IKorunkaNa3Lottery } from "~/games/korunka-na3/interfaces";
 import { IRychla6, IRychla6Lottery } from "~/games/rychla6/interfaces";
@@ -10,7 +11,7 @@ import { IRychleKacky, IRychleKackyLottery } from "~/games/rychle-kacky/interfac
 import { ISportka, ISportkaLottery } from "~/games/sportka/interfaces";
 import { IStastnych10, IStastnych10Lottery } from "~/games/stastnych10/interfaces";
 import { IEurojackpot, IEurojackpotLottery } from "~/games/eurojackpot/interfaces";
-import { LS_SETTINGS } from "~/const";
+import { IKasicka, IKasickaLottery } from "~/games/kasicka/interfaces";
 
 interface ISazkaStoreData {
 	// soucasny vklad
@@ -86,6 +87,7 @@ interface ISazkaStore {
 	addKorunkaNa4: (korunkaNa4: IKorunkaNa4) => void;
 	addKorunkaNa5: (korunkaNa5: IKorunkaNa5) => void;
 	addSportka: (sportka: ISportka) => void;
+	addKasicka: (kasicka: IKasicka) => void;
 	addEurojackpot: (eurojackpot: IEurojackpot) => void;
 	addStastnych10: (stastnych10: IStastnych10) => void;
 	completeRychleKacky: (betId: number, lottery: IRychleKackyLottery) => void;
@@ -96,6 +98,7 @@ interface ISazkaStore {
 	completeSportka: (betId: number, lottery: ISportkaLottery) => void;
 	completeEurojackpot: (betId: number, lottery: IEurojackpotLottery) => void;
 	completeStastnych10: (betId: number, lottery: IStastnych10Lottery) => void;
+	completeKasicka: (betId: number, lottery: IKasickaLottery) => void;
 	addWinPrice: (winPrice: number) => void;
 	clear: () => void;
 	clearBets: () => void;
@@ -197,6 +200,18 @@ export const sazkaStore = create<ISazkaStore>(set => ({
 				{
 					...getInitBet("eurojackpot", eurojackpot.price),
 					eurojackpot,
+				},
+				...state.sazka.bets,
+			],
+		},
+	})),
+	addKasicka: kasicka => set(state => ({
+		sazka: {
+			...state.sazka,
+			bets: [
+				{
+					...getInitBet("kasicka", kasicka.price),
+					kasicka,
 				},
 				...state.sazka.bets,
 			],
@@ -424,6 +439,28 @@ export const sazkaStore = create<ISazkaStore>(set => ({
 			bet.stastnych10.lottery = lottery;
 			winPrice = lottery.columnsPrice + lottery.chancePrice;
 			bet.winPrice = winPrice;
+		}
+
+		return {
+			sazka: {
+				...state.sazka,
+				bets,
+				amount: state.sazka.amount + winPrice,
+				allPrices: state.sazka.allPrices + winPrice,
+			},
+		};
+	}),
+	completeKasicka: (hash, lottery) => set(state => {
+		const bets = state.sazka.bets.slice();
+		const bet = bets.filter(item => item.id === hash)[0];
+		let winPrice = 0;
+
+		if (bet) {
+			bet.kasicka.lottery = lottery;
+			bet.state = "completed";
+			winPrice = lottery.winPrice;
+			bet.winPrice += winPrice;
+			bet.completeDate = new Date().toISOString();
 		}
 
 		return {

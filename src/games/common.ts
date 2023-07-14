@@ -10,6 +10,7 @@ import { completeKorunkaNa5, getKorunkaNa5BetInfo, getKorunkaNa5Lotteries, getKo
 import { completeSportka, getSportkaBetInfo, getSportkaData, getSportkaLotteries } from "~/games/sportka";
 import { completeStastnych10, getStastnych10BetInfo, getStastnych10Data, getStastnych10Lotteries } from "./stastnych10";
 import { completeEurojackpot, getEurojackpotBetInfo, getEurojackpotData, getEurojackpotLotteries } from "./eurojackpot";
+import { completeKasicka, getKasickaBetInfo, getKasickaLotteries, getKasickaNumbers } from "./kasicka";
 
 export function getBetInfo(bet: IBet) {
 	let output: IBetInfo = {
@@ -80,6 +81,14 @@ export function getBetInfo(bet: IBet) {
 				...getEurojackpotBetInfo(bet),
 			};
 			break;
+
+		case "kasicka":
+			output = {
+				...output,
+				...getKasickaBetInfo(bet),
+			};
+			break;
+
 		default:
 	}
 
@@ -112,6 +121,9 @@ export function getLotteries(bet: IBet): Array<ILotteryItem> {
 		case "eurojackpot":
 			return getEurojackpotLotteries(bet);
 
+		case "kasicka":
+			return getKasickaLotteries(bet);
+
 		default:
 	}
 
@@ -134,6 +146,8 @@ export function completeGames(noNotification?: boolean): {
 	const korunkaNa5Numbers = getKorunkaNa5Numbers();
 	const stastnych10Data = getStastnych10Data();
 	const eurojackpotData = getEurojackpotData();
+	const kasickaNumbers = getKasickaNumbers();
+	//
 	const toBeDone = store.sazka.bets.filter(item => item.state !== "completed");
 
 	if (toBeDone.length > 0) {
@@ -177,6 +191,10 @@ export function completeGames(noNotification?: boolean): {
 
 					case "eurojackpot":
 						curPrice = completeEurojackpot(bet.id, bet.eurojackpot, eurojackpotData);
+						break;
+
+					case "kasicka":
+						curPrice = completeKasicka(bet.id, bet.kasicka, kasickaNumbers);
 						break;
 
 					default:
