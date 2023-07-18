@@ -1,13 +1,12 @@
-/* eslint-disable no-magic-numbers */
 import MyButton from "~/my/MyButton";
-import { formatPrice, formatColumns } from "~/utils/utils";
-import { generateSportkaGame, gameSportka, allInSportka, generateFavouriteTicket } from "~/games/sportka";
-import { SPORTKA } from "~/games/sportka/const";
+import { formatPrice } from "~/utils/utils";
+import { generateSportkaGame, gameSportka, allInSportka, generateFavouriteTicket, getSportkaCover, getSportkaQuickItems } from "~/games/sportka";
 import { notificationStore } from "~/stores/notification";
 import { ROUTES } from "~/const";
 import GameTitle from "~/components/GameTitle";
-
-import SportkaImg from "~/assets/sazka/sportka.jpg";
+import AllInModal from "~/components/AllInModal";
+import { myUseState } from "~/hooks/myUseState";
+import { ISportQuickItem } from "~/games/sportka/interfaces";
 
 import "./style.less";
 
@@ -15,81 +14,41 @@ interface ISportka {
 	amount: number;
 }
 
-interface IItem {
-	id: number;
-	columns: number;
-	hasSuperJackpot: boolean;
-	chance: boolean;
-	title: string;
-	line1: string;
-	line2: string;
-	line3: string;
-	price: number;
+interface IState {
+	item: ISportQuickItem;
 }
-
-const MIDDLE_COLUMNS = 5;
-const RIGHT_COLUMNS = 1;
-
-const items: Array<IItem> = [{
-	id: 0,
-	columns: SPORTKA.maxColumns,
-	hasSuperJackpot: true,
-	chance: true,
-	title: "Plný ticket",
-	line1: "Hra o superjackpot",
-	line2: formatColumns(SPORTKA.maxColumns),
-	line3: "Včetně šance",
-	price: (SPORTKA.maxColumns * SPORTKA.pricePerColumn) + SPORTKA.chancePrice,
-}, {
-	id: 1,
-	columns: MIDDLE_COLUMNS,
-	hasSuperJackpot: false,
-	chance: true,
-	title: `${formatColumns(MIDDLE_COLUMNS)} a Šance`,
-	line1: formatColumns(MIDDLE_COLUMNS),
-	line2: "Včetně Šance",
-	line3: "Na 1 slosování",
-	price: (MIDDLE_COLUMNS * SPORTKA.pricePerColumn) + SPORTKA.chancePrice,
-}, {
-	id: 2,
-	columns: RIGHT_COLUMNS,
-	hasSuperJackpot: false,
-	chance: true,
-	title: "Na zkoušku",
-	line1: formatColumns(RIGHT_COLUMNS),
-	line2: "Včetně Šance",
-	line3: "Na 1 slosování",
-	price: (RIGHT_COLUMNS * SPORTKA.pricePerColumn) + SPORTKA.chancePrice,
-}];
-const myNumbers: IItem = {
-	id: 3,
-	columns: SPORTKA.maxColumns,
-	hasSuperJackpot: true,
-	chance: true,
-	title: "Oblíbená čísla",
-	line1: "Hra o superjackpot",
-	line2: formatColumns(SPORTKA.maxColumns),
-	line3: "Včetně šance",
-	price: (SPORTKA.maxColumns * SPORTKA.pricePerColumn) + SPORTKA.chancePrice,
-};
 
 export default function Sportka({
 	amount,
 }: ISportka) {
-	function addGame(item: IItem, generatedData?: ReturnType<typeof generateSportkaGame>) {
+	const { state, updateState } = myUseState<IState>({
+		item: null,
+	});
+	const quickItemsData = getSportkaQuickItems();
+
+	function addGame(item: ISportQuickItem, generatedData?: ReturnType<typeof generateSportkaGame>) {
 		const gameData = generatedData || generateSportkaGame(item.columns, item.chance);
 		const msg = gameSportka(gameData.columns, gameData.chance);
 
 		notificationStore.getState().setNotification(msg);
 	}
 
-	function allIn(item: IItem) {
-		const msg = allInSportka(item.columns, item.chance);
-
-		notificationStore.getState().setNotification(msg);
+	function allIn(item: ISportQuickItem) {
+		updateState({
+			item,
+		});
 	}
 
-	function createItem(item: IItem, addGameCb: () => void, allInCb?: () => void) {
+	function onSave(count: number) {
+		const msg = allInSportka(count, state.item.columns, state.item.chance);
+
+		notificationStore.getState().setNotification(msg);
+		updateState({
+			item: null,
+		});
+	}
+
+	function createItem(item: ISportQuickItem, addGameCb: () => void, allInCb?: () => void, disable?: boolean) {
 		return <div key={item.id} className="sportkaContainer__quickItem">
 			<h3 className="sportkaContainer__quickItemTitle">
 				{ item.title }
@@ -107,15 +66,16 @@ export default function Sportka({
 			</p>
 			<MyButton className="sportkaContainer__quickItemBetBtn" text={`Vsadit za ${formatPrice(item.price)}`} onClick={addGameCb}
 				disabled={item.price > amount} />
-			<MyButton className="sportkaContainer__quickItemBetBtn second" text="Vsadit vše" onClick={allInCb} disabled={item.price > amount || !allInCb} />
+			<MyButton className="sportkaContainer__quickItemBetBtn second" text="Vsadit vše" onClick={allInCb} disabled={disable} />
 		</div>;
 	}
 
 	return <div className="sportkaContainer">
-		<GameTitle title="Sportka" img={SportkaImg} link={ROUTES.SPORTKA} />
+		<GameTitle title="Sportka" img={getSportkaCover()} link={ROUTES.SPORTKA} />
 		<div className="sportkaContainer__quickItems">
-			{ items.map(item => createItem(item, () => addGame(item), () => allIn(item))) }
-			{ createItem(myNumbers, () => addGame(myNumbers, generateFavouriteTicket())) }
+			{ quickItemsData.items.map(item => createItem(item, () => addGame(item), () => allIn(item))) }
+			{ createItem(quickItemsData.myNumbers, () => addGame(quickItemsData.myNumbers, generateFavouriteTicket()), undefined, true) }
 		</div>
+		{ state.item && <AllInModal amount={amount} price={state.item.price} onSave={onSave} onClose={() => updateState({ item: null })} /> }
 	</div>;
 }

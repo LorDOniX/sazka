@@ -1,7 +1,8 @@
+/* eslint-disable no-magic-numbers */
 import { IBet, IBetInfo, ILotteryItem } from "~/interfaces";
 import { formatColumns, formatPrice, getRandomList, getSameNumbers, getRandomArbitrary } from "~/utils/utils";
 import { RYCHLA6 } from "~/games/rychla6/const";
-import { IRychla6Lottery } from "./interfaces";
+import { IRychla6Lottery, IRychla6QuickItem } from "./interfaces";
 import { sazkaStore } from "~/stores/sazka";
 
 import Rychla6Img from "~/assets/sazka/rychla6.jpg";
@@ -117,10 +118,8 @@ export function gameRychla6(guessedNumbers: Array<number>, bet: number, drawCoun
 	return `Hra Rychlá 6 za ${formatPrice(price)}, slosování ${drawCount}, sázka ${formatPrice(bet)}`;
 }
 
-export function allInRychla6(bet: number, drawCount: number) {
-	const storeAmount = sazkaStore.getState().sazka.amount;
+export function allInRychla6(times: number, bet: number, drawCount: number) {
 	const price = getRychla6Price(bet, drawCount);
-	const times = storeAmount / price >>> 0;
 
 	for (let ind = 0; ind < times; ind++) {
 		gameRychla6(generateRychla6(), bet, drawCount);
@@ -138,4 +137,32 @@ export function completeRychla6(betId: IBet["id"], rychla6: IBet["rychla6"], win
 	});
 
 	return winData.winPrice;
+}
+
+export function getRychla6QuickItems(): Array<IRychla6QuickItem> {
+	return [{
+		id: 0,
+		title: "Hrát až o 100 000 Kč",
+		bet: RYCHLA6.bets[0],
+		drawCount: 1,
+		price: RYCHLA6.bets[0],
+	}, {
+		id: 1,
+		title: "Zlatý střed",
+		bet: RYCHLA6.bets[0],
+		drawCount: 5,
+		price: RYCHLA6.bets[0] * 5,
+	}, {
+		id: 3,
+		title: "Za 100ku",
+		bet: RYCHLA6.bets[0],
+		drawCount: 10,
+		price: RYCHLA6.bets[0] * 10,
+	}, {
+		id: 2,
+		title: "Hrajte na max",
+		bet: RYCHLA6.bets[RYCHLA6.bets.length - 1],
+		drawCount: RYCHLA6.maxDrawCount,
+		price: RYCHLA6.bets[RYCHLA6.bets.length - 1] * RYCHLA6.maxDrawCount,
+	}];
 }

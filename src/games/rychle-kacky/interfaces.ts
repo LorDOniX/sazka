@@ -10,3 +10,11 @@ export interface IRychleKacky {
 	drawCount: number;
 	lotteries: Array<IRychleKackyLottery>;
 }
+
+export interface IRychleKackyQuickItem {
+	id: number;
+	guessedNumbers: number;
+	bet: number;
+	drawCount: number;
+	price: number;
+}

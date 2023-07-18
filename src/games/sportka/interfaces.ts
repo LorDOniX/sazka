@@ -42,3 +42,15 @@ export interface ISportkaGeneratedData {
 	columns: Array<ISportkaColumn>;
 	chance: Array<number>;
 }
+
+export interface ISportQuickItem {
+	id: number;
+	columns: number;
+	hasSuperJackpot: boolean;
+	chance: boolean;
+	title: string;
+	line1: string;
+	line2: string;
+	line3: string;
+	price: number;
+}

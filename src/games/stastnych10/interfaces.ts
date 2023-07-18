@@ -44,3 +44,16 @@ export interface IStastnych10GeneratedData {
 	columns: Array<IStastnych10Column>;
 	chance: Array<number>;
 }
+
+export interface IStastnych10QuickItem {
+	id: number;
+	columns: number;
+	count: number;
+	bet: number;
+	kingGame: boolean;
+	chance: boolean;
+	title: string;
+	line1: string;
+	line2: string;
+	price: number;
+}

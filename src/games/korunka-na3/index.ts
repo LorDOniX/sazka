@@ -1,7 +1,8 @@
+/* eslint-disable no-magic-numbers */
 import { IBet, IBetInfo, ILotteryItem } from "~/interfaces";
 import { formatColumns, formatPrice, getRandomList, getSameNumbers } from "~/utils/utils";
 import { KORUNKA_NA3 } from "~/games/korunka-na3/const";
-import { IKorunkaNa3Lottery } from "~/games/korunka-na3/interfaces";
+import { IKorunkaNa3Lottery, IKorunkaNa3QuickItem } from "~/games/korunka-na3/interfaces";
 import { sazkaStore } from "~/stores/sazka";
 
 import KorunkaNa3Img from "~/assets/sazka/korunka3.png";
@@ -74,10 +75,8 @@ export function gameKorunkaNa3(guessedNumbers: Array<number>, bet: number, drawC
 	return `Hra Korunka za 3 za ${formatPrice(price)}, slosování ${drawCount}, sázka ${formatPrice(bet)}`;
 }
 
-export function allInRychlaKorunkaNa3(bet: number, drawCount: number) {
-	const storeAmount = sazkaStore.getState().sazka.amount;
+export function allInRychlaKorunkaNa3(times: number, bet: number, drawCount: number) {
 	const price = getKorunkaNa3Price(bet, drawCount);
-	const times = storeAmount / price >>> 0;
 
 	for (let ind = 0; ind < times; ind++) {
 		gameKorunkaNa3(generateKorunkaNa3(), bet, drawCount);
@@ -95,4 +94,32 @@ export function completeKorunkaNa3(betId: IBet["id"], korunkaNa3: IBet["korunkaN
 	});
 
 	return winData.winPrice;
+}
+
+export function getKorunkaNa3QuickItems(): Array<IKorunkaNa3QuickItem> {
+	return [{
+		id: 0,
+		title: `Hrát za ${formatPrice(KORUNKA_NA3.bets[0])}`,
+		bet: KORUNKA_NA3.bets[0],
+		drawCount: 1,
+		price: KORUNKA_NA3.bets[0],
+	}, {
+		id: 1,
+		title: "Za 100ku",
+		bet: KORUNKA_NA3.bets[0],
+		drawCount: 7,
+		price: KORUNKA_NA3.bets[0] * 7,
+	}, {
+		id: 2,
+		title: "10 slosování",
+		bet: KORUNKA_NA3.bets[0],
+		drawCount: 10,
+		price: KORUNKA_NA3.bets[0] * 10,
+	}, {
+		id: 3,
+		title: "Nejvyšší výhra",
+		bet: KORUNKA_NA3.bets[KORUNKA_NA3.bets.length - 1],
+		drawCount: 10,
+		price: KORUNKA_NA3.bets[KORUNKA_NA3.bets.length - 1] * 10,
+	}];
 }

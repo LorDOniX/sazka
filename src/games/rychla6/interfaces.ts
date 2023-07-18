@@ -12,3 +12,11 @@ export interface IRychla6 {
 	drawCount: number;
 	lotteries: Array<IRychla6Lottery>;
 }
+
+export interface IRychla6QuickItem {
+	id: number;
+	title: string;
+	bet: number;
+	drawCount: number;
+	price: number;
+}

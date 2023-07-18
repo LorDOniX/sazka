@@ -1,11 +1,12 @@
 import CSS from 'csstype';
+import { ReactNode } from "react";
 
 import { getClassName } from "~/utils/utils";
 
 import "./style.less";
 
 interface IMyButton {
-	text: string;
+	text: ReactNode;
 	className?: string;
 	onClick?: () => void;
 	style?: CSS.Properties;

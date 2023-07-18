@@ -1,7 +1,8 @@
+/* eslint-disable no-magic-numbers */
 import { IBet, IBetInfo, ILotteryItem } from "~/interfaces";
 import { formatPrice, getRandomList, getSameNumbers } from "~/utils/utils";
 import { KASICKA } from "~/games/kasicka/const";
-import { IKasickaLottery } from "./interfaces";
+import { IKasickaLottery, IKasickaQuickItem } from "./interfaces";
 import { sazkaStore } from "~/stores/sazka";
 
 import KasickaImg from "~/assets/sazka/kasicka.jpg";
@@ -71,10 +72,8 @@ export function gameKasicka(guessedNumbers: Array<number>, bet: number, betRatio
 	return `Hra Kasička za ${formatPrice(price)}, násobič ${betRatio}x, sázka ${formatPrice(bet)}`;
 }
 
-export function allInKasicka(guessedNumbers: number, bet: number, betRatio: number) {
-	const storeAmount = sazkaStore.getState().sazka.amount;
+export function allInKasicka(times: number, guessedNumbers: number, bet: number, betRatio: number) {
 	const price = getKasickaPrice(bet, betRatio);
-	const times = storeAmount / price >>> 0;
 
 	for (let ind = 0; ind < times; ind++) {
 		gameKasicka(generateKasicka(guessedNumbers), bet, betRatio);
@@ -92,4 +91,38 @@ export function completeKasicka(betId: IBet["id"], kasicka: IBet["kasicka"], win
 	});
 
 	return winData.winPrice;
+}
+
+export function getKasickaQuickItems(): Array<IKasickaQuickItem> {
+	const ONE_RATIO = 1;
+	const FIVE_RATIO = 5;
+
+	return [{
+		id: 0,
+		drawNumbers: KASICKA.guessedNumbers[KASICKA.guessedNumbers.length - 1],
+		title: "Náhodný tip",
+		line1: `${KASICKA.guessedNumbers[KASICKA.guessedNumbers.length - 1]} čísel`,
+		line2: `Za ${formatPrice(getKasickaPrice(KASICKA.bet, FIVE_RATIO))} na 1 slosování`,
+		price: getKasickaPrice(KASICKA.bet, FIVE_RATIO),
+		bet: KASICKA.bet,
+		betRatio: FIVE_RATIO,
+	}, {
+		id: 1,
+		drawNumbers: KASICKA.guessedNumbers[KASICKA.guessedNumbers.length - 1],
+		title: "Náhodný tip",
+		line1: `${KASICKA.guessedNumbers[KASICKA.guessedNumbers.length - 1]} čísel`,
+		line2: `Za ${formatPrice(getKasickaPrice(KASICKA.bet, ONE_RATIO))} na 1 slosování`,
+		price: getKasickaPrice(KASICKA.bet, ONE_RATIO),
+		bet: KASICKA.bet,
+		betRatio: ONE_RATIO,
+	}, {
+		id: 2,
+		drawNumbers: KASICKA.guessedNumbers[1],
+		title: "Náhodný tip",
+		line1: `${KASICKA.guessedNumbers[1]} čísla`,
+		line2: `Za ${formatPrice(getKasickaPrice(KASICKA.bet, ONE_RATIO))} na 1 slosování`,
+		price: getKasickaPrice(KASICKA.bet, ONE_RATIO),
+		bet: KASICKA.bet,
+		betRatio: ONE_RATIO,
+	}];
 }

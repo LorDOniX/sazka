@@ -2,7 +2,7 @@ import { IBet, IBetInfo, ILotteryItem } from "~/interfaces";
 import { formatColumns, formatPrice, generateChance, getRandomList, getSameNumbers } from "~/utils/utils";
 import { sazkaStore } from "~/stores/sazka";
 import { EUROJACKPOT } from "./const";
-import { IEurojackpot, IEurojackpotColumn, IEurojackpotColumnPrice, IEurojackpotData, IEurojackpotGeneratedData } from "./interfaces";
+import { IEurojackpot, IEurojackpotColumn, IEurojackpotColumnPrice, IEurojackpotData, IEurojackpotGeneratedData, IEurojackpotQuickItem } from "./interfaces";
 
 import EurojackpotImg from "~/assets/sazka/eurojackpot.jpg";
 
@@ -146,10 +146,8 @@ export function gameEurojackpot(columns: Array<IEurojackpotColumn>, guessedChanc
 	return `Hra Eurojackpot za ${priceData.price}, ${priceData.hasChance ? "šance" : "bez šance"}, ${formatColumns(columns.length)}`;
 }
 
-export function allInEurojackpot(columnsLen: number, hasChance: boolean): string {
-	const storeAmount = sazkaStore.getState().sazka.amount;
+export function allInEurojackpot(times: number, columnsLen: number, hasChance: boolean): string {
 	const priceData = getEurojackpotPriceData(columnsLen, hasChance);
-	const times = storeAmount / priceData.price >>> 0;
 
 	for (let ind = 0; ind < times; ind++) {
 		const eurojackpot = generateEurojackpotGame(columnsLen, hasChance);
@@ -170,4 +168,49 @@ export function completeEurojackpot(betId: IBet["id"], eurojackpot: IBet["euroja
 	});
 
 	return eurojackpotPrice.columnsPrice + eurojackpotPrice.chancePrice;
+}
+
+export function getEurojackpotQuickItems() {
+	const MIDDLE_COLUMNS = 2;
+	const RIGHT_COLUMNS = 1;
+	const LAST_COLUMNS = 3;
+	const items: Array<IEurojackpotQuickItem> = [{
+		id: 0,
+		columns: EUROJACKPOT.maxColumns,
+		chance: true,
+		title: "Plný ticket",
+		line1: "Náhodný ticket",
+		line2: formatColumns(EUROJACKPOT.maxColumns),
+		line3: "Včetně Extra 6",
+		price: (EUROJACKPOT.maxColumns * EUROJACKPOT.pricePerColumn) + EUROJACKPOT.chancePrice,
+	}, {
+		id: 1,
+		columns: MIDDLE_COLUMNS,
+		chance: true,
+		title: "Miliardy 2x týdně",
+		line1: "Náhodný ticket",
+		line2: formatColumns(MIDDLE_COLUMNS),
+		line3: "Včetně Extra 6",
+		price: (MIDDLE_COLUMNS * EUROJACKPOT.pricePerColumn) + EUROJACKPOT.chancePrice,
+	}, {
+		id: 2,
+		columns: RIGHT_COLUMNS,
+		chance: true,
+		title: "Na zkoušku",
+		line1: "Náhodný tip",
+		line2: formatColumns(RIGHT_COLUMNS),
+		line3: "Včetně Extra 6",
+		price: (RIGHT_COLUMNS * EUROJACKPOT.pricePerColumn) + EUROJACKPOT.chancePrice,
+	}, {
+		id: 3,
+		columns: LAST_COLUMNS,
+		chance: true,
+		title: "V ceně sportky",
+		line1: "Náhodný tip",
+		line2: formatColumns(LAST_COLUMNS),
+		line3: "Včetně Extra 6",
+		price: (LAST_COLUMNS * EUROJACKPOT.pricePerColumn) + EUROJACKPOT.chancePrice,
+	}];
+
+	return items;
 }

@@ -1,13 +1,12 @@
-/* eslint-disable no-magic-numbers */
 import MyButton from "~/my/MyButton";
 import { formatPrice } from "~/utils/utils";
-import { gameRychleKacky, allInRychleKacky, generateRychleKacky } from "~/games/rychle-kacky";
-import { RYCHLE_KACKY } from "~/games/rychle-kacky/const";
+import { gameRychleKacky, allInRychleKacky, generateRychleKacky, getRychleKackyCover, getRychleKackyQuickItems } from "~/games/rychle-kacky";
 import { notificationStore } from "~/stores/notification";
 import { ROUTES } from "~/const";
 import GameTitle from "~/components/GameTitle";
-
-import RychleKackyImg from "~/assets/sazka/rychleKacky.jpg";
+import AllInModal from "~/components/AllInModal";
+import { myUseState } from "~/hooks/myUseState";
+import { IRychleKackyQuickItem } from "~/games/rychle-kacky/interfaces";
 
 import "./style.less";
 
@@ -15,82 +14,58 @@ interface IRychleKacky {
 	amount: number;
 }
 
-interface IItem {
-	id: number;
-	guessedNumbers: number;
-	bet: number;
-	drawCount: number;
-	price: number;
+interface IState {
+	item: IRychleKackyQuickItem;
 }
-
-const FIRST_ITEM = {
-	bet: 10,
-	drawCount: 2,
-};
-
-const SECOND_ITEM = {
-	bet: 10,
-	drawCount: 5,
-};
-
-const THIRD_ITEM = {
-	bet: 20,
-	drawCount: 5,
-};
-
-const items: Array<IItem> = [{
-	id: 0,
-	guessedNumbers: RYCHLE_KACKY.guessedNumbersMax,
-	bet: FIRST_ITEM.bet,
-	drawCount: FIRST_ITEM.drawCount,
-	price: FIRST_ITEM.bet * FIRST_ITEM.drawCount,
-}, {
-	id: 1,
-	guessedNumbers: RYCHLE_KACKY.guessedNumbersMax,
-	bet: SECOND_ITEM.bet,
-	drawCount: SECOND_ITEM.drawCount,
-	price: SECOND_ITEM.bet * SECOND_ITEM.drawCount,
-}, {
-	id: 2,
-	guessedNumbers: RYCHLE_KACKY.guessedNumbersMax,
-	bet: THIRD_ITEM.bet,
-	drawCount: THIRD_ITEM.drawCount,
-	price: THIRD_ITEM.bet * THIRD_ITEM.drawCount,
-}];
 
 export default function RychleKacky({
 	amount,
 }: IRychleKacky) {
-	function addGame(item: IItem) {
+	const { state, updateState } = myUseState<IState>({
+		item: null,
+	});
+
+	function addGame(item: IRychleKackyQuickItem) {
 		const msg = gameRychleKacky(generateRychleKacky(item.guessedNumbers), item.bet, item.drawCount);
 
 		notificationStore.getState().setNotification(msg);
 	}
 
-	function allIn(item: IItem) {
-		const msg = allInRychleKacky(item.guessedNumbers, item.bet, item.drawCount);
+	function allIn(item: IRychleKackyQuickItem) {
+		updateState({
+			item,
+		});
+	}
+
+	function onSave(count: number) {
+		const item = state.item;
+		const msg = allInRychleKacky(count, item.guessedNumbers, item.bet, item.drawCount);
 
 		notificationStore.getState().setNotification(msg);
+		updateState({
+			item: null,
+		});
 	}
 
 	return <div className="rychleKackyContainer">
-		<GameTitle title="Rychlé kačky" img={RychleKackyImg} link={ROUTES.RYCHLE_KACKY} />
+		<GameTitle title="Rychlé kačky" img={getRychleKackyCover()} link={ROUTES.RYCHLE_KACKY} />
 		<div className="rychleKackyContainer__quickItems">
-			{ items.map(item => <div key={item.id} className="rychleKackyContainer__quickItem">
+			{ getRychleKackyQuickItems().map(item => <div key={item.id} className="rychleKackyContainer__quickItem">
 				<h3 className="rychleKackyContainer__quickItemTitle">
 					Rychlá sázka
 				</h3>
 				<span className="rychleKackyContainer__quickItemSeparator" />
 				<p className="rychleKackyContainer__quickItemParagraph">
-					<strong>{ item.guessedNumbers }</strong> za <strong>{ formatPrice(item.bet) }</strong>
+					<strong>{ item.guessedNumbers }</strong> čísel za <strong>{ formatPrice(item.bet) }</strong>
 				</p>
 				<p className="rychleKackyContainer__quickItemParagraph">
 					<strong>{ item.drawCount }</strong> slosování
 				</p>
 				<MyButton className="rychleKackyContainer__quickItemBetBtn" text={`Vsadit za ${formatPrice(item.price)}`} onClick={() => addGame(item)}
 					disabled={item.price > amount} />
-				<MyButton className="rychleKackyContainer__quickItemBetBtn second" text="Vsadit vše" onClick={() => allIn(item)} disabled={item.price > amount} />
+				<MyButton className="rychleKackyContainer__quickItemBetBtn second" text="Vsadit vše" onClick={() => allIn(item)} />
 			</div>) }
 		</div>
+		{ state.item && <AllInModal amount={amount} price={state.item.price} onSave={onSave} onClose={() => updateState({ item: null })} /> }
 	</div>;
 }

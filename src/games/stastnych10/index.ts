@@ -2,7 +2,7 @@ import { IBet, IBetInfo, ILotteryItem } from "~/interfaces";
 import { formatColumns, formatPrice, generateChance, getRandomList, getSameNumbers } from "~/utils/utils";
 import { sazkaStore } from "~/stores/sazka";
 import { STASTNYCH10 } from "./const";
-import { IStastnych10, IStastnych10Column, IStastnych10ColumnPrice, IStastnych10Data, IStastnych10GeneratedData } from "./interfaces";
+import { IStastnych10, IStastnych10Column, IStastnych10ColumnPrice, IStastnych10Data, IStastnych10GeneratedData, IStastnych10QuickItem } from "./interfaces";
 
 import Statsnych10Img from "~/assets/sazka/stastnych10.jpg";
 
@@ -149,10 +149,8 @@ export function gameStastnych10(columns: Array<IStastnych10Column>, guessedChanc
 	return `Hra Šťastných 10 za ${priceData.price}, ${priceData.hasChance ? "šance" : "bez šance"}, ${formatColumns(columns.length)}`;
 }
 
-export function allInStastnych10(count: number, bet: number, kingGame: boolean, columns: Array<IStastnych10Column>, hasChance: boolean): string {
-	const storeAmount = sazkaStore.getState().sazka.amount;
+export function allInStastnych10(times: number, count: number, bet: number, kingGame: boolean, columns: Array<IStastnych10Column>, hasChance: boolean): string {
 	const priceData = getStastnych10PriceData(columns, hasChance);
-	const times = storeAmount / priceData.price >>> 0;
 
 	for (let ind = 0; ind < times; ind++) {
 		const stastnych10 = generateStastnych10Game(count, bet, kingGame, columns.length, hasChance);
@@ -173,4 +171,87 @@ export function completeStastnych10(betId: IBet["id"], stastnych10: IBet["stastn
 	});
 
 	return stastnych10Price.columnsPrice + stastnych10Price.chancePrice;
+}
+
+export function getStastnych10QuickItems(): Array<IStastnych10QuickItem> {
+	function generatePriceLine(count: number, bet: number, kingGame: boolean): Array<IStastnych10Column> {
+		return Array.from({ length: count }).map(() => ({
+			bet,
+			index: 0,
+			guessedNumbers: [],
+			kingGame,
+			price: 0,
+		}));
+	}
+
+	const SECOND_COLUMNS = 2;
+	const MAX_BET = STASTNYCH10.pricesPerColumn[STASTNYCH10.pricesPerColumn.length - 1];
+
+	return [{
+		id: 0,
+		columns: STASTNYCH10.maxColumns,
+		count: STASTNYCH10.maxDrawCount,
+		kingGame: true,
+		bet: STASTNYCH10.pricesPerColumn[0],
+		chance: true,
+		title: "Šance na miliony",
+		line1: "4 x 10 čísel",
+		line2: "Včetně Šance milion a Královské hry",
+		price: getStastnych10PriceData(generatePriceLine(STASTNYCH10.maxColumns, STASTNYCH10.pricesPerColumn[0], true), true).price,
+	}, {
+		id: 1,
+		columns: SECOND_COLUMNS,
+		count: STASTNYCH10.maxDrawCount,
+		kingGame: true,
+		bet: STASTNYCH10.pricesPerColumn[0],
+		chance: true,
+		title: "Šance na miliony",
+		line1: `${SECOND_COLUMNS}x 10 čísel`,
+		line2: "Včetně Šance milion a Královské hry",
+		price: getStastnych10PriceData(generatePriceLine(SECOND_COLUMNS, STASTNYCH10.pricesPerColumn[0], true), true).price,
+	}, {
+		id: 2,
+		columns: 1,
+		count: STASTNYCH10.maxDrawCount,
+		kingGame: true,
+		bet: STASTNYCH10.pricesPerColumn[0],
+		chance: true,
+		title: "Sloupek s Královskou",
+		line1: "10 čísel",
+		line2: "Včetně Šance milion a Královské hry",
+		price: getStastnych10PriceData(generatePriceLine(1, STASTNYCH10.pricesPerColumn[0], true), true).price,
+	}, {
+		id: 3,
+		columns: 1,
+		count: STASTNYCH10.maxDrawCount,
+		kingGame: false,
+		bet: STASTNYCH10.pricesPerColumn[0],
+		chance: true,
+		title: "Na zkoušku",
+		line1: "10 čísel",
+		line2: "Včetně Šance milion",
+		price: getStastnych10PriceData(generatePriceLine(1, STASTNYCH10.pricesPerColumn[0], false), true).price,
+	}, {
+		id: 4,
+		columns: STASTNYCH10.maxColumns,
+		count: STASTNYCH10.maxDrawCount,
+		kingGame: true,
+		bet: STASTNYCH10.pricesPerColumn[2],
+		chance: true,
+		title: "V ceně sportky",
+		line1: "4 x 10 čísel",
+		line2: "Včetně Šance milion a Královské hry",
+		price: getStastnych10PriceData(generatePriceLine(STASTNYCH10.maxColumns, STASTNYCH10.pricesPerColumn[2], true), true).price,
+	}, {
+		id: 5,
+		columns: STASTNYCH10.maxColumns,
+		count: STASTNYCH10.maxDrawCount,
+		kingGame: true,
+		bet: MAX_BET,
+		chance: true,
+		title: "Max",
+		line1: "10 čísel",
+		line2: "Včetně Šance milion a Královské hry",
+		price: getStastnych10PriceData(generatePriceLine(STASTNYCH10.maxColumns, MAX_BET, true), true).price,
+	}];
 }

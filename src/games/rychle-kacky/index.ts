@@ -4,6 +4,7 @@ import { RYCHLE_KACKY } from "./const";
 import { sazkaStore } from "~/stores/sazka";
 
 import RychleKackyImg from "~/assets/sazka/rychleKacky.jpg";
+import { IRychleKackyQuickItem } from "./interfaces";
 
 export function getRychleKackyCover(): any {
 	return RychleKackyImg;
@@ -66,10 +67,8 @@ export function gameRychleKacky(guessedNumbers: Array<number>, bet: number, draw
 	return `Hra Rychlé kačky za ${formatPrice(price)}, slosování ${drawCount}, sázka ${formatPrice(bet)}`;
 }
 
-export function allInRychleKacky(guessedNumbers: number, bet: number, drawCount: number) {
-	const storeAmount = sazkaStore.getState().sazka.amount;
+export function allInRychleKacky(times: number, guessedNumbers: number, bet: number, drawCount: number) {
 	const price = getRychleKackyPrice(bet, drawCount);
-	const times = storeAmount / price >>> 0;
 
 	for (let ind = 0; ind < times; ind++) {
 		gameRychleKacky(generateRychleKacky(guessedNumbers), bet, drawCount);
@@ -88,4 +87,54 @@ export function completeRychleKacky(betId: IBet["id"], rychleKacky: IBet["rychle
 	});
 
 	return winPrice;
+}
+
+export function getRychleKackyQuickItems() {
+	const FIRST_ITEM = {
+		bet: RYCHLE_KACKY.bets[1],
+		drawCount: 2,
+	};
+
+	const SECOND_ITEM = {
+		bet: RYCHLE_KACKY.bets[1],
+		drawCount: 5,
+	};
+
+	const THIRD_ITEM = {
+		bet: RYCHLE_KACKY.bets[2],
+		drawCount: 5,
+	};
+
+	const FORTH_ITEM = {
+		bet: RYCHLE_KACKY.bets[1],
+		drawCount: 10,
+	};
+
+	const items: Array<IRychleKackyQuickItem> = [{
+		id: 0,
+		guessedNumbers: RYCHLE_KACKY.guessedNumbersMax,
+		bet: FIRST_ITEM.bet,
+		drawCount: FIRST_ITEM.drawCount,
+		price: FIRST_ITEM.bet * FIRST_ITEM.drawCount,
+	}, {
+		id: 1,
+		guessedNumbers: RYCHLE_KACKY.guessedNumbersMax,
+		bet: SECOND_ITEM.bet,
+		drawCount: SECOND_ITEM.drawCount,
+		price: SECOND_ITEM.bet * SECOND_ITEM.drawCount,
+	}, {
+		id: 2,
+		guessedNumbers: RYCHLE_KACKY.guessedNumbersMax,
+		bet: THIRD_ITEM.bet,
+		drawCount: THIRD_ITEM.drawCount,
+		price: THIRD_ITEM.bet * THIRD_ITEM.drawCount,
+	}, {
+		id: 3,
+		guessedNumbers: RYCHLE_KACKY.guessedNumbersMax,
+		bet: FORTH_ITEM.bet,
+		drawCount: FORTH_ITEM.drawCount,
+		price: FORTH_ITEM.bet * FORTH_ITEM.drawCount,
+	}];
+
+	return items;
 }

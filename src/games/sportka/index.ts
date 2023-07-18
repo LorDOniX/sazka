@@ -1,4 +1,4 @@
-import { IBet, IBetInfo, ILotteryItem } from "~/interfaces";
+import { IBet, IBetInfo, ILotteryItem, ISportQuickItem } from "~/interfaces";
 import { formatColumns, formatPrice, generateChance, getRandomList, getSameNumbers } from "~/utils/utils";
 import { sazkaStore } from "~/stores/sazka";
 import { SPORTKA } from "./const";
@@ -205,10 +205,8 @@ export function gameSportka(columns: Array<ISportkaColumn>, guessedChance: ISpor
 	return `Hra Sportka za ${priceData.price}${priceData.superJackpot ? ", superjackpot" : ""}, ${priceData.hasChance ? "šance" : "bez šance"}, ${formatColumns(columns.length)}`;
 }
 
-export function allInSportka(columnsLen: number, hasChance: boolean): string {
-	const storeAmount = sazkaStore.getState().sazka.amount;
+export function allInSportka(times: number, columnsLen: number, hasChance: boolean): string {
 	const priceData = getSportkaPriceData(columnsLen, hasChance);
-	const times = storeAmount / priceData.price >>> 0;
 
 	for (let ind = 0; ind < times; ind++) {
 		const sportka = generateSportkaGame(columnsLen, hasChance);
@@ -229,4 +227,57 @@ export function completeSportka(betId: IBet["id"], sportka: IBet["sportka"], dat
 	});
 
 	return sportkaPrice.columnsPrice + sportkaPrice.chancePrice;
+}
+
+export function getSportkaQuickItems() {
+	const MIDDLE_COLUMNS = 5;
+	const RIGHT_COLUMNS = 1;
+
+	const items: Array<ISportQuickItem> = [{
+		id: 0,
+		columns: SPORTKA.maxColumns,
+		hasSuperJackpot: true,
+		chance: true,
+		title: "Plný ticket",
+		line1: "Hra o superjackpot",
+		line2: formatColumns(SPORTKA.maxColumns),
+		line3: "Včetně šance",
+		price: (SPORTKA.maxColumns * SPORTKA.pricePerColumn) + SPORTKA.chancePrice,
+	}, {
+		id: 1,
+		columns: MIDDLE_COLUMNS,
+		hasSuperJackpot: false,
+		chance: true,
+		title: `${formatColumns(MIDDLE_COLUMNS)} a Šance`,
+		line1: formatColumns(MIDDLE_COLUMNS),
+		line2: "Včetně Šance",
+		line3: "Na 1 slosování",
+		price: (MIDDLE_COLUMNS * SPORTKA.pricePerColumn) + SPORTKA.chancePrice,
+	}, {
+		id: 2,
+		columns: RIGHT_COLUMNS,
+		hasSuperJackpot: false,
+		chance: true,
+		title: "Na zkoušku",
+		line1: formatColumns(RIGHT_COLUMNS),
+		line2: "Včetně Šance",
+		line3: "Na 1 slosování",
+		price: (RIGHT_COLUMNS * SPORTKA.pricePerColumn) + SPORTKA.chancePrice,
+	}];
+	const myNumbers: ISportQuickItem = {
+		id: 3,
+		columns: SPORTKA.maxColumns,
+		hasSuperJackpot: true,
+		chance: true,
+		title: "Oblíbená čísla",
+		line1: "Hra o superjackpot",
+		line2: formatColumns(SPORTKA.maxColumns),
+		line3: "Včetně šance",
+		price: (SPORTKA.maxColumns * SPORTKA.pricePerColumn) + SPORTKA.chancePrice,
+	};
+
+	return {
+		items,
+		myNumbers,
+	};
 }

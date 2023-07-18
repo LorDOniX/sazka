@@ -1,13 +1,12 @@
-/* eslint-disable no-magic-numbers */
 import MyButton from "~/my/MyButton";
 import { formatPrice } from "~/utils/utils";
-import { generateRychla6, gameRychla6, allInRychla6 } from "~/games/rychla6";
-import { RYCHLA6 } from "~/games/rychla6/const";
+import { generateRychla6, gameRychla6, allInRychla6, getRychla6Cover, getRychla6QuickItems } from "~/games/rychla6";
 import { notificationStore } from "~/stores/notification";
 import { ROUTES } from "~/const";
 import GameTitle from "~/components/GameTitle";
-
-import Rychla6Img from "~/assets/sazka/rychla6.jpg";
+import AllInModal from "~/components/AllInModal";
+import { myUseState } from "~/hooks/myUseState";
+import { IRychla6QuickItem } from "~/games/rychla6/interfaces";
 
 import "./style.less";
 
@@ -15,53 +14,43 @@ interface IRychla6 {
 	amount: number;
 }
 
-interface IItem {
-	id: number;
-	title: string;
-	bet: number;
-	drawCount: number;
-	price: number;
+interface IState {
+	item: IRychla6QuickItem;
 }
-
-const items: Array<IItem> = [{
-	id: 0,
-	title: "Hrát až o 100 000 Kč",
-	bet: RYCHLA6.bets[0],
-	drawCount: 1,
-	price: RYCHLA6.bets[0],
-}, {
-	id: 1,
-	title: "Zlatý střed",
-	bet: RYCHLA6.bets[0],
-	drawCount: 5,
-	price: RYCHLA6.bets[0] * 5,
-}, {
-	id: 2,
-	title: "Hrajte na max",
-	bet: RYCHLA6.bets[RYCHLA6.bets.length - 1],
-	drawCount: RYCHLA6.maxDrawCount,
-	price: RYCHLA6.bets[RYCHLA6.bets.length - 1] * RYCHLA6.maxDrawCount,
-}];
 
 export default function Rychla6({
 	amount,
 }: IRychla6) {
-	function addGame(item: IItem) {
+	const { state, updateState } = myUseState<IState>({
+		item: null,
+	});
+
+	function addGame(item: IRychla6QuickItem) {
 		const msg = gameRychla6(generateRychla6(), item.bet, item.drawCount);
 
 		notificationStore.getState().setNotification(msg);
 	}
 
-	function allIn(item: IItem) {
-		const msg = allInRychla6(item.bet, item.drawCount);
+	function allIn(item: IRychla6QuickItem) {
+		updateState({
+			item,
+		});
+	}
+
+	function onSave(count: number) {
+		const item = state.item;
+		const msg = allInRychla6(count, item.bet, item.drawCount);
 
 		notificationStore.getState().setNotification(msg);
+		updateState({
+			item: null,
+		});
 	}
 
 	return <div className="rychla6Container">
-		<GameTitle title="Rychlá 6" img={Rychla6Img} link={ROUTES.RYCHLA6} />
+		<GameTitle title="Rychlá 6" img={getRychla6Cover()} link={ROUTES.RYCHLA6} />
 		<div className="rychla6Container__quickItems">
-			{ items.map(item => <div key={item.id} className="rychla6Container__quickItem">
+			{ getRychla6QuickItems().map(item => <div key={item.id} className="rychla6Container__quickItem">
 				<h3 className="rychla6Container__quickItemTitle">
 					{ item.title }
 				</h3>
@@ -74,8 +63,9 @@ export default function Rychla6({
 				</p>
 				<MyButton className="rychla6Container__quickItemBetBtn" text={`Vsadit za ${formatPrice(item.price)}`} onClick={() => addGame(item)}
 					disabled={item.price > amount} />
-				<MyButton className="rychla6Container__quickItemBetBtn second" text="Vsadit vše" onClick={() => allIn(item)} disabled={item.price > amount} />
+				<MyButton className="rychla6Container__quickItemBetBtn second" text="Vsadit vše" onClick={() => allIn(item)} />
 			</div>) }
 		</div>
+		{ state.item && <AllInModal amount={amount} price={state.item.price} onSave={onSave} onClose={() => updateState({ item: null })} /> }
 	</div>;
 }

@@ -1,0 +1,53 @@
+.modal .allInModal {
+	width: 100%;
+	max-width: 700px;
+	background: var(--sazka-bg);
+	display: flex;
+	gap: 25px;
+	max-height: 85%;
+}
+
+.allInModal__content {
+	overflow: auto;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.allInModal__percentArea {
+	display: flex;
+	gap: 10px;
+
+	.myButton {
+		flex: 0 1 calc(25% - 10px);
+	}
+}
+
+.allInModal__buttonSecondLine {
+	margin-top: 5px;
+	display: block;
+}
+
+.allInModal__customArea {
+	display: flex;
+	gap: 10px;
+	margin-top: 25px;
+}
+
+.allInModal__title {
+	margin: 0 0 15px 0;
+}
+
+@media only screen and (max-width: 960px) {
+	.modal .allInModal {
+		margin-left: 10px;
+		margin-right: 10px;
+		max-width: calc(100% - 20px);
+		padding: 10px;
+	}
+
+	.allInModal__content {
+		flex-direction: column;
+	}
+}

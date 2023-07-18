@@ -10,3 +10,11 @@ export interface IKorunkaNa3 {
 	drawCount: number;
 	lotteries: Array<IKorunkaNa3Lottery>;
 }
+
+export interface IKorunkaNa3QuickItem {
+	id: number;
+	title: string;
+	bet: number;
+	drawCount: number;
+	price: number;
+}

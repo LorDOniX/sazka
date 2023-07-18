@@ -10,3 +10,14 @@ export interface IKasicka {
 	betRatio: number;
 	lottery: IKasickaLottery;
 }
+
+export interface IKasickaQuickItem {
+	id: number;
+	drawNumbers: number;
+	title: string;
+	line1: string;
+	line2: string;
+	price: number;
+	bet: number;
+	betRatio: number;
+}
