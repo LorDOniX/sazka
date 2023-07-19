@@ -3,18 +3,20 @@ import MyButton from "~/my/MyButton";
 import { formatPrice } from "~/utils/utils";
 import MyNumberWithSet from "~/my/MyNumberWithSet";
 import { myUseState } from "~/hooks/myUseState";
+import MyCheckbox from "~/my/MyCheckbox";
 
 import "./style.less";
 
 interface IAllInModal {
 	amount: number;
 	price: number;
-	onSave: (count: number) => void;
+	onSave: (count: number, makeCalc: boolean) => void;
 	onClose?: () => void;
 }
 
 interface IState {
 	times: number;
+	makeCalc: boolean;
 }
 
 /* eslint-disable-next-line */
@@ -28,6 +30,7 @@ export default function AllInModal({
 }: IAllInModal) {
 	const { state, updateState } = myUseState<IState>({
 		times: 1,
+		makeCalc: true,
 	});
 
 	function getTimesByPercent(percent: number) {
@@ -49,7 +52,7 @@ export default function AllInModal({
 		const times = getTimesByPercent(percent);
 
 		if (times > 0) {
-			onSave(times);
+			onSave(times, state.makeCalc);
 		} else {
 			onClose();
 		}
@@ -63,11 +66,15 @@ export default function AllInModal({
 				{ PERCENT.map(percent => <MyButton text={<>
 					<span className="allInModal__buttonFirstLine">{ getFirstLine(percent) }</span>
 					<span className="allInModal__buttonSecondLine">{ getSecondLine(percent) }</span>
+					{ state.makeCalc && <span className="allInModal__buttonSecondLine">slosovat</span> }
 				</>} onClick={() => setPercent(percent)} key={percent} />) }
+			</div>
+			<div>
+				<MyCheckbox text="Zrovna slosovat?" value={state.makeCalc} onChange={makeCalc => updateState({ makeCalc })} />
 			</div>
 			<div className="allInModal__customArea">
 				<MyNumberWithSet min={1} text="Počet sázek:" value={state.times} updatedValue={1} onChange={times => updateState({ times })} />
-				<MyButton text="Nastavit" onClick={() => onSave(state.times)} />
+				<MyButton text={state.makeCalc ? `Nastavit & slosovat` : `Nastavit`} onClick={() => onSave(state.times, state.makeCalc)} />
 			</div>
 		</div>
 	</Modal>;

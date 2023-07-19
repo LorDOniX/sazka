@@ -7,6 +7,7 @@ import GameTitle from "~/components/GameTitle";
 import AllInModal from "~/components/AllInModal";
 import { myUseState } from "~/hooks/myUseState";
 import { IRychla6QuickItem } from "~/games/rychla6/interfaces";
+import { completeAllGames } from "~/games/common";
 
 import "./style.less";
 
@@ -37,7 +38,7 @@ export default function Rychla6({
 		});
 	}
 
-	function onSave(count: number) {
+	function onSave(count: number, makeCalc: boolean) {
 		const item = state.item;
 		const msg = allInRychla6(count, item.bet, item.drawCount);
 
@@ -45,6 +46,7 @@ export default function Rychla6({
 		updateState({
 			item: null,
 		});
+		makeCalc && completeAllGames();
 	}
 
 	return <div className="rychla6Container">

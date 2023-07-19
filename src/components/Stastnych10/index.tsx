@@ -7,6 +7,7 @@ import GameTitle from "~/components/GameTitle";
 import AllInModal from "~/components/AllInModal";
 import { myUseState } from "~/hooks/myUseState";
 import { IStastnych10QuickItem } from "~/games/stastnych10/interfaces";
+import { completeAllGames } from "~/games/common";
 
 import "./style.less";
 
@@ -38,7 +39,7 @@ export default function Stastnych10({
 		});
 	}
 
-	function onSave(count: number) {
+	function onSave(count: number, makeCalc: boolean) {
 		const item = state.item;
 		const gameData = generateStastnych10Game(item.count, item.bet, item.kingGame, item.columns, item.chance);
 		const msg = allInStastnych10(count, item.count, item.bet, item.kingGame, gameData.columns, item.chance);
@@ -47,6 +48,7 @@ export default function Stastnych10({
 		updateState({
 			item: null,
 		});
+		makeCalc && completeAllGames();
 	}
 
 	function createItem(item: IStastnych10QuickItem, addGameCb: () => void, allInCb?: () => void) {

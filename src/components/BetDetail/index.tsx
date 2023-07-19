@@ -65,7 +65,7 @@ export default function BetDetail({
 						{ data.rychleKacky.lotteries.map((lotteryItem, ind) => <div className="betDetailModal__rychleKacky__lotteriesListItem" key={ind}>
 							<div className="betDetailModal__rychleKacky__lotteriesListItemInner">
 								<h3 className="betDetailModal__rychleKacky__lotteriesListItemTitle">Slosování {ind + 1}</h3>
-								<ColumnInfo numbers={data.rychleKacky.guessedNumbers} drawNumbers={lotteryItem.winNumbers} />
+								<ColumnInfo numbers={data.rychleKacky.guessedNumbers} drawNumbers={lotteryItem.winNumbers} showCopy={true} />
 								<p>
 									Výhra: <strong>{ formatPrice(lotteryItem.winPrice)}</strong>
 								</p>
@@ -79,8 +79,8 @@ export default function BetDetail({
 						</div>
 						{ data.sportka.columns.map((column, columnInd) => <div key={column.index}>
 							<h3 className="betDetailModal__sportka__lotteryTitle margin-bottom">Sloupec {column.index}</h3>
-							<ColumnInfo className="betDetailModal__sportka__lotteryColumn" numbers={column.guessedNumbers} drawNumbers={data.sportka.lottery.drawNumbers1} drawAddOn={data.sportka.lottery.drawAddOn1} />
-							<ColumnInfo numbers={column.guessedNumbers} drawNumbers={data.sportka.lottery.drawNumbers2} drawAddOn={data.sportka.lottery.drawAddOn2} />
+							<ColumnInfo className="betDetailModal__sportka__lotteryColumn" numbers={column.guessedNumbers} drawNumbers={data.sportka.lottery.drawNumbers1} drawAddOn={data.sportka.lottery.drawAddOn1} showCopy={true} />
+							<ColumnInfo numbers={column.guessedNumbers} drawNumbers={data.sportka.lottery.drawNumbers2} drawAddOn={data.sportka.lottery.drawAddOn2} showCopy={true} />
 							<p>
 								Výhra: <strong>{ formatPrice(data.sportka.lottery.columnsPrices[columnInd].price1)}</strong> / <strong>{ formatPrice(data.sportka.lottery.columnsPrices[columnInd].price2)}</strong>
 							</p>
@@ -88,7 +88,7 @@ export default function BetDetail({
 						</div>) }
 						{ data.sportka.hasChance && <div className="betDetailModal__sportka__chance">
 							<h3 className="betDetailModal__sportka__lotteryTitle">Šance</h3>
-							<ColumnInfo numbers={data.sportka.guessedChance} drawNumbers={data.sportka.lottery.chance} type="chance" />
+							<ColumnInfo numbers={data.sportka.guessedChance} drawNumbers={data.sportka.lottery.chance} type="chance" showCopy={true} />
 							<p>
 								Výhra: <strong>{ formatPrice(data.sportka.lottery.chancePrice)}</strong>
 							</p>
@@ -101,8 +101,8 @@ export default function BetDetail({
 						</div>
 						{ data.eurojackpot.columns.map((column, columnInd) => <div key={column.index}>
 							<h3 className="betDetailModal__sportka__lotteryTitle margin-bottom">Sloupec {column.index}</h3>
-							<ColumnInfo className="betDetailModal__sportka__lotteryColumn" numbers={column.guessedNumbers} drawNumbers={data.eurojackpot.lottery.drawNumbers} />
-							<ColumnInfo numbers={column.guessedSecondNumbers} drawNumbers={data.eurojackpot.lottery.drawSecondNumbers} />
+							<ColumnInfo className="betDetailModal__sportka__lotteryColumn" numbers={column.guessedNumbers} drawNumbers={data.eurojackpot.lottery.drawNumbers} showCopy={true} />
+							<ColumnInfo numbers={column.guessedSecondNumbers} drawNumbers={data.eurojackpot.lottery.drawSecondNumbers} showCopy={true} />
 							<p>
 								Výhra: <strong>{ formatPrice(data.eurojackpot.lottery.columnsPrices[columnInd].price)}</strong>
 							</p>
@@ -110,7 +110,7 @@ export default function BetDetail({
 						</div>) }
 						{ data.eurojackpot.hasChance && <div className="betDetailModal__sportka__chance">
 							<h3 className="betDetailModal__sportka__lotteryTitle">Šance</h3>
-							<ColumnInfo numbers={data.eurojackpot.guessedChance} drawNumbers={data.eurojackpot.lottery.chance} type="chance" />
+							<ColumnInfo numbers={data.eurojackpot.guessedChance} drawNumbers={data.eurojackpot.lottery.chance} type="chance" showCopy={true} />
 							<p>
 								Výhra: <strong>{ formatPrice(data.eurojackpot.lottery.chancePrice)}</strong>
 							</p>
@@ -123,7 +123,7 @@ export default function BetDetail({
 						</div>
 						{ data.stastnych10.columns.map((column, columnInd) => <div key={column.index}>
 							<h3 className="betDetailModal__stastnych10__lotteryTitle margin-bottom">Sloupec {column.index}</h3>
-							<ColumnInfo className="betDetailModal__stastnych10__lotteryColumn" numbers={column.guessedNumbers} drawNumbers={data.stastnych10.lottery.drawNumbers} drawAddOn={data.stastnych10.lottery.kingNumber} />
+							<ColumnInfo className="betDetailModal__stastnych10__lotteryColumn" numbers={column.guessedNumbers} drawNumbers={data.stastnych10.lottery.drawNumbers} drawAddOn={data.stastnych10.lottery.kingNumber} showCopy={true} />
 							<p>
 								Výhra ({getSameNumbers(column.guessedNumbers, data.stastnych10.lottery.drawNumbers)} / {column.guessedNumbers.length}): <strong>{ formatPrice(data.stastnych10.lottery.columnsPrices[columnInd].price)}</strong>
 							</p>
@@ -131,7 +131,7 @@ export default function BetDetail({
 						</div>) }
 						{ data.stastnych10.hasChance && <div className="betDetailModal__stastnych10__chance">
 							<h3 className="betDetailModal__stastnych10__lotteryTitle">Šance</h3>
-							<ColumnInfo numbers={data.stastnych10.guessedChance} drawNumbers={data.stastnych10.lottery.chance} type="chance" />
+							<ColumnInfo numbers={data.stastnych10.guessedChance} drawNumbers={data.stastnych10.lottery.chance} type="chance" showCopy={true} />
 							<p>
 								Výhra: <strong>{ formatPrice(data.stastnych10.lottery.chancePrice)}</strong>
 							</p>
@@ -144,7 +144,7 @@ export default function BetDetail({
 						</div>
 						{ data.rychla6.lotteries.map((lottery, ind) => <div key={ind}>
 							<h3 className="betDetailModal__rychla6__lotteryTitle margin-bottom">Slosování {ind + 1}</h3>
-							<ColumnInfo className="betDetailModal__rychla6__lotteryColumn" numbers={data.rychla6.guessedNumbers} drawNumbers={lottery.winNumbers} />
+							<ColumnInfo className="betDetailModal__rychla6__lotteryColumn" numbers={data.rychla6.guessedNumbers} drawNumbers={lottery.winNumbers} showCopy={true} />
 							<p>
 								Výhra: <strong>{ formatPrice(lottery.winPrice)}</strong>
 								{lottery.winPrice > 0 ? <span>, pořadí losování <strong>{lottery.winIndex}</strong></span> : null}
@@ -158,7 +158,7 @@ export default function BetDetail({
 						</div>
 						{ data.korunkaNa3.lotteries.map((lottery, ind) => <div key={ind}>
 							<h3 className="betDetailModal__korunkaNa3__lotteryTitle margin-bottom">Slosování {ind + 1}</h3>
-							<ColumnInfo className="betDetailModal__korunkaNa3__lotteryColumn" numbers={data.korunkaNa3.guessedNumbers} drawNumbers={lottery.winNumbers} />
+							<ColumnInfo className="betDetailModal__korunkaNa3__lotteryColumn" numbers={data.korunkaNa3.guessedNumbers} drawNumbers={lottery.winNumbers} showCopy={true} />
 							<p>
 								Výhra: <strong>{ formatPrice(lottery.winPrice)}</strong>
 							</p>
@@ -171,7 +171,7 @@ export default function BetDetail({
 						</div>
 						{ data.korunkaNa4.lotteries.map((lottery, ind) => <div key={ind}>
 							<h3 className="betDetailModal__korunkaNa3__lotteryTitle margin-bottom">Slosování {ind + 1}</h3>
-							<ColumnInfo className="betDetailModal__korunkaNa3__lotteryColumn" numbers={data.korunkaNa4.guessedNumbers} drawNumbers={lottery.winNumbers} />
+							<ColumnInfo className="betDetailModal__korunkaNa3__lotteryColumn" numbers={data.korunkaNa4.guessedNumbers} drawNumbers={lottery.winNumbers} showCopy={true} />
 							<p>
 								Výhra: <strong>{ formatPrice(lottery.winPrice)}</strong>
 							</p>
@@ -184,7 +184,7 @@ export default function BetDetail({
 						</div>
 						{ data.korunkaNa5.lotteries.map((lottery, ind) => <div key={ind}>
 							<h3 className="betDetailModal__korunkaNa3__lotteryTitle margin-bottom">Slosování {ind + 1}</h3>
-							<ColumnInfo className="betDetailModal__korunkaNa3__lotteryColumn" numbers={data.korunkaNa5.guessedNumbers} drawNumbers={lottery.winNumbers} />
+							<ColumnInfo className="betDetailModal__korunkaNa3__lotteryColumn" numbers={data.korunkaNa5.guessedNumbers} drawNumbers={lottery.winNumbers} showCopy={true} />
 							<p>
 								Výhra: <strong>{ formatPrice(lottery.winPrice)}</strong>
 							</p>
@@ -197,7 +197,7 @@ export default function BetDetail({
 						</div>
 						{ data.kasicka.lottery && <div>
 							<h3 className="betDetailModal__korunkaNa3__lotteryTitle margin-bottom">Slosování 1</h3>
-							<ColumnInfo className="betDetailModal__korunkaNa3__lotteryColumn" numbers={data.kasicka.guessedNumbers} drawNumbers={data.kasicka.lottery.winNumbers} />
+							<ColumnInfo className="betDetailModal__korunkaNa3__lotteryColumn" numbers={data.kasicka.guessedNumbers} drawNumbers={data.kasicka.lottery.winNumbers} showCopy={true} />
 							<p>
 								Výhra: <strong>{ formatPrice(data.kasicka.lottery.winPrice)}</strong> ({data.kasicka.betRatio}x)
 							</p>

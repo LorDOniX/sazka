@@ -1,5 +1,6 @@
 import { getClassName, getRandomHexHash } from "~/utils/utils";
 import { getChanceCheck } from "~/games/sportka";
+import { notificationStore } from "~/stores/notification";
 
 import "./style.less";
 
@@ -10,6 +11,7 @@ interface IColumnInfo {
 	type?: "column" | "chance";
 	className?: string;
 	onClick?: () => void;
+	showCopy?: boolean;
 }
 
 export default function ColumnInfo({
@@ -19,6 +21,7 @@ export default function ColumnInfo({
 	type = "column",
 	className = "",
 	onClick = () => {},
+	showCopy,
 }: IColumnInfo) {
 	// test-ind 0-n
 	const chanceCheck = getChanceCheck(numbers, drawNumbers);
@@ -40,11 +43,17 @@ export default function ColumnInfo({
 		]);
 	}
 
+	function copyClick() {
+		navigator.clipboard.writeText(numbers.join(", "));
+		notificationStore.getState().setNotification("Čísla zkopírovány");
+	}
+
 	return <div className={getClassName(["columnInfo", className])} onClick={() => onClick()}>
 		{ numbers.map((item, ind) => <div key={getRandomHexHash()} className={getItemClass(item, ind)}>
 			<span>
 				{ item }
 			</span>
 		</div>) }
+		{ showCopy && <span className="columnInfo__copyBtn" dangerouslySetInnerHTML={{ __html: "&#128203" }} title="Zkopírovat čísla" onClick={copyClick} /> }
 	</div>;
 }

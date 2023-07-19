@@ -8,6 +8,7 @@ import GameTitle from "~/components/GameTitle";
 import AllInModal from "~/components/AllInModal";
 import { myUseState } from "~/hooks/myUseState";
 import { IKasickaQuickItem } from "~/games/kasicka/interfaces";
+import { completeAllGames } from "~/games/common";
 
 import "./style.less";
 
@@ -39,7 +40,7 @@ export default function Kasicka({
 		});
 	}
 
-	function onSave(count: number) {
+	function onSave(count: number, makeCalc: boolean) {
 		const item = state.item;
 		const msg = allInKasicka(count, item.drawNumbers, item.bet, item.betRatio);
 
@@ -47,6 +48,7 @@ export default function Kasicka({
 		updateState({
 			item: null,
 		});
+		makeCalc && completeAllGames();
 	}
 
 	function createItem(item: IKasickaQuickItem, addGameCb: () => void, allInCb?: () => void) {

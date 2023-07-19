@@ -32,7 +32,6 @@
 .allInModal__customArea {
 	display: flex;
 	gap: 10px;
-	margin-top: 25px;
 }
 
 .allInModal__title {
@@ -48,6 +47,16 @@
 	}
 
 	.allInModal__content {
+		flex-direction: column;
+	}
+}
+
+@media only screen and (max-width: 640px) {
+	.allInModal__percentArea {
+		flex-direction: column;
+	}
+
+	.allInModal__customArea {
 		flex-direction: column;
 	}
 }

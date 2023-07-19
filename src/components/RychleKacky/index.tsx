@@ -7,6 +7,7 @@ import GameTitle from "~/components/GameTitle";
 import AllInModal from "~/components/AllInModal";
 import { myUseState } from "~/hooks/myUseState";
 import { IRychleKackyQuickItem } from "~/games/rychle-kacky/interfaces";
+import { completeAllGames } from "~/games/common";
 
 import "./style.less";
 
@@ -37,7 +38,7 @@ export default function RychleKacky({
 		});
 	}
 
-	function onSave(count: number) {
+	function onSave(count: number, makeCalc: boolean) {
 		const item = state.item;
 		const msg = allInRychleKacky(count, item.guessedNumbers, item.bet, item.drawCount);
 
@@ -45,6 +46,7 @@ export default function RychleKacky({
 		updateState({
 			item: null,
 		});
+		makeCalc && completeAllGames();
 	}
 
 	return <div className="rychleKackyContainer">
