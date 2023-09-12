@@ -21,6 +21,7 @@ import Rychla6BetPage from "~/pages/Rychla6BetPage";
 import RychleKackyBetPage from "~/pages/RychleKackyBetPage";
 import StistkoBetPage from "~/pages/StistkoBetPage";
 import Stastnych10BetPage from "~/pages/Stastnych10BetPage";
+import DicesPage from "~/pages/DicesPage";
 
 import './index.less';
 
@@ -47,6 +48,7 @@ root.render(
 					<Route path={ROUTES.STISTKO10} element={<StistkoBetPage variant="stistko10" />} />
 					<Route path={ROUTES.STISTKO20} element={<StistkoBetPage variant="stistko20" />} />
 					<Route path={ROUTES.STASTNYCH10} element={<Stastnych10BetPage />} />
+					<Route path={ROUTES.DICES} element={<DicesPage />} />
 					<Route path="*" element={<MainPage />} />
 				</Route>
 			</Routes>

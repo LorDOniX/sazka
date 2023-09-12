@@ -23,6 +23,8 @@ export default function TicketsPage() {
 			}
 
 			navigate(link);
+		} else if (game === "kostky") {
+			navigate(ROUTES.DICES);
 		}
 	}
 

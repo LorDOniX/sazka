@@ -36,6 +36,13 @@ export default function Tickets({
 						disabled={config.bet > amount} />
 				</div>) }
 			</div>
+			<div className="ticketsContainer__stistko">
+				<h3 className="ticketsContainer__stistkoTitle">
+					Kostky
+				</h3>
+				<div className="ticketsContainer__separator" />
+				<MyButton className="ticketsContainer__stistkoBtn" text="Hrát" onClick={() => onGame("kostky", {})} />
+			</div>
 		</div>
 	</div>;
 }

@@ -54,7 +54,7 @@ export interface ILotteryItem {
 	winPrice: number;
 }
 
-export type TTicketGames = "stistko";
+export type TTicketGames = "stistko" | "kostky";
 
 export interface ITicketData {
 	stistko?: TStistkoVariant;

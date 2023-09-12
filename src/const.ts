@@ -26,6 +26,7 @@ export const ROUTES = {
 	STISTKO5: "/stistko-5",
 	STISTKO10: "/stistko-10",
 	STISTKO20: "/stistko-20",
+	DICES: "/kostky",
 };
 
 export const DEFAULT_AMOUNT = 10e3;

@@ -1,0 +1,39 @@
+.dicePage__diceLine {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.dicePage__diceArea {
+	display: flex;
+	gap: 10px;
+}
+
+.dicePage__diceContent {
+	display: flex;
+	gap: 10px;
+	flex-direction: column;
+}
+
+.dicePage__winner {
+	text-align: center;
+	color: #fff;
+
+	&[data-winner="user"] {
+		background: green;
+	}
+
+	&[data-winner="pc"] {
+		background: red;
+	}
+}
+
+@media only screen and (max-width: 860px) {
+	.dicePage__diceLine {
+		flex-direction: column;
+	}
+
+	.dicePage__diceArea {
+		flex-wrap: wrap;
+	}
+}
