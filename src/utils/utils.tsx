@@ -121,7 +121,10 @@ export function formatColumns(columns: number): string {
 }
 
 export function getRandomArbitrary(min: number, max: number) {
-	return (Math.random() * (max - min)) + min;
+	const minCeiled = Math.ceil(min);
+	const maxFloored = Math.floor(max);
+
+	return Math.floor((Math.random() * (maxFloored - minCeiled + 1)) + minCeiled);
 }
 
 export function generateChance(min: number, max: number, len: number) {
@@ -137,10 +140,10 @@ export function generateChance(min: number, max: number, len: number) {
 }
 
 export function getRandomList(min: number, max: number, len: number, sort?: boolean) {
-	const list = [];
+	const list: Array<number> = [];
 
-	while (list.length !== len) {
-		const newNumber = getRandomArbitrary(min, max) >>> 0;
+	while (list.length !== Math.min(len, max - min + 1)) {
+		const newNumber = getRandomArbitrary(min, max);
 
 		if (!list.includes(newNumber)) {
 			list.push(newNumber);
